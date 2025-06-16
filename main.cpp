@@ -2,11 +2,10 @@
 #include "src/lexer.hpp"
 #include "src/reader.hpp"
 
-int main(int argc, char **argv)
+int main()
 {
 
-    circus::lexer__ l("../example/example.txt");
-    std::cout << l.get_input() << std::endl;
+    circus::lexer__{}("../example/example.txt");
 
     return 0;
 }

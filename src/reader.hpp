@@ -15,18 +15,9 @@ namespace circus::filesystem
         std::string operator()(const std::string &fp)
         {
             std::ifstream fs(fp, std::ios_base::in);
-            if (fs)
-            {
-                std::ostringstream ss;
-                ss << fs.rdbuf();
-                _contents = ss.str();
-            }
-            else
-            {
-                std::cerr << "FILE FAILED TO OPEN" << std::endl;
-            }
-            fs.close();
-            _path = fp;
+            std::string contents((std::istreambuf_iterator<char>(fs)),
+                                 std::istreambuf_iterator<char>());
+            _contents = std::move(contents);
             return _contents;
         };
 
