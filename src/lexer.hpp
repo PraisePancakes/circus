@@ -4,6 +4,7 @@
 #include "reader.hpp"
 #include <vector>
 #include <cassert>
+#include "visitor.hpp"
 
 namespace circus
 {
@@ -12,7 +13,7 @@ namespace circus
     {
         enum class TYPE : unsigned char
         {
-            // RESERVED ASCII TOKENS
+            // RESERVED ASCII UNITS
             TK_QUOTE_DOUBLE = '\"',
             TK_PAREN_L = '(',
             TK_PAREN_R = ')',
@@ -26,7 +27,7 @@ namespace circus
             TK_QUOTE_SINGLE = '\'',
             TK_EOF = '\0',
 
-            // NON RESERVED -ASCII TOKENS
+            // NON RESERVED ASCII UNITS
             TK_LITERAL_STRING = 0xFF,
             TK_LITERAL_INT = 0xFE,
             TK_LITERAL_FLOAT = 0xFD,
@@ -57,7 +58,6 @@ namespace circus
 
             switch (token_type)
             {
-            case (tokens__::TYPE)tokens__::TYPE::TK_QUOTE_DOUBLE:
             case (tokens__::TYPE)tokens__::TYPE::TK_PAREN_L:
             case (tokens__::TYPE)tokens__::TYPE::TK_PAREN_R:
             case (tokens__::TYPE)tokens__::TYPE::TK_COMMA:
@@ -67,7 +67,6 @@ namespace circus
             case (tokens__::TYPE)tokens__::TYPE::TK_DOLLA:
             case (tokens__::TYPE)tokens__::TYPE::TK_CURL_L:
             case (tokens__::TYPE)tokens__::TYPE::TK_CURL_R:
-            case (tokens__::TYPE)tokens__::TYPE::TK_QUOTE_SINGLE:
             case (tokens__::TYPE)tokens__::TYPE::TK_EOF:
                 return true;
             default:
@@ -75,24 +74,87 @@ namespace circus
             };
         };
 
+        void print_token() const
+        {
+
+            for (const auto &t : _toks)
+            {
+                switch (t._token_type)
+                {
+                case tokens__::TYPE::TK_IDENTIFIER:
+                    std::cout << "[IDENTIFIER]" << std::endl;
+                    break;
+                case tokens__::TYPE::TK_LITERAL_INT:
+                case tokens__::TYPE::TK_LITERAL_FLOAT:
+                    std::cout << "[NUMBER]" << std::endl;
+                    break;
+                case tokens__::TYPE::TK_LITERAL_STRING:
+                    std::cout << "[LITERAL STRING]" << std::endl;
+                    break;
+                default:
+                    std::cout << "[RESERVED]" << std::endl;
+                    break;
+                };
+                std::cout << "TypeID: " << static_cast<int>(t._token_type) << ", Literal: ";
+                std::visit(internal::visitor{[](unsigned char c)
+                                             { std::cout << "[UCHAR] " << c << std::endl; },
+                                             [](std::string s)
+                                             {
+                                                 std::cout << "[STRING] " << s << std::endl;
+                                             },
+                                             [](int i)
+                                             { std::cout << "[INT] " << i << std::endl; },
+                                             [](float f)
+                                             { std::cout << "[FLOAT] " << f << std::endl; }},
+                           t._literal);
+            };
+        };
+
         bool f_eof() const
         {
-            return (tokens__::TYPE)_in[_end] == tokens__::TYPE::TK_EOF;
+            return (f_token(_in[_end]) == tokens__::TYPE::TK_EOF);
         }
-        char f_peek_next() const
+        unsigned char f_peek_next() const
         {
             return _in[_end + 1];
         }
 
-        char f_peek() const
+        unsigned char f_peek() const
         {
             return _in[_end];
         };
 
-        char f_advance()
+        unsigned char f_advance()
         {
             return _in[_end++];
         };
+
+        void scan_number()
+        {
+            while (!f_eof() && std::isdigit(f_peek()))
+            {
+                f_advance();
+            };
+            _toks.push_back(create_token(tokens__::TYPE::TK_LITERAL_INT, std::stoi(_in.substr(_beg, _end - _beg))));
+        };
+
+        void scan_identifier()
+        {
+            while (!f_eof() && std::isalnum(f_peek()))
+            {
+                f_advance();
+            };
+            _toks.push_back(create_token(tokens__::TYPE::TK_IDENTIFIER, _in.substr(_beg, _end - _beg)));
+        };
+
+        void scan_string() {};
+
+        template <typename T>
+        tokens__ create_token(tokens__::TYPE type, const T &literal)
+        {
+            tokens__ tok{._token_type = type, ._literal = literal};
+            return tok;
+        }
 
     public:
         lexer__() : _in{""},
@@ -110,32 +172,35 @@ namespace circus
         std::vector<tokens__> operator()(const std::string &fp) && noexcept
         {
             _in = circus::filesystem::reader__{}(fp);
-            std::vector<tokens__> ret{};
             if (_in.size() == 0)
             {
-                ret.push_back(tokens__{._token_type = tokens__::TYPE::TK_EOF, ._literal = '\0'});
-                return ret;
+                _toks.push_back(tokens__{._token_type = tokens__::TYPE::TK_EOF, ._literal = '\0'});
+                return _toks;
             }
 
             while (!f_eof())
             {
-                tokens__ current_token;
-                char c = f_advance();
-                tokens__::TYPE ttype = f_token(c);
-                if (f_reserved(ttype))
+                unsigned char c = f_advance();
+                if (f_reserved(f_token(c)))
                 {
-                    current_token._token_type = ttype;
-                    current_token._literal = c;
+                    tokens__ tok = create_token(f_token(c), c);
+                    _toks.push_back(tok);
                 }
-                else
+                else if (std::isdigit(c))
                 {
-                    if (std::isalnum(c))
-                    {
-                    };
+                    scan_number();
+                }
+                else if (std::isalnum(c))
+                {
+                    scan_identifier();
                 };
+
+                _beg = _end;
             };
 
-            return {};
+            _toks.push_back(create_token(tokens__::TYPE::TK_EOF, f_peek()));
+            print_token();
+            return _toks;
         };
 
         std::vector<tokens__> lex() & noexcept

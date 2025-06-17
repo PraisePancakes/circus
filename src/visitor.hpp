@@ -2,10 +2,13 @@
 
 namespace circus
 {
-    template <typename... fs>
-    struct visitor : fs...
+    namespace internal
     {
-        using fs::operator()...;
-    };
+        template <typename... fs>
+        struct visitor : fs...
+        {
+            using fs::operator()...;
+        };
+    }
 
 }
