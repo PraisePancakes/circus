@@ -6,7 +6,7 @@ int main()
 {
 
     circus::lexer__ lexer;
-    lexer("../example/example.txt");
+    lexer("example/example.txt");
 
     return 0;
 }
