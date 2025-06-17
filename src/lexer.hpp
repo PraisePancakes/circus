@@ -156,6 +156,7 @@ namespace circus
             return tok;
         }
 
+
     public:
         lexer__() : _in{""},
                     _beg{0},
@@ -163,13 +164,8 @@ namespace circus
                     _row{0},
                     _col{0} {};
 
-        lexer__(const std::string &fp) : _in{circus::filesystem::reader__{}(fp)},
-                                         _beg{0},
-                                         _end{0},
-                                         _row{0},
-                                         _col{0} {};
 
-        std::vector<tokens__> operator()(const std::string &fp) && noexcept
+        std::vector<tokens__> operator()(const std::string &fp) noexcept
         {
             _in = circus::filesystem::reader__{}(fp);
             if (_in.size() == 0)
@@ -201,11 +197,6 @@ namespace circus
             _toks.push_back(create_token(tokens__::TYPE::TK_EOF, f_peek()));
             print_token();
             return _toks;
-        };
-
-        std::vector<tokens__> lex() & noexcept
-        {
-            return {};
         };
 
         lexer__(lexer__ &&other) = default;
