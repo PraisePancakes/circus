@@ -13,7 +13,7 @@ namespace circus
     {
         enum class TYPE : unsigned char
         {
-            // RESERVED ASCII UNITS
+            // RESERVED UNITS
             TK_QUOTE_DOUBLE = '\"',
             TK_PAREN_L = '(',
             TK_PAREN_R = ')',
@@ -25,10 +25,11 @@ namespace circus
             TK_CURL_L = '{',
             TK_CURL_R = '}',
             TK_QUOTE_SINGLE = '\'',
-            TK_STAR = '*',
+
             TK_EOF = '\0',
 
-            // NON RESERVED ASCII LITERALS
+            // NON RESERVED UNITS
+            TK_STAR = '*',
             TK_SLASH = '/',
             TK_NEWLINE = '\n',
             TK_LITERAL_STRING = 0xFF,
@@ -65,24 +66,24 @@ namespace circus
 
         [[nodiscard]] static bool f_reserved(tokens__::TYPE token_type) noexcept
         {
-
             switch (token_type)
             {
-            case (tokens__::TYPE)tokens__::TYPE::TK_PAREN_L:
-            case (tokens__::TYPE)tokens__::TYPE::TK_PAREN_R:
-            case (tokens__::TYPE)tokens__::TYPE::TK_COMMA:
-            case (tokens__::TYPE)tokens__::TYPE::TK_COLON:
-            case (tokens__::TYPE)tokens__::TYPE::TK_BRACE_L:
-            case (tokens__::TYPE)tokens__::TYPE::TK_BRACE_R:
-            case (tokens__::TYPE)tokens__::TYPE::TK_DOLLA:
-            case (tokens__::TYPE)tokens__::TYPE::TK_CURL_L:
-            case (tokens__::TYPE)tokens__::TYPE::TK_CURL_R:
-            case (tokens__::TYPE)tokens__::TYPE::TK_EOF:
+            case tokens__::TYPE::TK_PAREN_L:
+            case tokens__::TYPE::TK_PAREN_R:
+            case tokens__::TYPE::TK_COMMA:
+            case tokens__::TYPE::TK_COLON:
+            case tokens__::TYPE::TK_BRACE_L:
+            case tokens__::TYPE::TK_BRACE_R:
+            case tokens__::TYPE::TK_DOLLA:
+            case tokens__::TYPE::TK_CURL_L:
+            case tokens__::TYPE::TK_CURL_R:
+
+            case tokens__::TYPE::TK_EOF:
                 return true;
             default:
                 return false;
-            };
-        };
+            }
+        }
 
         void print_token() const noexcept
         {
@@ -141,6 +142,11 @@ namespace circus
             return _in[_end++];
         };
 
+        unsigned char f_previous() const noexcept
+        {
+            return _in[_end - 1];
+        }
+
         void scan_number() noexcept
         {
 
@@ -158,6 +164,14 @@ namespace circus
                 f_advance();
             };
             _toks.push_back(create_token(tokens__::TYPE::TK_IDENTIFIER, _in.substr(_beg, _end - _beg)));
+        };
+
+        void scan_reserve() noexcept
+        {
+            if (f_reserved(f_token(f_previous())))
+            {
+                _toks.push_back(create_token(f_token(f_previous()), f_previous()));
+            }
         };
 
         void scan_string() noexcept {};
@@ -178,13 +192,31 @@ namespace circus
             }
         };
 
-        void scan_reserved() {};
-
         template <typename T>
         tokens__ create_token(tokens__::TYPE type, const T &literal) noexcept
         {
             tokens__ tok{._token_type = type, ._literal = literal};
             return tok;
+        }
+
+        void process_unit(unsigned char c)
+        {
+            if (f_token(c) == tokens__::TYPE::TK_SLASH)
+            {
+                scan_comments();
+            };
+            if (f_reserved(f_token(c)))
+            {
+                scan_reserve();
+            }
+            else if (std::isdigit(c))
+            {
+                scan_number();
+            }
+            else if (std::isalnum(c))
+            {
+                scan_identifier();
+            };
         }
 
     public:
@@ -197,41 +229,20 @@ namespace circus
 
         std::vector<tokens__> operator()(const std::filesystem::path &fp) noexcept
         {
-
             _in = circus::filesystem::reader__{}(fp);
             if (_in.size() == 0)
             {
                 _toks.push_back(tokens__{._token_type = tokens__::TYPE::TK_EOF, ._literal = '\0'});
                 return _toks;
             }
-
             while (!f_eof())
             {
                 unsigned char c = f_advance();
-                if (f_token(c) == tokens__::TYPE::TK_SLASH)
-                {
-                    scan_comments();
-                };
-                if (f_reserved(f_token(c)))
-                {
-                    tokens__ tok = create_token(f_token(c), c);
-                    _toks.push_back(tok);
-                }
-                else if (std::isdigit(c))
-                {
-                    scan_number();
-                }
-                else if (std::isalnum(c))
-                {
-                    scan_identifier();
-                };
-
+                process_unit(c);
                 _beg = _end;
             };
-
             _toks.push_back(create_token(tokens__::TYPE::TK_EOF, f_peek()));
             print_token();
-
             return _toks;
         };
 
