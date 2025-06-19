@@ -6,12 +6,15 @@
 #include <cassert>
 #include "visitor.hpp"
 #include "circus_types.hpp"
+#include "../debug/debug.hpp"
 
 namespace circus
 {
 
     struct tokens__
     {
+        using literal_variant_t = std::variant<unsigned char, std::string, int, float>;
+        using location_t = std::pair<std::size_t, std::size_t>;
         enum class TYPE : unsigned char
         {
             // RESERVED UNITS
@@ -26,13 +29,13 @@ namespace circus
             TK_CURL_L = '{',
             TK_CURL_R = '}',
             TK_QUOTE_SINGLE = '\'',
-
-            TK_EOF = '\0',
-
-            // NON RESERVED UNITS
             TK_STAR = '*',
             TK_SLASH = '/',
             TK_NEWLINE = '\n',
+            TK_EOF = '\0',
+
+            // NON RESERVED UNITS
+
             TK_LITERAL_STRING = 0xFF,
             TK_LITERAL_INT = 0xFE,
             TK_LITERAL_FLOAT = 0xFD,
@@ -40,7 +43,79 @@ namespace circus
 
         } _token_type;
 
-        std::variant<unsigned char, std::string, int, float> _literal;
+    protected:
+        literal_variant_t _literal;
+        location_t _location;
+
+    public:
+#if CIRCUS_DEBUG_PEDANTIC__
+        std::string type_to_string() const noexcept
+        {
+            switch (_token_type)
+            {
+            case tokens__::TYPE::TK_QUOTE_DOUBLE:
+                return "[TK_QUOTE_DOUBLE]";
+            case tokens__::TYPE::TK_PAREN_L:
+                return "[TK_PAREN_L]";
+            case tokens__::TYPE::TK_PAREN_R:
+                return "[TK_PAREN_R]";
+            case tokens__::TYPE::TK_COMMA:
+                return "[TK_COMMA]";
+            case tokens__::TYPE::TK_COLON:
+                return "[TK_COLON]";
+            case tokens__::TYPE::TK_BRACE_L:
+                return "[TK_BRACE_L]";
+            case tokens__::TYPE::TK_BRACE_R:
+                return "[TK_BRACE_R]";
+            case tokens__::TYPE::TK_DOLLA:
+                return "[TK_DOLLA]";
+            case tokens__::TYPE::TK_CURL_L:
+                return "[TK_CURL_L]";
+            case tokens__::TYPE::TK_CURL_R:
+                return "[TK_CURL_R]";
+            case tokens__::TYPE::TK_QUOTE_SINGLE:
+                return "[TK_QUOTE_SINGLE]";
+            case tokens__::TYPE::TK_STAR:
+                return "[TK_STAR]";
+            case tokens__::TYPE::TK_SLASH:
+                return "[TK_SLASH]";
+            case tokens__::TYPE::TK_NEWLINE:
+                return "[TK_NEWLINE]";
+            case tokens__::TYPE::TK_EOF:
+                return "[TK_EOF]";
+            case tokens__::TYPE::TK_LITERAL_STRING:
+                return "[TK_LITERAL_STRING]";
+            case tokens__::TYPE::TK_LITERAL_INT:
+                return "[TK_LITERAL_INT]";
+            case tokens__::TYPE::TK_LITERAL_FLOAT:
+                return "[TK_LITERAL_FLOAT]";
+            case tokens__::TYPE::TK_IDENTIFIER:
+                return "[TK_IDENTIFIER]";
+            default:
+                return "[UNRECOGNIZED TOKEN]";
+            };
+        };
+
+        void print_token() const noexcept
+        {
+            std::cout << "TOKEN TYPE ID (" << static_cast<int>(_token_type) << ")" << " [" << type_to_string() << "]\n";
+            std::cout << "location (row, col) < " << _location.first << " , " << _location.second << " > ";
+            std::visit(internal::visitor{[](unsigned char c)
+                                         { std::cout << "[UCHAR] " << c << std::endl; },
+                                         [](std::string s)
+                                         {
+                                             std::cout << "[STRING] " << s << std::endl;
+                                         },
+                                         [](int i)
+                                         { std::cout << "[INT] " << i << std::endl; },
+                                         [](float f)
+                                         { std::cout << "[FLOAT] " << f << std::endl; }},
+                       _literal);
+        };
+#endif
+
+        tokens__(TYPE type, literal_variant_t lit, location_t loc)
+            : _token_type(type), _literal(lit), _location(loc) {};
     };
 
     class lexer__
@@ -71,49 +146,24 @@ namespace circus
             case tokens__::TYPE::TK_DOLLA:
             case tokens__::TYPE::TK_CURL_L:
             case tokens__::TYPE::TK_CURL_R:
-
+            case tokens__::TYPE::TK_STAR:
+            case tokens__::TYPE::TK_NEWLINE:
+            case tokens__::TYPE::TK_SLASH:
             case tokens__::TYPE::TK_EOF:
                 return true;
             default:
                 return false;
             }
         }
-
-        void print_token() const noexcept
+#if CIRCUS_DEBUG_PEDANTIC__
+        void f_print() const noexcept
         {
-
             for (const auto &t : _toks)
             {
-                switch (t._token_type)
-                {
-                case tokens__::TYPE::TK_IDENTIFIER:
-                    std::cout << "[IDENTIFIER]" << std::endl;
-                    break;
-                case tokens__::TYPE::TK_LITERAL_INT:
-                case tokens__::TYPE::TK_LITERAL_FLOAT:
-                    std::cout << "[NUMBER]" << std::endl;
-                    break;
-                case tokens__::TYPE::TK_LITERAL_STRING:
-                    std::cout << "[LITERAL STRING]" << std::endl;
-                    break;
-                default:
-                    std::cout << "[RESERVED]" << std::endl;
-                    break;
-                };
-                std::cout << "TypeID: " << static_cast<int>(t._token_type) << ", Literal: ";
-                std::visit(internal::visitor{[](unsigned char c)
-                                             { std::cout << "[UCHAR] " << c << std::endl; },
-                                             [](std::string s)
-                                             {
-                                                 std::cout << "[STRING] " << s << std::endl;
-                                             },
-                                             [](int i)
-                                             { std::cout << "[INT] " << i << std::endl; },
-                                             [](float f)
-                                             { std::cout << "[FLOAT] " << f << std::endl; }},
-                           t._literal);
+                t.print_token();
             };
         };
+#endif
 
         [[nodiscard]] bool f_eof() const noexcept
         {
@@ -129,10 +179,27 @@ namespace circus
             return _in[_end];
         };
 
+        [[nodiscard]] unsigned char f_peek_at(std::size_t i) const noexcept
+        {
+            return _in[_end + i];
+        }
+
         unsigned char f_advance() noexcept
         {
             if (f_eof())
                 return '\0';
+
+            // update cursor metadata here to avoid having to update it in any other scan method
+            if (_in[_end] == '\n')
+            {
+                _col = 0;
+                _row++;
+            }
+            else
+            {
+                _col++;
+            }
+
             return _in[_end++];
         };
 
@@ -162,7 +229,7 @@ namespace circus
 
         void scan_reserve() noexcept
         {
-            if (f_reserved(f_token(f_previous())))
+            if (f_reserved(f_token(f_previous())) && types::none_of<tokens__::TYPE>(f_token(f_previous()), tokens__::TYPE::TK_SLASH, tokens__::TYPE::TK_NEWLINE))
             {
                 _toks.push_back(create_token(f_token(f_previous()), f_previous()));
             }
@@ -182,14 +249,16 @@ namespace circus
             {
                 const auto curr = f_token(f_peek());
                 while (!f_eof() && types::none_of<tokens__::TYPE>(curr, tokens__::TYPE::TK_STAR, tokens__::TYPE::TK_SLASH))
+                {
                     f_advance();
+                }
             }
         };
 
         template <typename T>
         tokens__ create_token(tokens__::TYPE type, const T &literal) noexcept
         {
-            tokens__ tok{._token_type = type, ._literal = literal};
+            tokens__ tok(type, literal, std::make_pair(_row, _col));
             return tok;
         }
 
@@ -221,14 +290,9 @@ namespace circus
                     _col{0},
                     _toks{} {};
 
-        std::vector<tokens__> operator()(const std::filesystem::path &fp) noexcept
+        [[nodiscard]] std::vector<tokens__> operator()(const std::filesystem::path &fp) noexcept
         {
             _in = circus::filesystem::reader__{}(fp);
-            if (_in.size() == 0)
-            {
-                _toks.push_back(tokens__{._token_type = tokens__::TYPE::TK_EOF, ._literal = '\0'});
-                return _toks;
-            }
             while (!f_eof())
             {
                 unsigned char c = f_advance();
@@ -236,7 +300,11 @@ namespace circus
                 _beg = _end;
             };
             _toks.push_back(create_token(tokens__::TYPE::TK_EOF, f_peek()));
-            print_token();
+
+#if CIRCUS_DEBUG_PEDANTIC__
+            f_print();
+#endif
+
             return _toks;
         };
 
