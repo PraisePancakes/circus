@@ -5,6 +5,7 @@
 #include <vector>
 #include <cassert>
 #include "visitor.hpp"
+#include "circus_types.hpp"
 
 namespace circus
 {
@@ -40,13 +41,6 @@ namespace circus
         } _token_type;
 
         std::variant<unsigned char, std::string, int, float> _literal;
-
-        template <typename Curr, typename... Others>
-            requires(std::is_same<Curr, tokens__::TYPE>::value && (std::is_same<Others, tokens__::TYPE>::value && ...))
-        static bool any_of(const Curr &c, const Others &&...o)
-        {
-            return ((c == o) || ...);
-        }
     };
 
     class lexer__
@@ -187,7 +181,7 @@ namespace circus
             if (f_token(f_advance()) == tokens__::TYPE::TK_STAR)
             {
                 const auto curr = f_token(f_peek());
-                while (!f_eof() && !tokens__::any_of(curr, tokens__::TYPE::TK_STAR, tokens__::TYPE::TK_SLASH))
+                while (!f_eof() && !types::any_of<tokens__::TYPE>(curr, tokens__::TYPE::TK_STAR, tokens__::TYPE::TK_SLASH))
                     f_advance();
             }
         };
