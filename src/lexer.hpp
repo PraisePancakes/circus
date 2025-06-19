@@ -39,6 +39,13 @@ namespace circus
         } _token_type;
 
         std::variant<unsigned char, std::string, int, float> _literal;
+
+        template <typename Curr, typename... Others>
+            requires(std::is_same<Curr, tokens__::TYPE>::value && (std::is_same<Others, tokens__::TYPE>::value && ...))
+        static bool any_of(const Curr &c, const Others &&...o)
+        {
+            return ((c == o) || ...);
+        }
     };
 
     class lexer__
@@ -165,7 +172,8 @@ namespace circus
 
             if (f_token(f_advance()) == tokens__::TYPE::TK_STAR)
             {
-                while (!f_eof() && (f_token(f_peek()) != tokens__::TYPE::TK_STAR && f_token(f_peek_next()) != tokens__::TYPE::TK_SLASH))
+                const auto curr = f_token(f_peek());
+                while (!f_eof() && !tokens__::any_of(curr, tokens__::TYPE::TK_STAR, tokens__::TYPE::TK_SLASH))
                     f_advance();
             }
         };
