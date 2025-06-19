@@ -150,6 +150,8 @@ namespace circus
             case tokens__::TYPE::TK_NEWLINE:
             case tokens__::TYPE::TK_SLASH:
             case tokens__::TYPE::TK_EOF:
+            case tokens__::TYPE::TK_QUOTE_DOUBLE:
+            case tokens__::TYPE::TK_QUOTE_SINGLE:
                 return true;
             default:
                 return false;
@@ -179,9 +181,9 @@ namespace circus
             return _in[_end];
         };
 
-        [[nodiscard]] unsigned char f_peek_at(std::size_t i) const noexcept
+        [[nodiscard]] unsigned char f_peek_at(std::size_t offset) const noexcept
         {
-            return _in[_end + i];
+            return _in[_end + offset];
         }
 
         unsigned char f_advance() noexcept
@@ -227,15 +229,20 @@ namespace circus
             _toks.push_back(create_token(tokens__::TYPE::TK_IDENTIFIER, _in.substr(_beg, _end - _beg)));
         };
 
-        void scan_reserve() noexcept
+        void scan_singular_reserve() noexcept
         {
-            if (f_reserved(f_token(f_previous())) && types::none_of<tokens__::TYPE>(f_token(f_previous()), tokens__::TYPE::TK_SLASH, tokens__::TYPE::TK_NEWLINE))
+            if (f_reserved(f_token(f_previous())))
             {
                 _toks.push_back(create_token(f_token(f_previous()), f_previous()));
             }
         };
 
-        void scan_string() noexcept {};
+        void scan_string() noexcept
+        {
+            while (!f_eof() && types::none_of<tokens__::TYPE>(f_token(f_advance()), tokens__::TYPE::TK_QUOTE_DOUBLE))
+                ;
+            _toks.push_back(create_token(tokens__::TYPE::TK_LITERAL_STRING, _in.substr(_beg, _end - _beg)));
+        };
 
         void scan_comments() noexcept
         {
@@ -256,7 +263,7 @@ namespace circus
         };
 
         template <typename T>
-        tokens__ create_token(tokens__::TYPE type, const T &literal) noexcept
+        [[nodiscard]] constexpr tokens__ create_token(tokens__::TYPE type, const T &literal) noexcept
         {
             tokens__ tok(type, literal, std::make_pair(_row, _col));
             return tok;
@@ -267,10 +274,13 @@ namespace circus
             if (f_token(c) == tokens__::TYPE::TK_SLASH)
             {
                 scan_comments();
-            };
+            }
             if (f_reserved(f_token(c)))
             {
-                scan_reserve();
+                if (types::none_of<tokens__::TYPE>(f_token(c), tokens__::TYPE::TK_SLASH, tokens__::TYPE::TK_NEWLINE, tokens__::TYPE::TK_QUOTE_DOUBLE))
+                    scan_singular_reserve();
+                else if (types::any_of<tokens__::TYPE>(f_token(c), tokens__::TYPE::TK_QUOTE_DOUBLE))
+                    scan_string();
             }
             else if (std::isdigit(c))
             {
@@ -286,7 +296,7 @@ namespace circus
         lexer__() : _in{""},
                     _beg{0},
                     _end{0},
-                    _row{0},
+                    _row{1},
                     _col{0},
                     _toks{} {};
 
