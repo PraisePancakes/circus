@@ -181,7 +181,7 @@ namespace circus
             if (f_token(f_advance()) == tokens__::TYPE::TK_STAR)
             {
                 const auto curr = f_token(f_peek());
-                while (!f_eof() && !types::any_of<tokens__::TYPE>(curr, tokens__::TYPE::TK_STAR, tokens__::TYPE::TK_SLASH))
+                while (!f_eof() && types::none_of<tokens__::TYPE>(curr, tokens__::TYPE::TK_STAR, tokens__::TYPE::TK_SLASH))
                     f_advance();
             }
         };
