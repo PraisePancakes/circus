@@ -3,6 +3,8 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <filesystem>
+
 namespace circus::filesystem
 {
     class reader__
@@ -12,7 +14,7 @@ namespace circus::filesystem
 
     public:
         reader__() : _contents{}, _path{} {};
-        std::string operator()(const std::string &fp)
+        std::string operator()(const std::filesystem::path &fp)
         {
             std::ifstream fs(fp, std::ios_base::in);
             std::string contents((std::istreambuf_iterator<char>(fs)),

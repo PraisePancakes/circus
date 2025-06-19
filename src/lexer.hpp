@@ -25,9 +25,12 @@ namespace circus
             TK_CURL_L = '{',
             TK_CURL_R = '}',
             TK_QUOTE_SINGLE = '\'',
+            TK_STAR = '*',
             TK_EOF = '\0',
 
-            // NON RESERVED ASCII UNITS
+            // NON RESERVED ASCII LITERALS
+            TK_SLASH = '/',
+            TK_NEWLINE = '\n',
             TK_LITERAL_STRING = 0xFF,
             TK_LITERAL_INT = 0xFE,
             TK_LITERAL_FLOAT = 0xFD,
@@ -48,12 +51,12 @@ namespace circus
         std::size_t _col;
         std::vector<tokens__> _toks;
 
-        static tokens__::TYPE f_token(unsigned char c)
+        [[nodiscard]] static tokens__::TYPE f_token(unsigned char c) noexcept
         {
             return (tokens__::TYPE)c;
         }
 
-        static bool f_reserved(tokens__::TYPE token_type)
+        [[nodiscard]] static bool f_reserved(tokens__::TYPE token_type) noexcept
         {
 
             switch (token_type)
@@ -74,7 +77,7 @@ namespace circus
             };
         };
 
-        void print_token() const
+        void print_token() const noexcept
         {
 
             for (const auto &t : _toks)
@@ -110,27 +113,30 @@ namespace circus
             };
         };
 
-        bool f_eof() const
+        [[nodiscard]] bool f_eof() const noexcept
         {
             return (f_token(_in[_end]) == tokens__::TYPE::TK_EOF);
         }
-        unsigned char f_peek_next() const
+        [[nodiscard]] unsigned char f_peek_next() const noexcept
         {
             return _in[_end + 1];
         }
 
-        unsigned char f_peek() const
+        [[nodiscard]] unsigned char f_peek() const noexcept
         {
             return _in[_end];
         };
 
-        unsigned char f_advance()
+        unsigned char f_advance() noexcept
         {
+            if (f_eof())
+                return '\0';
             return _in[_end++];
         };
 
-        void scan_number()
+        void scan_number() noexcept
         {
+
             while (!f_eof() && std::isdigit(f_peek()))
             {
                 f_advance();
@@ -138,7 +144,7 @@ namespace circus
             _toks.push_back(create_token(tokens__::TYPE::TK_LITERAL_INT, std::stoi(_in.substr(_beg, _end - _beg))));
         };
 
-        void scan_identifier()
+        void scan_identifier() noexcept
         {
             while (!f_eof() && std::isalnum(f_peek()))
             {
@@ -147,10 +153,27 @@ namespace circus
             _toks.push_back(create_token(tokens__::TYPE::TK_IDENTIFIER, _in.substr(_beg, _end - _beg)));
         };
 
-        void scan_string() {};
+        void scan_string() noexcept {};
+
+        void scan_comments() noexcept
+        {
+            if (f_token(f_peek()) == tokens__::TYPE::TK_SLASH)
+            {
+                while (!f_eof() && f_token(f_peek()) != tokens__::TYPE::TK_NEWLINE)
+                    f_advance();
+            }
+
+            if (f_token(f_advance()) == tokens__::TYPE::TK_STAR)
+            {
+                while (!f_eof() && (f_token(f_peek()) != tokens__::TYPE::TK_STAR && f_token(f_peek_next()) != tokens__::TYPE::TK_SLASH))
+                    f_advance();
+            }
+        };
+
+        void scan_reserved() {};
 
         template <typename T>
-        tokens__ create_token(tokens__::TYPE type, const T &literal)
+        tokens__ create_token(tokens__::TYPE type, const T &literal) noexcept
         {
             tokens__ tok{._token_type = type, ._literal = literal};
             return tok;
@@ -164,7 +187,7 @@ namespace circus
                     _col{0},
                     _toks{} {};
 
-        std::vector<tokens__> operator()(const std::string &fp) noexcept
+        std::vector<tokens__> operator()(const std::filesystem::path &fp) noexcept
         {
 
             _in = circus::filesystem::reader__{}(fp);
@@ -176,8 +199,11 @@ namespace circus
 
             while (!f_eof())
             {
-
                 unsigned char c = f_advance();
+                if (f_token(c) == tokens__::TYPE::TK_SLASH)
+                {
+                    scan_comments();
+                };
                 if (f_reserved(f_token(c)))
                 {
                     tokens__ tok = create_token(f_token(c), c);

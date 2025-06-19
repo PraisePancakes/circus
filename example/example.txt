@@ -1,6 +1,17 @@
+//got a comment here
+//and here
 {
+    //as well as here
     :
     this
 
     12342
 }
+
+/*
+
+    MULTILINE F IT!
+
+    fsef is cool
+
+*/
