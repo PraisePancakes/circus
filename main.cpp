@@ -1,12 +1,10 @@
 #include <iostream>
 #include "src/lexer.hpp"
 #include "src/reader.hpp"
+#include "src/archive.hpp"
 
 int main()
 {
-
-    circus::lexer__ lexer;
-    (void)lexer(std::filesystem::path("../example/example.txt"));
-
+    circus::text_archive("../example/example.txt");
     return 0;
 }

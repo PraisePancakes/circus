@@ -5,7 +5,7 @@
 #include <vector>
 #include <cassert>
 #include "visitor.hpp"
-#include "circus_types.hpp"
+#include "circus_traits.hpp"
 #include "../debug/debug.hpp"
 #include <cctype>
 
@@ -261,7 +261,7 @@ namespace circus
 
         void scan_string()
         {
-            while (!f_eof() && types::none_of(f_token(f_advance()), tokens__::TYPE::TK_QUOTE_DOUBLE))
+            while (!f_eof() && traits::none_of(f_token(f_advance()), tokens__::TYPE::TK_QUOTE_DOUBLE))
                 ;
 
             insert(tokens__::TYPE::TK_LITERAL_STRING, to_substr());
@@ -278,7 +278,7 @@ namespace circus
             if (f_token(f_advance()) == tokens__::TYPE::TK_STAR)
             {
                 const auto curr = f_token(f_peek());
-                while (!f_eof() && types::none_of(curr, tokens__::TYPE::TK_STAR, tokens__::TYPE::TK_SLASH))
+                while (!f_eof() && traits::none_of(curr, tokens__::TYPE::TK_STAR, tokens__::TYPE::TK_SLASH))
                 {
                     f_advance();
                 }
@@ -311,9 +311,9 @@ namespace circus
             }
             if (f_reserved(f_token(c)))
             {
-                if (types::none_of(f_token(c), tokens__::TYPE::TK_SLASH, tokens__::TYPE::TK_NEWLINE, tokens__::TYPE::TK_QUOTE_DOUBLE))
+                if (traits::none_of(f_token(c), tokens__::TYPE::TK_SLASH, tokens__::TYPE::TK_NEWLINE, tokens__::TYPE::TK_QUOTE_DOUBLE))
                     scan_singular_reserve();
-                else if (types::any_of(f_token(c), tokens__::TYPE::TK_QUOTE_DOUBLE))
+                else if (traits::any_of(f_token(c), tokens__::TYPE::TK_QUOTE_DOUBLE))
                     scan_string();
             }
             else if (std::isdigit(c))
@@ -339,9 +339,9 @@ namespace circus
                     _col{0},
                     _toks{} {};
 
-        [[nodiscard]] std::vector<tokens__> operator()(const std::filesystem::path &fp) noexcept
+        [[nodiscard]] std::vector<tokens__> operator()(const std::string &input) noexcept
         {
-            _in = circus::filesystem::reader__{}(fp);
+            _in = input;
             while (!f_eof())
             {
                 unsigned char c = f_advance();
