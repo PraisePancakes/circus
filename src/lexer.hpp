@@ -7,6 +7,7 @@
 #include "visitor.hpp"
 #include "circus_types.hpp"
 #include "../debug/debug.hpp"
+#include <cctype>
 
 namespace circus
 {
@@ -32,14 +33,18 @@ namespace circus
             TK_STAR = '*',
             TK_SLASH = '/',
             TK_NEWLINE = '\n',
+
             TK_EOF = '\0',
 
             // NON RESERVED UNITS
 
-            TK_LITERAL_STRING = 0xFF,
             TK_LITERAL_INT = 0xFE,
             TK_LITERAL_FLOAT = 0xFD,
-            TK_IDENTIFIER = 0xFC
+            TK_IDENTIFIER = 0xFC,
+            TK_LITERAL_STRING = 0xFB,
+
+            // unknown
+            TK_UNKNOWN = 0xFF
 
         } _token_type;
 
@@ -214,10 +219,17 @@ namespace circus
         {
 
             while (!f_eof() && std::isdigit(f_peek()))
-            {
                 f_advance();
-            };
-            _toks.push_back(create_token(tokens__::TYPE::TK_LITERAL_INT, std::stoi(_in.substr(_beg, _end - _beg))));
+            if (f_advance() == '.')
+            {
+                while (!f_eof() && std::isdigit(f_peek()))
+                    f_advance();
+                _toks.push_back(create_token(tokens__::TYPE::TK_LITERAL_FLOAT, std::stof(_in.substr(_beg, _end - _beg))));
+            }
+            else
+            {
+                _toks.push_back(create_token(tokens__::TYPE::TK_LITERAL_INT, std::stoi(_in.substr(_beg, _end - _beg))));
+            }
         };
 
         void scan_identifier() noexcept
@@ -237,10 +249,11 @@ namespace circus
             }
         };
 
-        void scan_string() noexcept
+        void scan_string()
         {
             while (!f_eof() && types::none_of<tokens__::TYPE>(f_token(f_advance()), tokens__::TYPE::TK_QUOTE_DOUBLE))
                 ;
+
             _toks.push_back(create_token(tokens__::TYPE::TK_LITERAL_STRING, _in.substr(_beg, _end - _beg)));
         };
 
@@ -289,6 +302,11 @@ namespace circus
             else if (std::isalnum(c))
             {
                 scan_identifier();
+            }
+            else
+            {
+                if (!std::isspace(c))
+                    _toks.push_back(create_token(tokens__::TYPE::TK_UNKNOWN, _in.substr(_beg, _end - _beg)));
             };
         }
 
