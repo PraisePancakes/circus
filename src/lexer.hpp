@@ -215,6 +215,11 @@ namespace circus
             return _in[_end - 1];
         }
 
+        std::string to_substr() noexcept
+        {
+            return _in.substr(_beg, _end - _beg);
+        };
+
         void scan_number() noexcept
         {
 
@@ -224,11 +229,11 @@ namespace circus
             {
                 while (!f_eof() && std::isdigit(f_peek()))
                     f_advance();
-                insert(tokens__::TYPE::TK_LITERAL_FLOAT, std::stof(_in.substr(_beg, _end - _beg)));
+                insert(tokens__::TYPE::TK_LITERAL_FLOAT, std::stof(to_substr()));
             }
             else
             {
-                insert(tokens__::TYPE::TK_LITERAL_INT, std::stoi(_in.substr(_beg, _end - _beg)));
+                insert(tokens__::TYPE::TK_LITERAL_INT, std::stoi(to_substr()));
             }
         };
 
@@ -238,7 +243,7 @@ namespace circus
             {
                 f_advance();
             };
-            insert(tokens__::TYPE::TK_IDENTIFIER, _in.substr(_beg, _end - _beg));
+            insert(tokens__::TYPE::TK_IDENTIFIER, to_substr());
         };
 
         void scan_singular_reserve() noexcept
@@ -254,7 +259,7 @@ namespace circus
             while (!f_eof() && types::none_of(f_token(f_advance()), tokens__::TYPE::TK_QUOTE_DOUBLE))
                 ;
 
-            insert(tokens__::TYPE::TK_LITERAL_STRING, _in.substr(_beg, _end - _beg));
+            insert(tokens__::TYPE::TK_LITERAL_STRING, to_substr());
         };
 
         void scan_comments() noexcept
@@ -277,7 +282,7 @@ namespace circus
 
         void scan_unknown() noexcept
         {
-            insert(tokens__::TYPE::TK_UNKNOWN, _in.substr(_beg, _end - _beg));
+            insert(tokens__::TYPE::TK_UNKNOWN, to_substr());
         };
 
         template <typename T>
