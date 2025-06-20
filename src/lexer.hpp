@@ -251,7 +251,7 @@ namespace circus
 
         void scan_string()
         {
-            while (!f_eof() && types::none_of<tokens__::TYPE>(f_token(f_advance()), tokens__::TYPE::TK_QUOTE_DOUBLE))
+            while (!f_eof() && types::none_of(f_token(f_advance()), tokens__::TYPE::TK_QUOTE_DOUBLE))
                 ;
 
             insert(tokens__::TYPE::TK_LITERAL_STRING, _in.substr(_beg, _end - _beg));
@@ -268,7 +268,7 @@ namespace circus
             if (f_token(f_advance()) == tokens__::TYPE::TK_STAR)
             {
                 const auto curr = f_token(f_peek());
-                while (!f_eof() && types::none_of<tokens__::TYPE>(curr, tokens__::TYPE::TK_STAR, tokens__::TYPE::TK_SLASH))
+                while (!f_eof() && types::none_of(curr, tokens__::TYPE::TK_STAR, tokens__::TYPE::TK_SLASH))
                 {
                     f_advance();
                 }
@@ -301,9 +301,9 @@ namespace circus
             }
             if (f_reserved(f_token(c)))
             {
-                if (types::none_of<tokens__::TYPE>(f_token(c), tokens__::TYPE::TK_SLASH, tokens__::TYPE::TK_NEWLINE, tokens__::TYPE::TK_QUOTE_DOUBLE))
+                if (types::none_of(f_token(c), tokens__::TYPE::TK_SLASH, tokens__::TYPE::TK_NEWLINE, tokens__::TYPE::TK_QUOTE_DOUBLE))
                     scan_singular_reserve();
-                else if (types::any_of<tokens__::TYPE>(f_token(c), tokens__::TYPE::TK_QUOTE_DOUBLE))
+                else if (types::any_of(f_token(c), tokens__::TYPE::TK_QUOTE_DOUBLE))
                     scan_string();
             }
             else if (std::isdigit(c))
