@@ -224,11 +224,11 @@ namespace circus
             {
                 while (!f_eof() && std::isdigit(f_peek()))
                     f_advance();
-                _toks.push_back(create_token(tokens__::TYPE::TK_LITERAL_FLOAT, std::stof(_in.substr(_beg, _end - _beg))));
+                insert(tokens__::TYPE::TK_LITERAL_FLOAT, std::stof(_in.substr(_beg, _end - _beg)));
             }
             else
             {
-                _toks.push_back(create_token(tokens__::TYPE::TK_LITERAL_INT, std::stoi(_in.substr(_beg, _end - _beg))));
+                insert(tokens__::TYPE::TK_LITERAL_INT, std::stoi(_in.substr(_beg, _end - _beg)));
             }
         };
 
@@ -238,14 +238,14 @@ namespace circus
             {
                 f_advance();
             };
-            _toks.push_back(create_token(tokens__::TYPE::TK_IDENTIFIER, _in.substr(_beg, _end - _beg)));
+            insert(tokens__::TYPE::TK_IDENTIFIER, _in.substr(_beg, _end - _beg));
         };
 
         void scan_singular_reserve() noexcept
         {
             if (f_reserved(f_token(f_previous())))
             {
-                _toks.push_back(create_token(f_token(f_previous()), f_previous()));
+                insert(f_token(f_previous()), f_previous());
             }
         };
 
@@ -254,7 +254,7 @@ namespace circus
             while (!f_eof() && types::none_of<tokens__::TYPE>(f_token(f_advance()), tokens__::TYPE::TK_QUOTE_DOUBLE))
                 ;
 
-            _toks.push_back(create_token(tokens__::TYPE::TK_LITERAL_STRING, _in.substr(_beg, _end - _beg)));
+            insert(tokens__::TYPE::TK_LITERAL_STRING, _in.substr(_beg, _end - _beg));
         };
 
         void scan_comments() noexcept
@@ -275,11 +275,22 @@ namespace circus
             }
         };
 
+        void scan_unknown() noexcept
+        {
+            insert(tokens__::TYPE::TK_UNKNOWN, _in.substr(_beg, _end - _beg));
+        };
+
         template <typename T>
         [[nodiscard]] constexpr tokens__ create_token(tokens__::TYPE type, const T &literal) noexcept
         {
             tokens__ tok(type, literal, std::make_pair(_row, _col));
             return tok;
+        }
+
+        template <typename T>
+        constexpr void insert(tokens__::TYPE type, const T &lit) noexcept
+        {
+            _toks.push_back(create_token(type, lit));
         }
 
         void process_unit(unsigned char c)
@@ -306,7 +317,7 @@ namespace circus
             else
             {
                 if (!std::isspace(c))
-                    _toks.push_back(create_token(tokens__::TYPE::TK_UNKNOWN, _in.substr(_beg, _end - _beg)));
+                    scan_unknown();
             };
         }
 
@@ -327,7 +338,7 @@ namespace circus
                 process_unit(c);
                 _beg = _end;
             };
-            _toks.push_back(create_token(tokens__::TYPE::TK_EOF, f_peek()));
+            insert(tokens__::TYPE::TK_EOF, f_peek());
 
 #if CIRCUS_DEBUG_PEDANTIC__
             f_print();
