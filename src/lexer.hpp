@@ -220,6 +220,11 @@ namespace circus
             return _in.substr(_beg, _end - _beg);
         };
 
+        std::string to_substr(std::size_t new_beg, std::size_t new_end)
+        {
+            return _in.substr(new_beg, new_end);
+        };
+
         void scan_number() noexcept
         {
 
