@@ -33,13 +33,7 @@ namespace circus
 
     public:
         parser__() : _in{}, _curs{0} {};
-        std::vector<circus::object> operator()(const std::vector<tokens__> toks)
-        {
-            _in = std::move(toks);
-            std::vector<circus::object> ret{};
-           
-            return ret;
-        };
+       
 
         ~parser__() {};
     };

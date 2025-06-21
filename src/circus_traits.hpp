@@ -21,4 +21,39 @@ namespace circus::traits
         return !(any_of(c, std::forward<Others>(o)...));
     };
 
+    template <typename T>
+    concept IsSerializable = requires(T t) {
+        {
+            t.serialize(std::declval<std::ostream &>())
+        };
+    };
+
+    template <typename T>
+    concept Stream = std::is_convertible_v<T, std::ostream &>;
+
+    template <typename T>
+    concept Streamable =
+        requires(std::ostream &os, T value) {
+            {
+                os << value
+            }
+            -> Stream;
+        };
+
+    template <typename T>
+    struct pair_inspect
+    {
+        using first = decltype(std::declval<T>().first);
+        using second = decltype(std::declval<T>().second);
+    };
+
+    template <class T>
+    concept StringLike = std::is_convertible_v<T, std::string_view>;
+
+    template <typename T>
+    concept Serializable = Streamable<T> || IsSerializable<T>;
+
+    template <typename T>
+    concept PairSerializable = StringLike<typename pair_inspect<T>::first> && (Serializable<typename pair_inspect<T>::second>);
+
 };

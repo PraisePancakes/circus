@@ -5,6 +5,8 @@
 
 int main()
 {
-    circus::text_archive("../example/example.txt");
+    circus::serializer archive(std::cout);
+
+    archive('a', 1, 2, 'b');
     return 0;
 }
