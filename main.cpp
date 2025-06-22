@@ -6,7 +6,10 @@
 int main()
 {
     circus::serializer archive(std::cout);
+    static_assert(circus::traits::StreamableVector<std::vector<int, std::allocator<int>>>);
 
-    archive('a', 1, 2, 'b');
+    std::vector<int> v{0, 1, 2, 3, 4};
+
+    archive(v);
     return 0;
 }

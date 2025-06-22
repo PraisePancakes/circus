@@ -40,12 +40,22 @@ namespace circus::traits
             -> Stream;
         };
 
-    template <typename T>
-    struct pair_inspect
+    template <typename T, typename = void>
+    struct pair_inspect : std::false_type
     {
-        using first = decltype(std::declval<T>().first);
-        using second = decltype(std::declval<T>().second);
     };
+
+    template <typename T>
+    struct pair_inspect<T, std::void_t<
+                               decltype(std::declval<T>().first),
+                               decltype(std::declval<T>().second)>> : std::true_type
+    {
+        using first_type = decltype(std::declval<T>().first);
+        using second_type = decltype(std::declval<T>().second);
+    };
+
+    template <typename T>
+    concept PairSerializable = pair_inspect<T>::value;
 
     template <class T>
     concept StringLike = std::is_convertible_v<T, std::string_view>;
@@ -54,6 +64,23 @@ namespace circus::traits
     concept Serializable = Streamable<T> || IsSerializable<T>;
 
     template <typename T>
-    concept PairSerializable = StringLike<typename pair_inspect<T>::first> && (Serializable<typename pair_inspect<T>::second>);
+    struct is_vector : std::false_type
+    {
+        using value_type = T;
+    };
+
+    template <typename T, typename A>
+    struct is_vector<std::vector<T, A>> : std::true_type
+    {
+        using value_type = T;
+    };
+
+    template <typename V>
+    concept StreamableVector =
+        is_vector<std::remove_cvref_t<V>>::value &&
+        Streamable<typename std::remove_cvref_t<V>::value_type>;
+
+    template <typename V>
+    concept SerializableVector = is_vector<V>::value && IsSerializable<typename V::value_type>;
 
 };

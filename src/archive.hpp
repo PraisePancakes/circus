@@ -4,70 +4,79 @@
 #include "reader.hpp"
 #include "parser.hpp"
 #include "circus_traits.hpp"
+#include <variant>
 
 namespace circus
 {
 
     template <typename StreamType>
-    class circ_format
+    class serializer
     {
         StreamType &stream;
 
-    public:
-        template <typename Arg>
-        void handle(Arg &&arg)
+        template <traits::Streamable T>
+        void serialize_streamable(const T &value)
         {
-            if constexpr (traits::Streamable<Arg>)
+            stream << value << " ";
+        }
+
+        template <traits::Serializable T>
+        void serialize_serializable(T &value)
+        {
+            value.serialize(*this);
+        }
+
+        template <traits::PairSerializable T>
+        void serialize_pair(const T &value)
+        {
+            stream << "$" << value.first << " : ";
+            if constexpr (std::is_class_v<std::remove_cvref_t<decltype(value.second)>>)
             {
-                stream << arg << " ";
-            }
-            else if constexpr (traits::Serializable<Arg>)
-            {
-                arg.serialize(*this);
-            }
-            else if constexpr (traits::PairSerializable<Arg>)
-            {
-                stream << "$" << arg.first << " : ";
-                if constexpr (std::is_class_v<decltype(arg.second)>)
-                {
-                    stream << "{";
-                    handle(arg.second);
-                    stream << "}";
-                }
-                else
-                {
-                    handle(arg.second);
-                }
+                stream << "{";
+                handle(value.second);
+                stream << "}";
             }
             else
             {
-                static_assert([]
-                              { return false; }(), "Unsupported type");
+                handle(value.second);
             }
         }
 
-        circ_format(StreamType &s) : stream(s) {};
-    };
+        template <traits::StreamableVector T>
+        void serialize_vector(const T &vector)
+        {
+            for (std::size_t i = 0; i < vector.size(); i++)
+            {
+                stream << vector[i] << " ";
+            };
+        }
 
-    template <typename StreamType, typename FormatPolicy = circ_format<StreamType>>
-    class serializer
-    {
-        FormatPolicy formatter;
+        template <traits::Streamable Arg>
+        void handle(Arg &&arg) { serialize_streamable(arg); }
+
+        template <traits::Serializable Arg>
+        void handle(Arg &&arg) { serialize_serializable(arg); }
+
+        template <traits::PairSerializable Arg>
+        void handle(Arg &&arg) { serialize_pair(arg); }
+
+        template <traits::StreamableVector Arg>
+        void handle(Arg &&arg) { serialize_vector(arg); }
 
     public:
-        serializer(StreamType &s) : formatter(s) {
+        serializer(StreamType &s) : stream(s) {
                                     };
 
         template <typename... Args>
         void operator()(Args &&...args) &
         {
-            (formatter.handle(std::forward<Args>(args)), ...);
+            (handle(std::forward<Args>(args)), ...);
         }
 
         template <typename... Args>
         serializer &operator<<(Args &&...args)
         {
-            (formatter.handle(std::forward<Args>(args)), ...);
+            (handle(std::forward<Args>(args)), ...);
             return *this;
         }
 
