@@ -47,7 +47,7 @@ namespace circus
         {
             for (std::size_t i = 0; i < vector.size(); i++)
             {
-                stream << vector[i] << " ";
+                stream << vector[i] << ",";
             };
         }
 

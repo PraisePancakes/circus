@@ -10,6 +10,6 @@ int main()
 
     std::vector<int> v{0, 1, 2, 3, 4};
 
-    archive(v);
+    archive(std::make_pair("V", v));
     return 0;
 }
