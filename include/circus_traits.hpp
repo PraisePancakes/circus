@@ -29,16 +29,26 @@ namespace circus::traits
     };
 
     template <typename T>
-    concept Stream = std::is_convertible_v<T, std::ostream &>;
+    concept OutStream = std::is_convertible_v<T, std::ostream &>;
 
     template <typename T>
-    concept Streamable =
+    concept OutStreamable =
         requires(std::ostream &os, T value) {
             {
                 os << value
             }
-            -> Stream;
+            -> OutStream;
         };
+
+    template <typename T>
+    concept InStream = std::is_convertible_v<T, std::istream &>;
+
+    template <typename T>
+    concept InStreamable = requires(std::istream &is, T value) {
+        {
+            value >> is
+        } -> InStream;
+    };
 
     template <typename T, typename = void>
     struct pair_inspect : std::false_type
@@ -61,7 +71,7 @@ namespace circus::traits
     concept StringLike = std::is_convertible_v<T, std::string_view>;
 
     template <typename T>
-    concept Serializable = Streamable<T> || IsSerializable<T>;
+    concept Serializable = OutStreamable<T> || IsSerializable<T>;
 
     template <typename T>
     struct is_vector : std::false_type
@@ -78,9 +88,6 @@ namespace circus::traits
     template <typename V>
     concept StreamableVector =
         is_vector<std::remove_cvref_t<V>>::value &&
-        Streamable<typename std::remove_cvref_t<V>::value_type>;
-
-    template <typename V>
-    concept SerializableVector = is_vector<V>::value && IsSerializable<typename V::value_type>;
+        OutStreamable<typename std::remove_cvref_t<V>::value_type>;
 
 };
