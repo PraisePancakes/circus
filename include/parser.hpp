@@ -1,8 +1,7 @@
 #pragma once
-#include "lexer.hpp"
 #include <iostream>
 #include <vector>
-#include "circus_types.hpp"
+#include "token.hpp"
 #include "circus_traits.hpp"
 
 namespace circus
@@ -33,7 +32,6 @@ namespace circus
 
     public:
         parser__() : _in{}, _curs{0} {};
-       
 
         ~parser__() {};
     };

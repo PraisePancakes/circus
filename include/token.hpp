@@ -10,7 +10,7 @@ namespace circus
 
         // https://stackoverflow.com/questions/1801363/c-c-any-way-to-get-reflective-enums
 #define TOKEN_DEFs                     \
-    TOKEN_DEF(TK_QUOTE_DOUBLE, '\"')   \
+    TOKEN_DEF(TK_QUOTE_DOUBLE, '"')    \
     TOKEN_DEF(TK_PAREN_L, '(')         \
     TOKEN_DEF(TK_PAREN_R, ')')         \
     TOKEN_DEF(TK_COMMA, ',')           \
@@ -57,7 +57,7 @@ namespace circus
             }
         }
 
-        constexpr static inline const char *to_stringerized(TYPE type) noexcept
+        constexpr static inline const char *to_stringized(TYPE type) noexcept
         {
             switch (type)
             {
@@ -72,7 +72,7 @@ namespace circus
 
         constexpr static inline std::string to_literal(TYPE type) noexcept
         {
-            const char *lit = to_stringerized(type);
+            const char *lit = to_stringized(type);
             std::string ret{lit};
             return ret.substr(1, ret.size() - 2);
         }

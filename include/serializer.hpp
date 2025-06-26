@@ -6,6 +6,7 @@
 
 namespace circus
 {
+#define CIRCUS_ENTRY(VAR) std::make_pair(#VAR, VAR)
 
     template <typename OStreamT>
         requires(std::is_base_of_v<std::ostream, OStreamT>)
@@ -13,60 +14,53 @@ namespace circus
     {
         OStreamT &stream;
 
-        template <traits::OutStreamable T>
-        void serialize_streamable(const T &value)
+        template <traits::OutStreamable Arg>
+        void handle(Arg &&arg)
         {
-            stream << value << tokens__::to_literal(tokens__::TYPE::TK_SPACE);
+            if constexpr (traits::StringLike<Arg>)
+            {
+                stream << tokens__::to_literal(tokens__::TYPE::TK_QUOTE_DOUBLE) << arg << tokens__::to_literal(tokens__::TYPE::TK_QUOTE_DOUBLE) << tokens__::to_literal(tokens__::TYPE::TK_SPACE);
+            }
+            else
+            {
+                stream << arg << tokens__::to_literal(tokens__::TYPE::TK_SPACE);
+            }
         }
 
-        template <traits::Serializable T>
-        void serialize_serializable(T &value)
-        {
-            value.serialize(*this);
-        }
+        template <traits::Serializable Arg>
+        void handle(Arg &&arg) { arg.serialize(*this); }
 
-        template <traits::PairSerializable T>
-        void serialize_pair(const T &value)
+        template <traits::PairSerializable Arg>
+        void handle(Arg &&arg)
         {
-            stream << tokens__::to_literal(tokens__::TYPE::TK_DOLLA) << value.first << tokens__::to_literal(tokens__::TYPE::TK_COLON);
-            if constexpr (std::is_class_v<std::remove_cvref_t<decltype(value.second)>> && !traits::StreamableVector<decltype(value.second)>)
+            using value_type = decltype(arg.second);
+            stream << tokens__::to_literal(tokens__::TYPE::TK_DOLLA) << arg.first << tokens__::to_literal(tokens__::TYPE::TK_COLON);
+            if constexpr (std::is_class_v<std::remove_cvref_t<value_type>> && !traits::StreamableVector<value_type>)
             {
                 stream << tokens__::to_literal(tokens__::TYPE::TK_CURL_L);
-                handle(value.second);
+                handle(arg.second);
                 stream << tokens__::to_literal(tokens__::TYPE::TK_CURL_R);
             }
             else
             {
-                handle(value.second);
+                handle(arg.second);
             }
         }
 
-        template <traits::StreamableVector T>
-        void serialize_vector(const T &vector)
+        template <traits::StreamableVector Arg>
+        void handle(Arg &&arg)
         {
             stream << tokens__::to_literal(tokens__::TYPE::TK_BRACE_L);
-            for (std::size_t i = 0; i < vector.size(); i++)
+            for (std::size_t i = 0; i < arg.size(); i++)
             {
-                stream << vector[i];
-                if (i < vector.size() - 1)
+                stream << arg[i];
+                if (i < arg.size() - 1)
                 {
                     stream << tokens__::to_literal(tokens__::TYPE::TK_COMMA);
                 }
             };
             stream << tokens__::to_literal(tokens__::TYPE::TK_BRACE_R);
         }
-
-        template <traits::OutStreamable Arg>
-        void handle(Arg &&arg) { serialize_streamable(arg); }
-
-        template <traits::Serializable Arg>
-        void handle(Arg &&arg) { serialize_serializable(arg); }
-
-        template <traits::PairSerializable Arg>
-        void handle(Arg &&arg) { serialize_pair(arg); }
-
-        template <traits::StreamableVector Arg>
-        void handle(Arg &&arg) { serialize_vector(arg); }
 
     public:
         serializer(OStreamT &s) : stream(s) {
