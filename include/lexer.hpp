@@ -13,7 +13,7 @@
 namespace circus
 {
 
-       class lexer__
+    class lexer__
     {
 
         std::string _in;
@@ -51,15 +51,15 @@ namespace circus
                 return false;
             }
         }
-#if CIRCUS_DEBUG_PEDANTIC__
+
         void f_print() const noexcept
         {
+
             for (const auto &t : _toks)
             {
                 t.print_token();
             };
         };
-#endif
 
         [[nodiscard]] bool f_eof() const noexcept
         {
@@ -240,6 +240,7 @@ namespace circus
             insert(tokens__::TYPE::TK_EOF, f_peek());
 
 #if CIRCUS_DEBUG_PEDANTIC__
+
             f_print();
 #endif
 

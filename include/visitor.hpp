@@ -9,6 +9,10 @@ namespace circus
         {
             using fs::operator()...;
         };
+
+
+        template<typename...fs>
+        visitor(fs...) -> visitor<fs...>;
     }
 
 }

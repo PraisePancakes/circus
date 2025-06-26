@@ -1,6 +1,6 @@
 #pragma once
 #include <filesystem>
-#include "circus_types.hpp"
+#include "token.hpp"
 #include "circus_traits.hpp"
 #include <variant>
 
@@ -16,7 +16,7 @@ namespace circus
         template <traits::OutStreamable T>
         void serialize_streamable(const T &value)
         {
-            stream << value << tokens__::type_to_literal(tokens__::TYPE::TK_SPACE);
+            stream << value << tokens__::to_literal(tokens__::TYPE::TK_SPACE);
         }
 
         template <traits::Serializable T>
@@ -28,12 +28,12 @@ namespace circus
         template <traits::PairSerializable T>
         void serialize_pair(const T &value)
         {
-            stream << tokens__::type_to_literal(tokens__::TYPE::TK_DOLLA) << value.first << tokens__::type_to_literal(tokens__::TYPE::TK_COLON);
+            stream << tokens__::to_literal(tokens__::TYPE::TK_DOLLA) << value.first << tokens__::to_literal(tokens__::TYPE::TK_COLON);
             if constexpr (std::is_class_v<std::remove_cvref_t<decltype(value.second)>> && !traits::StreamableVector<decltype(value.second)>)
             {
-                stream << tokens__::type_to_literal(tokens__::TYPE::TK_CURL_L);
+                stream << tokens__::to_literal(tokens__::TYPE::TK_CURL_L);
                 handle(value.second);
-                stream << tokens__::type_to_literal(tokens__::TYPE::TK_CURL_R);
+                stream << tokens__::to_literal(tokens__::TYPE::TK_CURL_R);
             }
             else
             {
@@ -44,16 +44,16 @@ namespace circus
         template <traits::StreamableVector T>
         void serialize_vector(const T &vector)
         {
-            stream << tokens__::type_to_literal(tokens__::TYPE::TK_BRACE_L);
+            stream << tokens__::to_literal(tokens__::TYPE::TK_BRACE_L);
             for (std::size_t i = 0; i < vector.size(); i++)
             {
                 stream << vector[i];
                 if (i < vector.size() - 1)
                 {
-                    stream << tokens__::type_to_literal(tokens__::TYPE::TK_COMMA);
+                    stream << tokens__::to_literal(tokens__::TYPE::TK_COMMA);
                 }
             };
-            stream << tokens__::type_to_literal(tokens__::TYPE::TK_BRACE_R);
+            stream << tokens__::to_literal(tokens__::TYPE::TK_BRACE_R);
         }
 
         template <traits::OutStreamable Arg>
