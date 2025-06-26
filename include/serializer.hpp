@@ -63,18 +63,22 @@ namespace circus
             };
             stream << tokens__::to_literal(tokens__::TYPE::TK_BRACE_R);
         }
-
-        template <typename Arg>
-        [[nodiscard]] constexpr static auto make_pair_serializable(Arg &&arg) noexcept
+        template <std::size_t I, typename Arg>
+        static auto make_pair_serializable(Arg &&arg)
         {
             if constexpr (!traits::PairSerializable<Arg>)
             {
-                return CIRCUS_ENTRY(arg);
+                return std::make_pair("entry" + std::to_string(I), std::forward<Arg>(arg));
             }
             else
             {
-                return arg;
+                return std::forward<Arg>(arg);
             }
+        }
+        template <std::size_t... Is, typename... Args>
+        void handler(std::index_sequence<Is...>, Args &&...args)
+        {
+            (handle(make_pair_serializable<Is>(std::forward<Args>(args))), ...);
         }
 
     public:
@@ -84,7 +88,7 @@ namespace circus
         template <typename... Args>
         void operator()(Args &&...args) &
         {
-            (handle(make_pair_serializable(std::forward<Args>(args))), ...);
+            handler(std::make_index_sequence<sizeof...(Args)>{}, std::forward<Args>(args)...);
         }
 
         template <typename... Args>
