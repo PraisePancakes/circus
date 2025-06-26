@@ -25,6 +25,7 @@ namespace circus
             {
                 stream << arg << tokens__::to_literal(tokens__::TYPE::TK_SPACE);
             }
+            stream << tokens__::to_literal(tokens__::TYPE::TK_COMMA);
         }
 
         template <traits::Serializable Arg>
@@ -35,11 +36,12 @@ namespace circus
         {
             using value_type = decltype(arg.second);
             stream << tokens__::to_literal(tokens__::TYPE::TK_DOLLA) << arg.first << tokens__::to_literal(tokens__::TYPE::TK_COLON);
-            if constexpr (std::is_class_v<std::remove_cvref_t<value_type>> && !traits::StreamableVector<value_type>)
+            if constexpr (std::is_class_v<std::remove_cvref_t<value_type>> && !traits::StreamableVector<value_type> && !traits::StringLike<value_type>)
             {
                 stream << tokens__::to_literal(tokens__::TYPE::TK_CURL_L);
                 handle(arg.second);
                 stream << tokens__::to_literal(tokens__::TYPE::TK_CURL_R);
+                stream << tokens__::to_literal(tokens__::TYPE::TK_COMMA);
             }
             else
             {
@@ -62,6 +64,19 @@ namespace circus
             stream << tokens__::to_literal(tokens__::TYPE::TK_BRACE_R);
         }
 
+        template <typename Arg>
+        [[nodiscard]] constexpr static auto make_pair_serializable(Arg &&arg) noexcept
+        {
+            if constexpr (!traits::PairSerializable<Arg>)
+            {
+                return CIRCUS_ENTRY(arg);
+            }
+            else
+            {
+                return arg;
+            }
+        }
+
     public:
         serializer(OStreamT &s) : stream(s) {
                                   };
@@ -69,7 +84,7 @@ namespace circus
         template <typename... Args>
         void operator()(Args &&...args) &
         {
-            (handle(std::forward<Args>(args)), ...);
+            (handle(make_pair_serializable(std::forward<Args>(args))), ...);
         }
 
         template <typename... Args>

@@ -11,7 +11,7 @@ struct T
     template <typename Ar>
     void serialize(Ar &ar)
     {
-        ar(CIRCUS_ENTRY(x), CIRCUS_ENTRY(y), CIRCUS_ENTRY(v));
+        ar(CIRCUS_ENTRY(x), y, CIRCUS_ENTRY(v));
     }
 
     ~T() {};
@@ -21,6 +21,7 @@ int main()
 {
 
     T t;
+    std::vector<int> vec{0, 1, 2, 3, 4};
     circus::serializer archive(std::cout);
     archive(CIRCUS_ENTRY(t));
     return 0;
