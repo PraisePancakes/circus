@@ -84,8 +84,8 @@ namespace circus
         template <std::size_t... Is, typename... Args>
         void handler(std::index_sequence<Is...>, Args &&...args)
         {
-            constexpr std::size_t MAX = sizeof...(Args);
-            (handle<Is, MAX>(make_pair_serializable<Is>(std::forward<Args>(args))), ...);
+            constexpr std::size_t MAXARG = sizeof...(Args);
+            (handle<Is, MAXARG>(make_pair_serializable<Is>(std::forward<Args>(args))), ...);
         }
 
     public:
@@ -95,15 +95,15 @@ namespace circus
         template <typename... Args>
         void operator()(Args &&...args) &
         {
-            constexpr std::size_t MAX = sizeof...(Args);
-            handler(std::make_index_sequence<MAX>{}, std::forward<Args>(args)...);
+            constexpr std::size_t ARGSIZE = sizeof...(Args);
+            handler(std::make_index_sequence<ARGSIZE>{}, std::forward<Args>(args)...);
         }
 
         template <typename... Args>
         serializer &operator<<(Args &&...args)
         {
-            constexpr std::size_t MAX = sizeof...(Args);
-            handler(std::make_index_sequence<MAX>{}, std::forward<Args>(args)...);
+            constexpr std::size_t ARGSIZE = sizeof...(Args);
+            handler(std::make_index_sequence<ARGSIZE>{}, std::forward<Args>(args)...);
             return *this;
         }
 

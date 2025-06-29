@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "include/serializer.hpp"
-
+#include "test/test_lexer.hpp"
 struct C
 {
     int x = 0;
@@ -35,9 +35,11 @@ struct T
 int main()
 {
 
-    T t;
-    std::vector<int> vec{0, 1, 2, 3, 4};
-    circus::serializer archive(std::cout);
-    archive(CIRCUS_ENTRY(t));
+    // T t;
+    // std::vector<int> vec{0, 1, 2, 3, 4};
+    // circus::serializer archive(std::cout);
+    // archive(CIRCUS_ENTRY(t));
+
+    circus::testing::test_lexer();
     return 0;
 }

@@ -14,10 +14,10 @@ namespace circus::filesystem
 
     public:
         reader__() : _contents{}, _path{} {};
-        std::string operator()(const std::filesystem::path &fp)
+
+        std::string operator()(std::istream &is)
         {
-            std::ifstream fs(fp, std::ios_base::in);
-            std::string contents((std::istreambuf_iterator<char>(fs)),
+            std::string contents((std::istreambuf_iterator<char>(is)),
                                  std::istreambuf_iterator<char>());
             _contents = std::move(contents);
             return _contents;

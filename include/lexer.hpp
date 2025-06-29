@@ -7,7 +7,7 @@
 #include "visitor.hpp"
 #include "circus_traits.hpp"
 #include "../debug/debug.hpp"
-#include "circus_types.hpp"
+#include "token.hpp"
 #include <cctype>
 
 namespace circus
@@ -220,17 +220,8 @@ namespace circus
             };
         }
 
-    public:
-        lexer__() : _in{""},
-                    _beg{0},
-                    _end{0},
-                    _row{1},
-                    _col{0},
-                    _toks{} {};
-
-        [[nodiscard]] std::vector<tokens__> operator()(const std::string &input) noexcept
+        [[nodiscard]] std::vector<tokens__> f_lex() noexcept
         {
-            _in = input;
             while (!f_eof())
             {
                 unsigned char c = f_advance();
@@ -245,6 +236,20 @@ namespace circus
 #endif
 
             return _toks;
+        };
+
+    public:
+        lexer__() noexcept : _in{},
+                             _beg{0},
+                             _end{0},
+                             _row{1},
+                             _col{0},
+                             _toks{} {};
+
+        [[nodiscard]] std::vector<tokens__> operator()(const std::string &input) noexcept
+        {
+            _in = input;
+            return f_lex();
         };
 
         lexer__(lexer__ &&other) = default;
