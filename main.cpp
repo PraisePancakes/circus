@@ -2,6 +2,7 @@
 #include <vector>
 #include "include/serializer.hpp"
 #include "test/test_lexer.hpp"
+#include "include/deserializer.hpp"
 struct C
 {
     int x = 0;
@@ -35,11 +36,25 @@ struct T
 int main()
 {
 
-    // T t;
-    // std::vector<int> vec{0, 1, 2, 3, 4};
-    // circus::serializer archive(std::cout);
-    // archive(CIRCUS_ENTRY(t));
+    T t;
+    int x = 3;
+    std::vector<int> vec{0, 1, 2, 3, 4};
+    circus::serializer archive(std::cout);
+    archive(CIRCUS_ENTRY(t), CIRCUS_ENTRY(x));
 
     circus::testing::test_lexer();
     return 0;
 }
+
+/*
+    EX syntax:
+
+    $v : {
+        $x : 3,
+        $y : "string",
+        $c : 'c',
+        $double : 3.14
+    }
+
+
+*/

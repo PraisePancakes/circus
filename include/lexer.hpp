@@ -104,12 +104,12 @@ namespace circus
             return _in[_end - 1];
         }
 
-        std::string to_substr() noexcept
+        std::string to_substr() const noexcept
         {
             return _in.substr(_beg, _end - _beg);
         };
 
-        std::string to_substr(std::size_t new_beg, std::size_t new_end)
+        std::string to_substr(std::size_t new_beg, std::size_t new_end) const noexcept
         {
             return _in.substr(new_beg, new_end);
         };
@@ -123,11 +123,11 @@ namespace circus
             {
                 while (!f_eof() && std::isdigit(f_peek()))
                     f_advance();
-                insert(tokens__::TYPE::TK_LITERAL_FLOAT, std::stof(to_substr()));
+                insert(tokens__::TYPE::TK_LITERAL_FLOAT, to_substr(), std::stof(to_substr()));
             }
             else
             {
-                insert(tokens__::TYPE::TK_LITERAL_INT, std::stoi(to_substr()));
+                insert(tokens__::TYPE::TK_LITERAL_INT, to_substr(), std::stoi(to_substr()));
             }
         };
 
@@ -137,14 +137,14 @@ namespace circus
             {
                 f_advance();
             };
-            insert(tokens__::TYPE::TK_IDENTIFIER, to_substr());
+            insert(tokens__::TYPE::TK_IDENTIFIER, to_substr(), to_substr());
         };
 
         void scan_singular_reserve() noexcept
         {
             if (f_reserved(f_token(f_previous())))
             {
-                insert(f_token(f_previous()), f_previous());
+                insert(f_token(f_previous()), to_substr(), f_previous());
             }
         };
 
@@ -153,7 +153,7 @@ namespace circus
             while (!f_eof() && traits::none_of(f_token(f_advance()), tokens__::TYPE::TK_QUOTE_DOUBLE))
                 ;
 
-            insert(tokens__::TYPE::TK_LITERAL_STRING, to_substr());
+            insert(tokens__::TYPE::TK_LITERAL_STRING, to_substr(), to_substr());
         };
 
         void scan_comments() noexcept
@@ -176,20 +176,20 @@ namespace circus
 
         void scan_unknown() noexcept
         {
-            insert(tokens__::TYPE::TK_UNKNOWN, to_substr());
+            insert(tokens__::TYPE::TK_UNKNOWN, to_substr(), to_substr());
         };
 
         template <typename T>
-        [[nodiscard]] constexpr tokens__ create_token(tokens__::TYPE type, const T &literal) noexcept
+        [[nodiscard]] constexpr tokens__ create_token(tokens__::TYPE type, std::string embedded, const T &literal) noexcept
         {
-            tokens__ tok(type, literal, std::make_pair(_row, _col));
+            tokens__ tok(type, embedded, literal, std::make_pair(_row, _col));
             return tok;
         }
 
         template <typename T>
-        constexpr void insert(tokens__::TYPE type, const T &lit) noexcept
+        constexpr void insert(tokens__::TYPE type, std::string embedded, const T &lit) noexcept
         {
-            _toks.push_back(create_token(type, lit));
+            _toks.push_back(create_token(type, embedded, lit));
         }
 
         void process_unit(unsigned char c)
@@ -220,7 +220,7 @@ namespace circus
             };
         }
 
-        [[nodiscard]] std::vector<tokens__> f_lex() noexcept
+        [[nodiscard]] std::vector<tokens__> f_lex() & noexcept
         {
             while (!f_eof())
             {
@@ -228,7 +228,7 @@ namespace circus
                 process_unit(c);
                 _beg = _end;
             };
-            insert(tokens__::TYPE::TK_EOF, f_peek());
+            insert(tokens__::TYPE::TK_EOF, to_substr(), f_peek());
 
 #if CIRCUS_DEBUG_PEDANTIC__
 

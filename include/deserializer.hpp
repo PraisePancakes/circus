@@ -10,14 +10,13 @@ namespace circus
     class deserializer
     {
         IStreamT &stream;
-        std::variant</*var, obj, literal*/> _parseables;
 
     public:
         deserializer(IStreamT &is) : stream(is)
         {
             std::string source = circus::filesystem::reader__(is);
             std::vector<circus::tokens__> tokens = circus::lexer__{}(std::move(source));
-            
+            std::vector<circus::circ_variable *> vars = circus::parser__{}(std::move(tokens));
         };
 
         ~deserializer() {};
