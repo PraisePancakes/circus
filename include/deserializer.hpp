@@ -9,12 +9,11 @@ namespace circus
         requires(std::is_base_of_v<std::istream, IStreamT>)
     class deserializer
     {
-        IStreamT &stream;
 
     public:
-        deserializer(IStreamT &is) : stream(is)
+        deserializer(IStreamT &is)
         {
-            std::string source = circus::filesystem::reader__(is);
+            std::string source = circus::filesystem::reader__{}(is);
             std::vector<circus::tokens__> tokens = circus::lexer__{}(std::move(source));
             std::vector<circus::circ_variable *> vars = circus::parser__{}(std::move(tokens));
         };

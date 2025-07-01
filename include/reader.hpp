@@ -10,10 +10,9 @@ namespace circus::filesystem
     class reader__
     {
         std::string _contents;
-        std::string _path;
 
     public:
-        reader__() : _contents{}, _path{} {};
+        reader__() : _contents{} {};
 
         std::string operator()(std::istream &is)
         {
@@ -28,7 +27,6 @@ namespace circus::filesystem
             return _contents.size();
         };
 
-        [[nodiscard]] const std::string &get_file_path() const noexcept { return _path; };
         [[nodiscard]] const std::string &get_file_contents() const noexcept { return _contents; };
     };
 };

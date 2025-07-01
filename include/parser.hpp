@@ -10,16 +10,14 @@ namespace circus
 {
     struct circ_variable
     {
-        typedef std::variant<char, std::string, int, double> circ_primary_var_t;
-        typedef std::unordered_map<std::string, circ_primary_var_t> circ_object_t;
-        typedef std::variant<char, std::string, int, double, circ_object_t> circ_type_var_t;
+        typedef std::variant<char, std::string, int, float, double, circ_variable *> circ_type_var_t;
 
         std::string key;
         circ_type_var_t value;
     };
-
     class parser__
     {
+
         std::vector<tokens__> _in;
         std::size_t _curs;
 
@@ -67,25 +65,57 @@ namespace circus
             return false;
         }
 
+        circ_variable::circ_type_var_t f_parse_primary()
+        {
+            if (f_match(tokens__::TYPE::TK_CURL_L))
+            {
+                return f_parse_assignment();
+            }
+
+            if (f_match(tokens__::TYPE::TK_LITERAL_INT))
+            {
+
+                return std::get<int>(f_previous()._literal);
+            }
+
+            if (f_match(tokens__::TYPE::TK_LITERAL_FLOAT))
+            {
+                return std::get<float>(f_previous()._literal);
+            }
+
+            if (f_match(tokens__::TYPE::TK_LITERAL_DOUBLE))
+            {
+                return std::get<double>(f_previous()._literal);
+            }
+
+            if (f_match(tokens__::TYPE::TK_LITERAL_STRING))
+            {
+                return std::get<std::string>(f_previous()._literal);
+            }
+
+            return {};
+        };
+
         circ_variable *f_parse_assignment()
         {
             circ_variable *var = new circ_variable();
             if (f_match(tokens__::TYPE::TK_IDENTIFIER))
             {
-                std::string key = f_advance()._embedded;
+
+                std::string key = f_previous()._embedded;
+                std::cout << key << std::endl;
                 var->key = key;
                 if (f_match(tokens__::TYPE::TK_COLON))
                 {
+                    var->value = f_parse_primary();
+                    if (f_match(tokens__::TYPE::TK_COMMA))
+                    {
+                        return f_parse_assignment();
+                    }
+                    return var;
                 }
-                else
-                {
-                    // this is certainly an error
-                };
             }
-            else
-            {
-                // this is certainly an error
-            };
+            return nullptr;
         };
 
         circ_variable *f_parse_variable()

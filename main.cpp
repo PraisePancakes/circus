@@ -39,10 +39,25 @@ int main()
     T t;
     int x = 3;
     std::vector<int> vec{0, 1, 2, 3, 4};
-    circus::serializer archive(std::cout);
-    archive(CIRCUS_ENTRY(t), CIRCUS_ENTRY(x));
+    std::ofstream of{"example/valid_example.txt"};
+    if (of.good())
+    {
+        circus::serializer archive(of);
+        archive(CIRCUS_ENTRY(t), CIRCUS_ENTRY(x), CIRCUS_ENTRY(vec));
+    }
+    else
+    {
+        std::cout << "not good";
+    }
 
-    circus::testing::test_lexer();
+    std::ifstream ifs{"example/valid_example.txt"};
+    if (ifs.good())
+    {
+        circus::deserializer dearch(ifs);
+    }
+
+    // circus::testing::test_lexer();
+
     return 0;
 }
 

@@ -30,6 +30,7 @@ namespace circus
     TOKEN_DEF(TK_LITERAL_FLOAT, 0xFD)  \
     TOKEN_DEF(TK_IDENTIFIER, 0xFC)     \
     TOKEN_DEF(TK_LITERAL_STRING, 0xFB) \
+    TOKEN_DEF(TK_LITERAL_DOUBLE, 0xFA) \
     TOKEN_DEF(TK_UNKNOWN, 0xFF)
 // ENUM DEFINITION
 #define TOKEN_DEF(NAME, VALUE) NAME = VALUE,
@@ -41,7 +42,7 @@ namespace circus
 
 #undef TOKEN_DEF
 
-        using literal_variant_t = std::variant<unsigned char, std::string, int, float>;
+        using literal_variant_t = std::variant<char, std::string, int, float, double>;
         using location_t = std::pair<std::size_t, std::size_t>;
         TYPE _token_type;
         constexpr static inline const char *to_string(TYPE type) noexcept
@@ -86,16 +87,20 @@ namespace circus
         {
             std::cout << "TOKEN TYPE ID (" << to_literal(_token_type) << ")" << " [" << to_string(_token_type) << "]\n";
             std::cout << "location (row, col) < " << _location.first << " , " << _location.second << " > ";
-            std::visit(internal::visitor{[](unsigned char c)
-                                         { std::cout << "[UCHAR] " << c << std::endl; },
-                                         [](std::string s)
-                                         {
-                                             std::cout << "[STRING] " << s << std::endl;
-                                         },
-                                         [](int i)
-                                         { std::cout << "[INT] " << i << std::endl; },
-                                         [](float f)
-                                         { std::cout << "[FLOAT] " << f << std::endl; }},
+            std::visit(internal::visitor{
+                           [](char c)
+                           { std::cout << "[CHAR] " << c << std::endl; },
+                           [](std::string s)
+                           {
+                               std::cout << "[STRING] " << s << std::endl;
+                           },
+                           [](int i)
+                           { std::cout << "[INT] " << i << std::endl; },
+                           [](float f)
+                           { std::cout << "[FLOAT] " << f << std::endl; },
+                           [](double d)
+                           { std::cout << "[DOUBLE] " << d << std::endl; },
+                       },
                        _literal);
         };
 

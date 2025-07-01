@@ -23,7 +23,7 @@ namespace circus
         std::size_t _col;
         std::vector<tokens__> _toks;
 
-        [[nodiscard]] static tokens__::TYPE f_token(unsigned char c) noexcept
+        [[nodiscard]] static tokens__::TYPE f_token(char c) noexcept
         {
             return (tokens__::TYPE)c;
         }
@@ -65,22 +65,22 @@ namespace circus
         {
             return (f_token(_in[_end]) == tokens__::TYPE::TK_EOF);
         }
-        [[nodiscard]] unsigned char f_peek_next() const noexcept
+        [[nodiscard]] char f_peek_next() const noexcept
         {
             return _in[_end + 1];
         }
 
-        [[nodiscard]] unsigned char f_peek() const noexcept
+        [[nodiscard]] char f_peek() const noexcept
         {
             return _in[_end];
         };
 
-        [[nodiscard]] unsigned char f_peek_at(std::size_t offset) const noexcept
+        [[nodiscard]] char f_peek_at(std::size_t offset) const noexcept
         {
             return _in[_end + offset];
         }
 
-        unsigned char f_advance() noexcept
+        char f_advance() noexcept
         {
             if (f_eof())
                 return '\0';
@@ -99,7 +99,7 @@ namespace circus
             return _in[_end++];
         };
 
-        unsigned char f_previous() const noexcept
+        char f_previous() const noexcept
         {
             return _in[_end - 1];
         }
@@ -192,7 +192,7 @@ namespace circus
             _toks.push_back(create_token(type, embedded, lit));
         }
 
-        void process_unit(unsigned char c)
+        void process_unit(char c)
         {
             if (f_token(c) == tokens__::TYPE::TK_SLASH)
             {
@@ -224,7 +224,7 @@ namespace circus
         {
             while (!f_eof())
             {
-                unsigned char c = f_advance();
+                char c = f_advance();
                 process_unit(c);
                 _beg = _end;
             };
