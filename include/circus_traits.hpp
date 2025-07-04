@@ -90,6 +90,9 @@ namespace circus::traits
         using value_type = T;
     };
 
+    template <typename T>
+    concept Flaggable = std::is_enum_v<T> && (std::is_same_v<std::underlying_type_t<T>, std::uint64_t> || std::is_same_v<std::underlying_type_t<T>, std::uint32_t>);
+
     template <typename V>
     concept StreamableVector =
         is_vector<std::remove_cvref_t<V>>::value &&
