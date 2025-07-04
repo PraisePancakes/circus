@@ -119,8 +119,10 @@ namespace circus
 
             while (!f_eof() && std::isdigit(f_peek()))
                 f_advance();
-            if (f_advance() == '.')
+
+            if (!f_eof() && f_peek() == '.')
             {
+                f_advance(); // now consume the dot
                 while (!f_eof() && std::isdigit(f_peek()))
                     f_advance();
                 insert(tokens__::TYPE::TK_LITERAL_FLOAT, to_substr(), std::stof(to_substr()));
@@ -192,8 +194,9 @@ namespace circus
             _toks.push_back(create_token(type, embedded, lit));
         }
 
-        void process_unit(char c)
+        void process_unit()
         {
+            char c = f_advance();
             if (f_token(c) == tokens__::TYPE::TK_SLASH)
             {
                 scan_comments();
@@ -224,8 +227,7 @@ namespace circus
         {
             while (!f_eof())
             {
-                char c = f_advance();
-                process_unit(c);
+                process_unit();
                 _beg = _end;
             };
             insert(tokens__::TYPE::TK_EOF, to_substr(), f_peek());

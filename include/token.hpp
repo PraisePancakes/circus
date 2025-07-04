@@ -78,17 +78,15 @@ namespace circus
             return ret.substr(1, ret.size() - 2);
         }
 
-        
-
     public:
-        std::string _embedded;
-        literal_variant_t _literal;
-        location_t _location;
+        std::string embedded;
+        literal_variant_t literal;
+        location_t location;
 
         void print_token() const noexcept
         {
             std::cout << "TOKEN TYPE ID (" << to_literal(_token_type) << ")" << " [" << to_string(_token_type) << "]\n";
-            std::cout << "location (row, col) < " << _location.first << " , " << _location.second << " > ";
+            std::cout << "location (row, col) < " <<  location.first << " , " <<  location.second << " > ";
             std::visit(internal::visitor{
                            [](char c)
                            { std::cout << "[CHAR] " << c << std::endl; },
@@ -103,10 +101,10 @@ namespace circus
                            [](double d)
                            { std::cout << "[DOUBLE] " << d << std::endl; },
                        },
-                       _literal);
+                        literal);
         };
 
         tokens__(TYPE type, std::string embedded, literal_variant_t lit, location_t loc)
-            : _token_type(type), _embedded(embedded), _literal(lit), _location(loc) {};
+            : _token_type(type),  embedded(embedded),  literal(lit),  location(loc) {};
     };
 };

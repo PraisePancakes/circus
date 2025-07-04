@@ -17,7 +17,7 @@ namespace circus
     };
     class parser__
     {
-
+        using TK = tokens__::TYPE;
         std::vector<tokens__> _in;
         std::size_t _curs;
 
@@ -74,80 +74,96 @@ namespace circus
         }
 
         template <typename... Args>
-        constexpr static auto to_literal(std::variant<Args...> var)
+        circ_variable::circ_type_var_t to_value(std::variant<Args...> var)
         {
             return std::visit([](auto &&val) -> circ_variable::circ_type_var_t
                               { return std::forward<decltype(val)>(val); }, var);
         }
 
-        circ_variable::circ_type_var_t f_parse_expression()
+        circ_variable::circ_type_var_t f_parse_primary()
         {
-            if (f_match(tokens__::TYPE::TK_CURL_L))
-            {
-                return f_parse();
-            }
-            if (f_match(tokens__::TYPE::TK_BRACE_L))
-            {
-                return f_parse_array();
-            }
-            f_advance();
-            return to_literal(f_previous()._literal);
-        };
+            return to_value(f_advance().literal);
+        }
 
         std::vector<circ_variable *> f_parse_array()
         {
-
             std::vector<circ_variable *> ret{};
             std::size_t index = 0;
-            while (!f_eof() && !f_match(tokens__::TYPE::TK_BRACE_R))
+            while (!f_eof() && f_peek()._token_type != TK::TK_BRACE_R)
             {
+                circ_variable *var = new circ_variable();
+                var->value = f_parse_primary();
+                var->key = std::to_string(index++);
 
-                auto type_basis = to_literal(f_advance()._literal);
-                circ_variable *val = new circ_variable();
+                if (!check(TK::TK_BRACE_R))
+                {
+                    if (!f_match(TK::TK_COMMA))
+                    {
+                        throw std::runtime_error("MISSING COMMA");
+                    }
+                    else if (check(TK::TK_BRACE_R))
+                    {
+                        throw std::runtime_error("TRAILING COMMA");
+                    }
+                }
 
-                val->key = tokens__::to_string(f_previous()._token_type) + std::to_string(index++);
-                val->value = type_basis;
-
-                ret.push_back(val);
-            };
-            std::cout << tokens__::to_string(f_peek()._token_type);
+                ret.push_back(var);
+            }
 
             return ret;
-        };
+        }
 
         circ_variable *f_parse_decl()
         {
-            using TK = tokens__::TYPE;
-            if (f_match(TK::TK_DOLLA))
+
+            while (!f_eof() && f_match(TK::TK_DOLLA))
             {
                 if (f_match(TK::TK_IDENTIFIER))
                 {
                     circ_variable *var = new circ_variable();
-                    var->key = f_previous()._embedded;
+                    var->key = f_previous().embedded;
+                    std::cout << var->key << std::endl;
                     if (f_match(TK::TK_COLON))
                     {
-                        std::cout << var->key << std::endl;
-                        var->value = f_parse_expression();
-                        if (!f_eof() && !f_match(TK::TK_COMMA))
+                        if (f_match(TK::TK_CURL_L))
                         {
-                            if (!f_eof() && f_match(TK::TK_CURL_R))
+                            var->value = f_parse();
+                            if (!f_match(TK::TK_CURL_R))
                             {
-                                while (f_match(TK::TK_CURL_R))
-                                    ;
+                                throw std::runtime_error("MISSING CLOSURE");
                             }
-                            if (!f_eof() && !f_match(TK::TK_COMMA))
+                        }
+                        else if (f_match(TK::TK_BRACE_L))
+                        {
+                            var->value = f_parse_array();
+                            if (!f_match(TK::TK_BRACE_R))
                             {
                                 f_peek().print_token();
-                                std::cerr << "MISSING COMMA" << std::endl;
-                                throw std::runtime_error("MISSING COMMA");
+                                throw std::runtime_error("MISSING ARRAY CLOSURE");
+                            }
+                        }
+                        else
+                        {
+                            var->value = f_parse_primary();
+                        }
+
+                        if (f_match(TK::TK_COMMA))
+                        {
+                            if (f_eof() || (f_match(TK::TK_CURL_R) || f_match(TK::TK_BRACE_R)))
+                            {
+                                throw std::runtime_error("UNEXPECTED COMMA");
                             }
                         }
                     }
                     else
                     {
-                        std::cerr << "MISSING COLON" << std::endl;
                         throw std::runtime_error("MISSING COLON");
                     }
+                    return var;
+                }
+                else
+                {
+                    throw std::runtime_error("MISSING IDENTIFIER");
                 }
             };
             return nullptr;
@@ -156,11 +172,16 @@ namespace circus
         std::vector<circ_variable *> f_parse()
         {
             std::vector<circ_variable *> ret{};
+
             while (!f_eof())
             {
+                if (check(TK::TK_CURL_R))
+                    break;
 
-                ret.push_back(f_parse_decl()); // maybe emplace and move?!
-            };
+                if (circ_variable *decl = f_parse_decl())
+                    ret.push_back(decl);
+            }
+
             return ret;
         }
 
