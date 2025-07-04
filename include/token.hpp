@@ -78,6 +78,8 @@ namespace circus
             return ret.substr(1, ret.size() - 2);
         }
 
+        
+
     public:
         std::string _embedded;
         literal_variant_t _literal;

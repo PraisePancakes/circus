@@ -36,21 +36,22 @@ struct T
 int main()
 {
 
-    T t;
-    int x = 3;
-    std::vector<int> vec{0, 1, 2, 3, 4};
-    std::ofstream of{"example/valid_example.txt"};
-    if (of.good())
-    {
-        circus::serializer archive(of);
-        archive(CIRCUS_ENTRY(t), CIRCUS_ENTRY(x), CIRCUS_ENTRY(vec));
-    }
-    else
-    {
-        std::cout << "not good";
-    }
+    // T t;
+    // int x = 3;
+    // std::vector<int> vec{0, 1, 2, 3, 4};
+    // std::ofstream of{"example/valid_example.txt"};
+    // if (of.good())
+    // {
+    //     circus::serializer archive(of);
+    //     archive(CIRCUS_ENTRY(t), CIRCUS_ENTRY(x), CIRCUS_ENTRY(vec));
+    // }
+    // else
+    // {
+    //     std::cout << "not good";
+    // }
 
     std::ifstream ifs{"example/valid_example.txt"};
+
     if (ifs.good())
     {
         circus::deserializer dearch(ifs);

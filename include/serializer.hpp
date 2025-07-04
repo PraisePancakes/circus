@@ -90,11 +90,13 @@ namespace circus
 
     public:
         serializer(OStreamT &s) : stream(s) {
+
                                   };
 
         template <typename... Args>
         void operator()(Args &&...args) &
         {
+
             constexpr std::size_t ARGSIZE = sizeof...(Args);
             handler(std::make_index_sequence<ARGSIZE>{}, std::forward<Args>(args)...);
         }

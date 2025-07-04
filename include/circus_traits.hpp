@@ -3,6 +3,11 @@
 
 namespace circus::traits
 {
+    template <typename Ts, typename... Us>
+    struct exists
+    {
+        constexpr static bool value = (std::is_same_v<Ts, Us> || ...);
+    };
 
     template <typename TypeComparablePolicy, typename... Ts>
     concept ComparableTypes = (std::is_same_v<TypeComparablePolicy, Ts> && ...);

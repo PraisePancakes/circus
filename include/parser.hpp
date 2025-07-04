@@ -10,7 +10,7 @@ namespace circus
 {
     struct circ_variable
     {
-        typedef std::variant<char, std::string, int, float, double, circ_variable *> circ_type_var_t;
+        typedef std::variant<char, std::string, int, float, double, std::vector<circ_variable *>> circ_type_var_t;
 
         std::string key;
         circ_type_var_t value;
@@ -43,11 +43,9 @@ namespace circus
 
         tokens__ f_advance() noexcept
         {
-            if (f_eof())
-            {
-                return f_peek();
-            }
-            return _in[_curs++];
+            if (!f_eof())
+                _curs++;
+            return f_previous();
         };
 
         bool f_eof() const
@@ -55,9 +53,19 @@ namespace circus
             return traits::any_of(f_peek()._token_type, tokens__::TYPE::TK_EOF);
         };
 
-        bool f_match(tokens__::TYPE type)
+        bool check(tokens__::TYPE t)
         {
-            if (traits::any_of(f_peek()._token_type, std::forward<tokens__::TYPE>(type)))
+            if (f_eof())
+                return false;
+
+            return f_peek()._token_type == t;
+        }
+
+        template <typename... Args>
+            requires(std::is_same_v<Args, tokens__::TYPE> && ...)
+        bool f_match(Args &&...args)
+        {
+            if ((check(args) || ...))
             {
                 f_advance();
                 return true;
@@ -65,65 +73,83 @@ namespace circus
             return false;
         }
 
-        circ_variable::circ_type_var_t f_parse_primary()
+        template <typename... Args>
+        constexpr static auto to_literal(std::variant<Args...> var)
+        {
+            return std::visit([](auto &&val) -> circ_variable::circ_type_var_t
+                              { return std::forward<decltype(val)>(val); }, var);
+        }
+
+        circ_variable::circ_type_var_t f_parse_expression()
         {
             if (f_match(tokens__::TYPE::TK_CURL_L))
             {
-                return f_parse_assignment();
+                return f_parse();
             }
-
-            if (f_match(tokens__::TYPE::TK_LITERAL_INT))
+            if (f_match(tokens__::TYPE::TK_BRACE_L))
             {
-
-                return std::get<int>(f_previous()._literal);
+                return f_parse_array();
             }
-
-            if (f_match(tokens__::TYPE::TK_LITERAL_FLOAT))
-            {
-                return std::get<float>(f_previous()._literal);
-            }
-
-            if (f_match(tokens__::TYPE::TK_LITERAL_DOUBLE))
-            {
-                return std::get<double>(f_previous()._literal);
-            }
-
-            if (f_match(tokens__::TYPE::TK_LITERAL_STRING))
-            {
-                return std::get<std::string>(f_previous()._literal);
-            }
-
-            return {};
+            f_advance();
+            return to_literal(f_previous()._literal);
         };
 
-        circ_variable *f_parse_assignment()
+        std::vector<circ_variable *> f_parse_array()
         {
-            circ_variable *var = new circ_variable();
-            if (f_match(tokens__::TYPE::TK_IDENTIFIER))
+
+            std::vector<circ_variable *> ret{};
+            std::size_t index = 0;
+            while (!f_eof() && !f_match(tokens__::TYPE::TK_BRACE_R))
             {
 
-                std::string key = f_previous()._embedded;
-                std::cout << key << std::endl;
-                var->key = key;
-                if (f_match(tokens__::TYPE::TK_COLON))
+                auto type_basis = to_literal(f_advance()._literal);
+                circ_variable *val = new circ_variable();
+
+                val->key = tokens__::to_string(f_previous()._token_type) + std::to_string(index++);
+                val->value = type_basis;
+
+                ret.push_back(val);
+            };
+            std::cout << tokens__::to_string(f_peek()._token_type);
+
+            return ret;
+        };
+
+        circ_variable *f_parse_decl()
+        {
+            using TK = tokens__::TYPE;
+            if (f_match(TK::TK_DOLLA))
+            {
+                if (f_match(TK::TK_IDENTIFIER))
                 {
-                    var->value = f_parse_primary();
-                    if (f_match(tokens__::TYPE::TK_COMMA))
+                    circ_variable *var = new circ_variable();
+                    var->key = f_previous()._embedded;
+                    if (f_match(TK::TK_COLON))
                     {
-                        return f_parse_assignment();
+                        std::cout << var->key << std::endl;
+                        var->value = f_parse_expression();
+                        if (!f_eof() && !f_match(TK::TK_COMMA))
+                        {
+                            if (!f_eof() && f_match(TK::TK_CURL_R))
+                            {
+                                while (f_match(TK::TK_CURL_R))
+                                    ;
+                            }
+                            if (!f_eof() && !f_match(TK::TK_COMMA))
+                            {
+                                f_peek().print_token();
+                                std::cerr << "MISSING COMMA" << std::endl;
+                                throw std::runtime_error("MISSING COMMA");
+                            }
+                        }
                     }
-                    return var;
+                    else
+                    {
+                        std::cerr << "MISSING COLON" << std::endl;
+                        throw std::runtime_error("MISSING COLON");
+                    }
                 }
-            }
-            return nullptr;
-        };
-
-        circ_variable *f_parse_variable()
-        {
-            if (f_match(tokens__::TYPE::TK_DOLLA))
-            {
-                return f_parse_assignment();
-            }
+            };
             return nullptr;
         }
 
@@ -132,7 +158,8 @@ namespace circus
             std::vector<circ_variable *> ret{};
             while (!f_eof())
             {
-                ret.push_back(f_parse_variable()); // maybe emplace and move?!
+
+                ret.push_back(f_parse_decl()); // maybe emplace and move?!
             };
             return ret;
         }
