@@ -1,6 +1,6 @@
 #pragma once
-#include "../include/lexer.hpp"
-namespace circus::testing
+#include "../../include/lexer.hpp"
+namespace circus::testing::semantics
 {
     void test_lexer()
     {

@@ -1,76 +1,12 @@
 #include <iostream>
 #include <vector>
-#include "include/serializer.hpp"
-#include "test/test_lexer.hpp"
-#include "include/deserializer.hpp"
-struct C
-{
-    int x = 0;
-    int y = 0;
-
-    C() {};
-    template <typename Ar>
-    void serialize(Ar &ar)
-    {
-        ar(CIRCUS_ENTRY(x), y);
-    }
-    ~C() {};
-};
-
-struct T
-{
-    int x = 2;
-    int y = 4;
-    const std::string v = "hi";
-    C c;
-    T() {};
-    template <typename Ar>
-    void serialize(Ar &ar)
-    {
-        ar(CIRCUS_ENTRY(x), y, v, c);
-    }
-
-    ~T() {};
-};
+#include "test/test.hpp"
 
 int main()
 {
-
-    // T t;
-    // int x = 3;
-    // std::vector<int> vec{0, 1, 2, 3, 4};
-    // std::ofstream of{"example/valid_example.txt"};
-    // if (of.good())
-    // {
-    //     circus::serializer archive(of);
-    //     archive(CIRCUS_ENTRY(t), CIRCUS_ENTRY(x), CIRCUS_ENTRY(vec));
-    // }
-    // else
-    // {
-    //     std::cout << "not good";
-    // }
-
-    std::ifstream ifs{"example/valid_example.txt"};
-
-    if (ifs.good())
-    {
-        circus::deserializer dearch(ifs);
-    }
-
-    // circus::testing::test_lexer();
+    // circus::testing::semantics::test_lexer();
+    // circus::testing::serialization::test_serializer();
+    // circus::testing::deserialization::test_deserializer();
 
     return 0;
 }
-
-/*
-    EX syntax:
-
-    $v : {
-        $x : 3,
-        $y : "string",
-        $c : 'c',
-        $double : 3.14
-    }
-
-
-*/
