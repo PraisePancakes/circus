@@ -1,18 +1,14 @@
 #pragma once
 
-namespace circus
-{
-    namespace internal
-    {
-        template <typename... fs>
-        struct visitor : fs...
-        {
-            using fs::operator()...;
-        };
+namespace circus {
+namespace internal {
+template <typename... fs>
+struct visitor : fs... {
+    using fs::operator()...;
+};
 
+template <typename... fs>
+visitor(fs...) -> visitor<fs...>;
+}  // namespace internal
 
-        template<typename...fs>
-        visitor(fs...) -> visitor<fs...>;
-    }
-
-}
+}  // namespace circus

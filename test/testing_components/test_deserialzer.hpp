@@ -1,19 +1,16 @@
 #pragma once
 #include <fstream>
 #include <iostream>
+
 #include "../../include/deserializer.hpp"
 
-namespace circus::testing::deserialization
-{
+namespace circus::testing::deserialization {
 
-    void test_deserializer()
-    {
+void test_deserializer() {
+    std::ifstream ifs{"example/valid_example.txt"};
 
-        std::ifstream ifs{"example/valid_example.txt"};
-
-        if (ifs.good())
-        {
-            circus::deserializer dearch(ifs);
-        }
-    };
+    if (ifs.good()) {
+        circus::deserializer dearch(ifs);
+    }
 };
+};  // namespace circus::testing::deserialization
