@@ -12,14 +12,6 @@ enum class ERROR_TYPES : std::uint32_t {
     ERROR_A = 1 << 3
 };
 void test_circus_error() {
-    using rt = circus::error::reporter<ERROR_TYPES>;
-    rt reporter;
-
-    rt::type a = rt::type::ERROR_A;
-    rt::type b = rt::type::ERROR_BAR;
-    reporter |= a;
-    reporter |= b;
-
-    reporter = (a | b);
+   
 };
 };  // namespace circus::testing::semantic

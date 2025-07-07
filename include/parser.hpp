@@ -63,8 +63,8 @@ class parser__ {
     }
 
     template <typename... Args>
-    circ_variable::circ_type_var_t to_value(std::variant<Args...> var) {
-        return std::visit([](auto &&val) -> circ_variable::circ_type_var_t { return std::forward<decltype(val)>(val); }, var);
+    [[nodiscard]] decltype(auto) to_value(std::variant<Args...> var) const noexcept {
+        return std::visit([](const auto &val) -> circ_variable::circ_type_var_t { return std::forward<decltype(val)>(val); }, var);
     }
 
     circ_variable::circ_type_var_t f_parse_primary() {
