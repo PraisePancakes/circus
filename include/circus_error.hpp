@@ -7,15 +7,29 @@
 
 namespace circus::error {
 
+#define ERROR_TYPEs              \
+    ERROR_TYPE(SYNTAX, "SYNTAX") \
+    ERROR_TYPE(UNDEFINED, "UNDEFINED")
+
+#define ERROR_TYPE(TYPE, NAME) TYPE = NAME
+
+enum CIRCUS_ERROR_TYPES : std::uint64_t {
+    ERROR_TYPES
+};
+
+#undef ERROR_TYPE
+
+
+
 template <typename E>
-class error_reporter {
+class reporter {
     using flag_type = circus::utils::enum_flag<E>;
     std::stack<std::string> error_log_stack;
     std::stack<std::string> temp;
     flag_type flagger;
 
    public:
-    error_reporter() = default;
+    reporter() = default;
 
     [[nodiscard]] bool empty() const noexcept {
         return error_log_stack.empty() && !flagger();
@@ -53,7 +67,7 @@ class error_reporter {
         }
     };
 
-    ~error_reporter() = default;
+    ~reporter() = default;
 };
 
 };  // namespace circus::error
