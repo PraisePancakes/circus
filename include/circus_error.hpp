@@ -16,7 +16,7 @@ enum CIRCUS_ERROR_TYPES : std::uint64_t {
 };
 #undef ERROR_TYPE
 #define ERROR_TYPE(NAME) #NAME
-const char* names_of[]{
+const char* REFLECTED_ERROR_MAP[]{
     ERROR_TYPEs};
 #undef ERROR_TYPE
 
@@ -30,11 +30,17 @@ class parser_error : public std::runtime_error {
 
 class parser_reporter {
     using flag_type = circus::utils::enum_flag<CIRCUS_ERROR_TYPES>;
+    using underlying_type = std::underlying_type_t<flag_type::enum_type>;
     std::stack<std::string> error_log_stack;
     std::stack<std::string> temp;
-    static std::string to_stringized_types(const std::underlying_type_t<flag_type::enum_type>& type) {
+
+    static std::string match_and_ret(const underlying_type& from, const underlying_type& to) {
+        return ((from & to) == to) ? REFLECTED_ERROR_MAP[from] : "";
+    };
+
+    static std::string to_stringized_types(const underlying_type& type) {
         std::string ret = "";
-        if ((type & flag_type::enum_type::SYNTAX) == flag_type::enum_type::SYNTAX) ret += "SYNTAX";
+        ret += match_and_ret(type, error::SYNTAX);
         return ret.empty() ? "UNKNOWN" : ret;
     }
 

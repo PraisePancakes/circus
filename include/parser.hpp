@@ -154,7 +154,7 @@ class parser__ {
     }
 
    public:
-    parser__() : _in{}, _curs{0} {};
+    parser__() : _in{}, _curs{0}, _reporter{} {};
     std::vector<circ_variable *> operator()(std::vector<tokens__> toks) {
         _in = toks;
         return f_parse();
