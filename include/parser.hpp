@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "circus_error.hpp"
 #include "circus_traits.hpp"
 #include "token.hpp"
 
@@ -16,6 +17,8 @@ struct circ_variable {
 };
 class parser__ {
     using TK = tokens__::TYPE;
+    using error_type = error::parser_error::enum_type;
+
     std::vector<tokens__> _in;
     std::size_t _curs;
 
@@ -73,13 +76,13 @@ class parser__ {
             if (f_match(TK::TK_CURL_R)) {
                 return obj;
             }
-            throw std::runtime_error("MISSING CLOSING '}' ");
+            throw circus::error::parser_error(error_type::SYNTAX, "Missing Closing Curl '}' ");
         }
 
         if (f_match(TK::TK_BRACE_L)) {
             std::vector<circ_variable *> arr = f_parse_array();
             if (!f_match(TK::TK_BRACE_R)) {
-                throw std::runtime_error("MISSING ']' ");
+                throw circus::error::parser_error(error_type::SYNTAX, "Missing Closing Bracket ']' ");
             }
             return arr;
         }
@@ -96,13 +99,13 @@ class parser__ {
             var->key = std::to_string(index++);
             if (!check(TK::TK_BRACE_R)) {
                 if (!f_match(TK::TK_COMMA)) {
-                    throw std::runtime_error("MISSING COMMA");
+                    throw circus::error::parser_error(error_type::SYNTAX, "Missing Comma Seperator ");
                 }
             }
             ret.push_back(var);
         }
         if (check(TK::TK_BRACE_R) && f_previous()._token_type == TK::TK_COMMA) {
-            throw std::runtime_error("TRAILING COMMA");
+            throw circus::error::parser_error(error_type::SYNTAX, "Trailing Comma Seperator ");
         }
         return ret;
     }
@@ -116,28 +119,37 @@ class parser__ {
                     var->value = f_parse_primary();
                     if (!f_eof() && !check(TK::TK_CURL_R)) {
                         if (!f_match(TK::TK_COMMA)) {
-                            throw std::runtime_error("MISSING COMMA");
+                            throw circus::error::parser_error(error_type::SYNTAX, "Missing Comma Seperator ");
                         }
                     }
                     return var;
                 }
-                throw std::runtime_error("MISSING COLON");
+                throw circus::error::parser_error(error_type::SYNTAX, "Missing Colon Operator ");
             }
-            throw std::runtime_error("MISSING IDENTIFIER");
+            throw circus::error::parser_error(error_type::SYNTAX, "Missing Identifier ");
         };
-        throw std::runtime_error("MISSING '$");
+        throw circus::error::parser_error(error_type::SYNTAX, "Missing Declaration Specifier '$' ");
         return nullptr;
     }
+
+    circus::error::parser_reporter _reporter;
 
     std::vector<circ_variable *> f_parse() {
         std::vector<circ_variable *> ret{};
 
         while (!f_eof()) {
-            if (check(TK::TK_CURL_R))
-                break;
-            ret.push_back(f_parse_decl());
+            try {
+                if (check(TK::TK_CURL_R))
+                    break;
+                ret.push_back(f_parse_decl());
+            } catch (circus::error::parser_error &error) {
+                // sync
+                f_advance();
+                _reporter.report(error.type_of, error.what(), f_peek().location);
+            }
         }
 
+        _reporter.log_errors();
         return ret;
     }
 

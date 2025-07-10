@@ -1,43 +1,53 @@
 #pragma once
 #include <iostream>
 #include <stack>
+#include <unordered_map>
 
 #include "circus_traits.hpp"
 #include "utils/enum_flag.hpp"
 
 namespace circus::error {
-
-#define ERROR_TYPEs              \
-    ERROR_TYPE(SYNTAX, "SYNTAX") \
-    ERROR_TYPE(UNDEFINED, "UNDEFINED")
-
-#define ERROR_TYPE(TYPE, NAME) TYPE = NAME
+#define ERROR_TYPE(NAME) NAME
+#define ERROR_TYPEs \
+    ERROR_TYPE(SYNTAX)
 
 enum CIRCUS_ERROR_TYPES : std::uint64_t {
-    ERROR_TYPES
+    ERROR_TYPEs
 };
-
+#undef ERROR_TYPE
+#define ERROR_TYPE(NAME) #NAME
+const char* names_of[]{
+    ERROR_TYPEs};
 #undef ERROR_TYPE
 
-template <typename E>
-class reporter {
-    using flag_type = circus::utils::enum_flag<E>;
+class parser_error : public std::runtime_error {
+   public:
+    using flag_type = circus::utils::enum_flag<CIRCUS_ERROR_TYPES>;
+    using enum_type = flag_type::enum_type;
+    flag_type type_of;
+    parser_error(flag_type E, const std::string& what) : std::runtime_error(what), type_of(E) {};
+};
+
+class parser_reporter {
+    using flag_type = circus::utils::enum_flag<CIRCUS_ERROR_TYPES>;
     std::stack<std::string> error_log_stack;
     std::stack<std::string> temp;
-    flag_type flagger;
-
-   public:
-    reporter() = default;
-
-    [[nodiscard]] bool empty() const noexcept {
-        return error_log_stack.empty() && !flagger();
+    static std::string to_stringized_types(const std::underlying_type_t<flag_type::enum_type>& type) {
+        std::string ret = "";
+        if ((type & flag_type::enum_type::SYNTAX) == flag_type::enum_type::SYNTAX) ret += "SYNTAX";
+        return ret.empty() ? "UNKNOWN" : ret;
     }
 
-    template <typename... Es>
-        requires(std::is_same_v<Es, flag_type::enum_type> && ...)
-    void report(Es&&... es, const std::string& message) noexcept {
-        flagger |= (es | ...);
-        error_log_stack.push(message);
+   public:
+    parser_reporter() = default;
+
+    [[nodiscard]] bool empty() const noexcept {
+        return error_log_stack.empty();
+    }
+
+    void report(const flag_type& type, const std::string& message, std::pair<std::size_t, std::size_t> location) noexcept {
+        std::string out = "[CIRCUS][PARSER_ERROR] " + message + to_stringized_types(type.flags) + " " + std::to_string(location.first) + " : " + std::to_string(location.second);
+        error_log_stack.push(out);
     }
 
     void log_errors() noexcept {
@@ -55,21 +65,16 @@ class reporter {
         }
     }
 
-    [[nodiscard]] const flag_type& get_flagger() const noexcept {
-        return this->flagger;
-    }
-
     void flush_errors() noexcept {
         while (!error_log_stack.empty()) {
             error_log_stack.pop();
         }
     };
 
-    ~reporter() = default;
+    ~parser_reporter() = default;
 };
 
 };  // namespace circus::error
-
 template <typename E>
     requires std::is_enum_v<E>
 constexpr E operator|(E lhs, E rhs) {

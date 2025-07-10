@@ -59,25 +59,29 @@ class enum_flag {
         return this->flags != other.flags;
     }
 
-    constexpr bool operator()() { return flags != 0; };
+    constexpr bool operator()() const noexcept { return flags != 0; };
     ~enum_flag() = default;
 };
 
 template <typename E>
-    requires(traits::Flaggable<E>)
-E operator|(E l, E r) {
-    static_assert(traits::Flaggable<E>, "type must be an enum and flaggable");
-    using ut = typename std::underlying_type<E>::type;
-    ut v = static_cast<ut>(l) | static_cast<ut>(r);
-    return static_cast<E>(v);
+    requires traits::Flaggable<E>
+constexpr E operator|(E lhs, E rhs) {
+    using U = std::underlying_type_t<E>;
+    return static_cast<E>(static_cast<U>(lhs) | static_cast<U>(rhs));
 }
 
 template <typename E>
-E operator&(E l, E r) {
-    static_assert(traits::Flaggable<E>, "type must be an enum and flaggable");
-    using ut = typename std::underlying_type<E>::type;
-    ut v = static_cast<ut>(l) & static_cast<ut>(r);
-    return static_cast<E>(v);
+    requires traits::Flaggable<E>
+constexpr E operator&(E lhs, E rhs) {
+    using U = std::underlying_type_t<E>;
+    return static_cast<E>(static_cast<U>(lhs) & static_cast<U>(rhs));
+}
+
+template <typename E>
+    requires traits::Flaggable<E>
+constexpr E operator~(E val) {
+    using U = std::underlying_type_t<E>;
+    return static_cast<E>(~static_cast<U>(val));
 }
 
 }  // namespace circus::utils
