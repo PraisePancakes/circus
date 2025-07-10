@@ -34,7 +34,7 @@ template <typename T>
 concept OutStream = std::is_convertible_v<T, std::ostream &>;
 
 template <typename T>
-concept OutStreamable =
+concept OutStreamableLiteral =
     requires(std::ostream &os, T value) {
         {
             os << value
@@ -71,7 +71,7 @@ template <class T>
 concept StringLike = std::is_convertible_v<T, std::string_view>;
 
 template <typename T>
-concept Serializable = OutStreamable<T> || IsSerializable<T>;
+concept Serializable = OutStreamableLiteral<T> || IsSerializable<T>;
 
 template <typename T>
 struct is_vector : std::false_type {
@@ -89,6 +89,28 @@ concept Flaggable = std::is_enum_v<T> && (std::is_same_v<std::underlying_type_t<
 template <typename V>
 concept StreamableVector =
     is_vector<std::remove_cvref_t<V>>::value &&
-    OutStreamable<typename std::remove_cvref_t<V>::value_type>;
+    OutStreamableLiteral<typename std::remove_cvref_t<V>::value_type>;
+
+template <class T>
+concept Container = requires(T a, const T b) {
+    requires std::regular<T>;
+    requires std::swappable<T>;
+    requires std::same_as<typename T::reference, typename T::value_type &>;
+    requires std::same_as<typename T::const_reference, const typename T::value_type &>;
+    requires std::forward_iterator<typename T::iterator>;
+    requires std::forward_iterator<typename T::const_iterator>;
+    requires std::signed_integral<typename T::difference_type>;
+    requires std::same_as<typename T::difference_type, typename std::iterator_traits<typename T::iterator>::difference_type>;
+    requires std::same_as<typename T::difference_type, typename std::iterator_traits<typename T::const_iterator>::difference_type>;
+    { a.begin() } -> std::same_as<typename T::iterator>;
+    { a.end() } -> std::same_as<typename T::iterator>;
+    { b.begin() } -> std::same_as<typename T::const_iterator>;
+    { b.end() } -> std::same_as<typename T::const_iterator>;
+    { a.cbegin() } -> std::same_as<typename T::const_iterator>;
+    { a.cend() } -> std::same_as<typename T::const_iterator>;
+    { a.size() } -> std::same_as<typename T::size_type>;
+    { a.max_size() } -> std::same_as<typename T::size_type>;
+    { a.empty() } -> std::convertible_to<bool>;
+};
 
 };  // namespace circus::traits

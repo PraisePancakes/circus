@@ -19,8 +19,6 @@ enum CIRCUS_ERROR_TYPES : std::uint64_t {
 
 #undef ERROR_TYPE
 
-
-
 template <typename E>
 class reporter {
     using flag_type = circus::utils::enum_flag<E>;
