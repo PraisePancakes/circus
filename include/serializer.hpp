@@ -63,7 +63,7 @@ class serializer {
     template <std::size_t I, typename Arg>
     constexpr static auto make_pair_serializable(Arg &&arg) {
         if constexpr (!traits::PairSerializable<Arg>) {
-            return std::make_pair("entry" + std::to_string(I), std::forward<Arg>(arg));
+            return std::make_pair(circus::utils::num_to_string<I>::value, std::forward<Arg>(arg));
         } else {
             return std::forward<Arg>(arg);
         }

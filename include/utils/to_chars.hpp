@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 namespace circus::utils {
 namespace detail {
@@ -18,4 +19,8 @@ struct explode<0, digits...> : to_chars<digits...> {};
 }  // namespace detail
 template <unsigned num>
 struct num_to_string : detail::explode<num> {};
+
+constexpr bool strings_equal(char const* a, char const* b) {
+    return std::string_view(a) == b;
+}
 }  // namespace circus::utils
