@@ -16,16 +16,13 @@ class deserializer {
 
        public:
         circ_safe_proxy(circ_variable& v) : var(v) {};
-
         circ_safe_proxy operator[](const std::string& key) {
             return circ_safe_proxy(var[key]);
         };
-
-        // disable ct warning on ambiguous operator[] with std::string
+        // disable warning on ambiguous operator[] with const char*
         circ_safe_proxy operator[](const char* key) {
             return circ_safe_proxy(var[std::string(key)]);
         }
-
         template <typename T>
         operator T() {
             return std::get<T>(var.value);
@@ -39,8 +36,6 @@ class deserializer {
         std::vector<circus::tokens__> tokens = circus::lexer__{}(std::move(source));
         std::unordered_map<std::string, circ_variable> rt = circus::parser__{}(std::move(tokens));
         root = std::move(rt);
-        // this will be a root obj in which you can recursively search through via [] operators instead of a vector of circ_variable*
-        // circus::circ_variable var = parser__{}(std::move(tokens));
     };
 
     circ_safe_proxy operator[](const std::string& k) {

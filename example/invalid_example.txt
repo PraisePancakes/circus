@@ -1,18 +1,14 @@
 //got a comment here
 //and here
-{
-    //as well as here
-    :
-    $this : 423
-    "tis a string..."
-    
-    12342
+$root : {
+  x : 4,
+  $t : 3,
+  $c : 10
 }
 
 /*
 
     MULTILINE F IT!
-
     fsef is cool
 
 */

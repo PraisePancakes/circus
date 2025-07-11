@@ -13,7 +13,6 @@ struct circ_variable {
     typedef std::variant<char, std::string, int, float, double, std::vector<circ_variable>, std::unordered_map<std::string, circ_variable>> circ_type_var_t;
     std::string key;
     circ_type_var_t value;
-
     // recursively find key from root variable
     circ_variable& operator[](const std::string& key) {
         auto& m = std::get<std::unordered_map<std::string, circ_variable>>(value);
@@ -26,6 +25,7 @@ class parser__ {
 
     std::vector<tokens__> _in;
     std::size_t _curs;
+    circus::error::parser_reporter _reporter;
 
     [[nodiscard]] tokens__ f_peek_at(const std::size_t off) const noexcept {
         return _in[_curs + off];
@@ -115,29 +115,42 @@ class parser__ {
         return ret;
     }
 
+    circ_variable f_parse_value() {
+        circ_variable var = circ_variable();
+        var.key = f_previous().embedded;
+        if (f_match(TK::TK_COLON)) {
+            var.value = f_parse_primary();
+            if (!f_eof() && !check(TK::TK_CURL_R)) {
+                if (!f_match(TK::TK_COMMA)) {
+                    throw circus::error::parser_error(error_type::SYNTAX, "Missing Comma Seperator ");
+                }
+            }
+            return var;
+        }
+        throw circus::error::parser_error(error_type::SYNTAX, "Missing Colon Operator ");
+    };
+
+    circ_variable f_parse_identifier() {
+        if (f_match(TK::TK_IDENTIFIER)) {
+            return f_parse_value();
+        }
+        throw circus::error::parser_error(error_type::SYNTAX, "Missing Identifier ");
+    };
+
     circ_variable f_parse_decl() {
         if (!f_eof() && f_match(TK::TK_DOLLA)) {
-            if (f_match(TK::TK_IDENTIFIER)) {
-                circ_variable var = circ_variable();
-                var.key = f_previous().embedded;
-                if (f_match(TK::TK_COLON)) {
-                    var.value = f_parse_primary();
-                    if (!f_eof() && !check(TK::TK_CURL_R)) {
-                        if (!f_match(TK::TK_COMMA)) {
-                            throw circus::error::parser_error(error_type::SYNTAX, "Missing Comma Seperator ");
-                        }
-                    }
-                    return var;
-                }
-                throw circus::error::parser_error(error_type::SYNTAX, "Missing Colon Operator ");
-            }
-            throw circus::error::parser_error(error_type::SYNTAX, "Missing Identifier ");
+            return f_parse_identifier();
         };
         throw circus::error::parser_error(error_type::SYNTAX, "Missing Declaration Specifier '$' ");
-        return {};
     }
 
-    circus::error::parser_reporter _reporter;
+    void f_sync() {
+        if (!f_eof()) f_advance();
+        while (!f_eof()) {
+            if (check(TK::TK_DOLLA)) return;
+            f_advance();
+        }
+    };
 
     std::unordered_map<std::string, circ_variable> f_parse() {
         std::unordered_map<std::string, circ_variable> ret{};
@@ -148,12 +161,10 @@ class parser__ {
                 auto v = f_parse_decl();
                 ret.insert(std::make_pair(v.key, v));
             } catch (circus::error::parser_error& error) {
-                // sync
-                f_advance();
-                _reporter.report(error.type_of, error.what(), f_peek().location);
+                _reporter.report(error.type_of, error.what(), f_previous().location);
+                f_sync();
             }
         }
-
         _reporter.log_errors();
         return ret;
     }

@@ -52,7 +52,7 @@ class parser_reporter {
     }
 
     void report(const flag_type& type, const std::string& message, std::pair<std::size_t, std::size_t> location) noexcept {
-        std::string out = "[CIRCUS][PARSER_ERROR] " + message + to_stringized_types(type.flags) + " " + std::to_string(location.first) + " : " + std::to_string(location.second);
+        std::string out = "[CIRCUS][PARSER_ERROR][" + to_stringized_types(type.flags) + "] " + message + " at (" + std::to_string(location.first) + " : " + std::to_string(location.second) + ")";
         error_log_stack.push(out);
     }
 

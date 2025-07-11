@@ -7,7 +7,7 @@
 namespace circus::testing::deserialization {
 
 void test_deserializer() {
-    std::ifstream ifs{"example/valid_example.txt"};
+    std::ifstream ifs{"example/invalid_example.txt"};
 
     if (ifs.good()) {
         circus::deserializer dearch(ifs);
