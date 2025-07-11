@@ -154,6 +154,7 @@ class parser__ {
 
     std::unordered_map<std::string, circ_variable> f_parse() {
         std::unordered_map<std::string, circ_variable> ret{};
+        bool had_error = false;
         while (!f_eof()) {
             try {
                 if (check(TK::TK_CURL_R))
@@ -163,9 +164,13 @@ class parser__ {
             } catch (circus::error::parser_error& error) {
                 _reporter.report(error.type_of, error.what(), f_previous().location);
                 f_sync();
+                had_error = true;
             }
         }
         _reporter.log_errors();
+        if (had_error) {
+            throw std::runtime_error("halted execution due to parser incomprehension, revise circ source input");
+        }
         return ret;
     }
 
