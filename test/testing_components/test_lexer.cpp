@@ -1,8 +1,7 @@
 
 #include <doctest/doctest.h>
 
-#include "../../include/lexer.hpp"  // Adjust path if needed
-
+#include "../../include/circus.hpp"
 TEST_CASE("circus::lexer__ basic tokenization") {
     using namespace circus;
 

@@ -4,8 +4,7 @@
 #include <algorithm>
 #include <array>
 
-#include "../../include/utils/cxpr_stream.hpp"
-#include "../../include/utils/enum_flag.hpp"
+#include "../../include/circus.hpp"
 
 namespace circus::testing::utilities {
 constexpr static std::string_view s1 = "hi";

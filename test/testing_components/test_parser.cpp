@@ -3,10 +3,7 @@
 
 #include <fstream>
 #include <sstream>
-
-#include "../../include/lexer.hpp"
-#include "../../include/parser.hpp"  // Adjust if path differs
-#include "../../include/reader.hpp"
+#include "../../include/circus.hpp"
 
 TEST_CASE("circus::parser__ invalid source input") {
     using namespace circus;

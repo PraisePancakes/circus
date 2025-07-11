@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "../../include/serializer.hpp"
+#include "../../include/circus.hpp"
 
 namespace circus::testing::serialization {
 namespace private_subjects {
@@ -36,7 +36,7 @@ struct T {
 };
 }  // namespace private_subjects
 
-TEST_CASE("circus::serializer basic serialization") {
+TEST_CASE("circus::serializer basic serialization operator()") {
     private_subjects::T t(5555, 5555);
     int x = 3;
     std::vector<int> vec{0, 1, 2, 3, 4};
@@ -46,6 +46,27 @@ TEST_CASE("circus::serializer basic serialization") {
 
     circus::serializer archive(oss);
     archive(CIRCUS_ENTRY(t), CIRCUS_ENTRY(x), CIRCUS_ENTRY(vec));
+
+    // The output should not be empty
+    std::string serialized = oss.str();
+    CHECK(!serialized.empty());
+
+    // Optionally, check if some expected substrings appear
+    CHECK(serialized.find("5555") != std::string::npos);
+    CHECK(serialized.find("3") != std::string::npos);
+    CHECK(serialized.find("0") != std::string::npos);
+}
+
+TEST_CASE("circus::serializer basic serialization operator<<") {
+    private_subjects::T t(5555, 5555);
+    int x = 3;
+    std::vector<int> vec{0, 1, 2, 3, 4};
+
+    // Use a stringstream instead of a real file for test isolation
+    std::ostringstream oss;
+
+    circus::serializer archive(oss);
+    archive << CIRCUS_ENTRY(t) << CIRCUS_ENTRY(x) << CIRCUS_ENTRY(vec);
 
     // The output should not be empty
     std::string serialized = oss.str();

@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "../../include/deserializer.hpp"
+#include "../../include/circus.hpp"
 
 TEST_CASE("circus::deserializer valid source input") {
     using namespace circus;

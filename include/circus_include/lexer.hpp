@@ -5,7 +5,7 @@
 #include <variant>
 #include <vector>
 
-#include "../debug/debug.hpp"
+#include "../../debug/debug.hpp"
 #include "circus_traits.hpp"
 #include "reader.hpp"
 #include "token.hpp"

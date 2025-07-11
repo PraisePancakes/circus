@@ -52,6 +52,7 @@ add_executable(testing
   test/testing_components/test_lexer.cpp
   test/testing_components/test_utils.cpp
   test/testing_components/test_parser.cpp
+  test/testing_components/test_serializer.cpp
 )
 target_link_libraries(testing PRIVATE doctest)
 target_compile_features(testing PUBLIC cxx_std_20)
