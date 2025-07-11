@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <iostream>
+#include <vector>
 
 namespace circus::traits {
 template <typename Ts, typename... Us>

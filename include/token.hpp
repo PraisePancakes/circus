@@ -8,7 +8,7 @@ namespace circus {
 struct tokens__ {
     // https://stackoverflow.com/questions/1801363/c-c-any-way-to-get-reflective-enums
 #define TOKEN_DEFs                     \
-    TOKEN_DEF(TK_QUOTE_DOUBLE, '"')    \
+    TOKEN_DEF(TK_QUOTE_DOUBLE, '\"')    \
     TOKEN_DEF(TK_PAREN_L, '(')         \
     TOKEN_DEF(TK_PAREN_R, ')')         \
     TOKEN_DEF(TK_COMMA, ',')           \

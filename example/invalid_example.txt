@@ -1,8 +1,8 @@
 //got a comment here
 //and here
-$root : {
+$root  {
   $x : 4,
-  $t : 3,
+  t : 3,
   $c : 10
 }
 

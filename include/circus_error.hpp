@@ -16,7 +16,7 @@ enum CIRCUS_ERROR_TYPES : std::uint64_t {
 };
 #undef ERROR_TYPE
 #define ERROR_TYPE(NAME) #NAME
-const char* REFLECTED_ERROR_MAP[]{
+inline const char* REFLECTED_ERROR_MAP[]{
     ERROR_TYPEs};
 #undef ERROR_TYPE
 
@@ -79,8 +79,6 @@ class parser_reporter {
 
     ~parser_reporter() = default;
 };
-
-};  // namespace circus::error
 template <typename E>
     requires std::is_enum_v<E>
 constexpr E operator|(E lhs, E rhs) {
@@ -101,3 +99,4 @@ constexpr E operator~(E val) {
     using U = std::underlying_type_t<E>;
     return static_cast<E>(~static_cast<U>(val));
 }
+};  // namespace circus::error

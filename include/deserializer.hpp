@@ -23,6 +23,12 @@ class deserializer {
         circ_safe_proxy operator[](const char* key) {
             return circ_safe_proxy(var[std::string(key)]);
         }
+
+        template <typename T>
+        T& value() {
+            return std::get<T>(var.value);
+        }
+
         template <typename T>
         operator T() {
             return std::get<T>(var.value);

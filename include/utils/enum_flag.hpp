@@ -63,25 +63,25 @@ class enum_flag {
     ~enum_flag() = default;
 };
 
+}  // namespace circus::utils
+
 template <typename E>
-    requires traits::Flaggable<E>
+    requires circus::traits::Flaggable<E>
 constexpr E operator|(E lhs, E rhs) {
     using U = std::underlying_type_t<E>;
     return static_cast<E>(static_cast<U>(lhs) | static_cast<U>(rhs));
 }
 
 template <typename E>
-    requires traits::Flaggable<E>
+    requires circus::traits::Flaggable<E>
 constexpr E operator&(E lhs, E rhs) {
     using U = std::underlying_type_t<E>;
     return static_cast<E>(static_cast<U>(lhs) & static_cast<U>(rhs));
 }
 
 template <typename E>
-    requires traits::Flaggable<E>
+    requires circus::traits::Flaggable<E>
 constexpr E operator~(E val) {
     using U = std::underlying_type_t<E>;
     return static_cast<E>(~static_cast<U>(val));
 }
-
-}  // namespace circus::utils

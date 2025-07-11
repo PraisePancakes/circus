@@ -1,4 +1,6 @@
-#pragma once
+
+#include <doctest/doctest.h>
+
 #include <algorithm>
 #include <array>
 
@@ -20,13 +22,16 @@ enum class E : std::uint32_t {
     CAR = 1 << 3
 };
 
-void test_enum_flag() {
+TEST_CASE("enum_flag basic functionality") {
     using ft = circus::utils::enum_flag<E>;
+    using namespace circus::utils;  // bring operators in scope
+
     ft flagger;
 
     flagger = (ft::enum_type::UNKNOWN | ft::enum_type::FOO);
-    std::cout << flagger.has_any(ft::enum_type::BAR, ft::enum_type::CAR)
-              << std::endl;
-};
+
+    CHECK_FALSE(flagger.has_any(ft::enum_type::BAR, ft::enum_type::CAR));
+    CHECK(flagger.has_any(ft::enum_type::UNKNOWN, ft::enum_type::FOO));
+}
 
 }  // namespace circus::testing::utilities
