@@ -1,0 +1,81 @@
+\doxysection{circus\+::lexer\+\_\+\+\_\+ Class Reference}
+\hypertarget{classcircus_1_1lexer____}{}\label{classcircus_1_1lexer____}\index{circus::lexer\_\_@{circus::lexer\_\_}}
+
+
+Lexer for tokenizing input strings into Circus tokens.  
+
+
+
+
+{\ttfamily \#include $<$lexer.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcircus_1_1lexer_____aea6252eb393a8d729abbc5dc398f7499}\label{classcircus_1_1lexer_____aea6252eb393a8d729abbc5dc398f7499} 
+{\bfseries lexer\+\_\+\+\_\+} () noexcept
+\begin{DoxyCompactList}\small\item\em Default constructor. Initializes internal state. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structcircus_1_1tokens____}{tokens\+\_\+\+\_\+}} $>$ \mbox{\hyperlink{classcircus_1_1lexer_____afa92dd2c128cae93c5c4c14ec8be5a84}{operator()}} (const std\+::string \&input) noexcept
+\begin{DoxyCompactList}\small\item\em Lex an input string and return tokens. \end{DoxyCompactList}\item 
+\Hypertarget{classcircus_1_1lexer_____aad15c161324c42a9ecfa7fe411594563}\label{classcircus_1_1lexer_____aad15c161324c42a9ecfa7fe411594563} 
+{\bfseries lexer\+\_\+\+\_\+} (\mbox{\hyperlink{classcircus_1_1lexer____}{lexer\+\_\+\+\_\+}} \&\&other)=default
+\item 
+\Hypertarget{classcircus_1_1lexer_____a330b45924a8c39f9c58d31c50bdbcf3c}\label{classcircus_1_1lexer_____a330b45924a8c39f9c58d31c50bdbcf3c} 
+{\bfseries lexer\+\_\+\+\_\+} (const \mbox{\hyperlink{classcircus_1_1lexer____}{lexer\+\_\+\+\_\+}} \&other)=default
+\item 
+\Hypertarget{classcircus_1_1lexer_____ab6ec319e1a700c6565add97b3795f44d}\label{classcircus_1_1lexer_____ab6ec319e1a700c6565add97b3795f44d} 
+\mbox{\hyperlink{classcircus_1_1lexer____}{lexer\+\_\+\+\_\+}} \& {\bfseries operator=} (const \mbox{\hyperlink{classcircus_1_1lexer____}{lexer\+\_\+\+\_\+}} \&other)=default
+\item 
+const std\+::string \& \mbox{\hyperlink{classcircus_1_1lexer_____a75d9dad411a83dd147653cec746579b3}{get\+\_\+input}} () const
+\begin{DoxyCompactList}\small\item\em Get the input string currently being lexed. \end{DoxyCompactList}\item 
+\Hypertarget{classcircus_1_1lexer_____addd46d35c9a465d0e60b336228bc9a41}\label{classcircus_1_1lexer_____addd46d35c9a465d0e60b336228bc9a41} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}lexer\+\_\+\+\_\+} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Lexer for tokenizing input strings into Circus tokens. 
+
+This class processes an input string and produces a vector of tokens representing literals, identifiers, reserved symbols, and comments.
+
+It maintains internal cursor position tracking for line and column. 
+
+\label{doc-func-members}
+\Hypertarget{classcircus_1_1lexer_____doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcircus_1_1lexer_____a75d9dad411a83dd147653cec746579b3}\index{circus::lexer\_\_@{circus::lexer\_\_}!get\_input@{get\_input}}
+\index{get\_input@{get\_input}!circus::lexer\_\_@{circus::lexer\_\_}}
+\doxysubsubsection{\texorpdfstring{get\_input()}{get\_input()}}
+{\footnotesize\ttfamily \label{classcircus_1_1lexer_____a75d9dad411a83dd147653cec746579b3} 
+const std\+::string \& circus\+::lexer\+\_\+\+\_\+\+::get\+\_\+input (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the input string currently being lexed. 
+
+\begin{DoxyReturn}{Returns}
+Reference to input string. 
+\end{DoxyReturn}
+\Hypertarget{classcircus_1_1lexer_____afa92dd2c128cae93c5c4c14ec8be5a84}\index{circus::lexer\_\_@{circus::lexer\_\_}!operator()@{operator()}}
+\index{operator()@{operator()}!circus::lexer\_\_@{circus::lexer\_\_}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily \label{classcircus_1_1lexer_____afa92dd2c128cae93c5c4c14ec8be5a84} 
+std\+::vector$<$ \mbox{\hyperlink{structcircus_1_1tokens____}{tokens\+\_\+\+\_\+}} $>$ circus\+::lexer\+\_\+\+\_\+\+::operator() (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{input}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+
+Lex an input string and return tokens. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Input string to lex. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector of tokens. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Circus/include/circus\+\_\+include/\mbox{\hyperlink{lexer_8hpp}{lexer.\+hpp}}\end{DoxyCompactItemize}

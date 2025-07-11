@@ -1,0 +1,22 @@
+\doxysection{circus\+::traits\+::In\+Stream Concept Reference}
+\hypertarget{conceptcircus_1_1traits_1_1_in_stream}{}\label{conceptcircus_1_1traits_1_1_in_stream}\index{circus::traits::InStream@{circus::traits::InStream}}
+
+
+Concept that checks if a type can be used as an input stream.  
+
+
+
+
+{\ttfamily \#include $<$circus\+\_\+traits.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_in_stream}{circus::traits::InStream}}\ =\ \ std::is\_convertible\_v<T,\ std::istream\ \&>}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+Concept that checks if a type can be used as an input stream. 

@@ -1,0 +1,151 @@
+\doxysection{circus\+::tokens\+\_\+\+\_\+ Struct Reference}
+\hypertarget{structcircus_1_1tokens____}{}\label{structcircus_1_1tokens____}\index{circus::tokens\_\_@{circus::tokens\_\_}}
+
+
+Represents a lexical token with type, literal value, and source location.  
+
+
+
+
+{\ttfamily \#include $<$token.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structcircus_1_1tokens_____a5d0b5c6d98214c0a9184a6d0ba264bb8}\label{structcircus_1_1tokens_____a5d0b5c6d98214c0a9184a6d0ba264bb8} 
+enum {\bfseries TYPE} \+: unsigned char \{ {\bfseries TOKEN\+\_\+\+DEFs}
+ \}
+\item 
+\Hypertarget{structcircus_1_1tokens_____a72a9e4cac7be37394396a4e3f4729ea7}\label{structcircus_1_1tokens_____a72a9e4cac7be37394396a4e3f4729ea7} 
+using {\bfseries literal\+\_\+variant\+\_\+t} = std\+::variant$<$char, std\+::string, int, float, double$>$
+\begin{DoxyCompactList}\small\item\em Variant type to hold possible literal values of tokens. \end{DoxyCompactList}\item 
+\Hypertarget{structcircus_1_1tokens_____a72da821a91e85fad5fd8abb8214afc8a}\label{structcircus_1_1tokens_____a72da821a91e85fad5fd8abb8214afc8a} 
+using {\bfseries location\+\_\+t} = std\+::pair$<$std\+::size\+\_\+t, std\+::size\+\_\+t$>$
+\begin{DoxyCompactList}\small\item\em Type representing the token location as (row, column) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structcircus_1_1tokens_____aed5d8a91c3fe40bef02685fb4748aa93}\label{structcircus_1_1tokens_____aed5d8a91c3fe40bef02685fb4748aa93} 
+void {\bfseries print\+\_\+token} () const noexcept
+\begin{DoxyCompactList}\small\item\em Prints the token details to standard output. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structcircus_1_1tokens_____a9fcf8a7233de48b3f1453eed844316b1}{tokens\+\_\+\+\_\+}} (TYPE type, std\+::string \mbox{\hyperlink{structcircus_1_1tokens_____a41b8046a43e3498621c19278ab31a726}{embedded}}, \mbox{\hyperlink{structcircus_1_1tokens_____a72a9e4cac7be37394396a4e3f4729ea7}{literal\+\_\+variant\+\_\+t}} lit, \mbox{\hyperlink{structcircus_1_1tokens_____a72da821a91e85fad5fd8abb8214afc8a}{location\+\_\+t}} loc)
+\begin{DoxyCompactList}\small\item\em Constructor to create a token instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structcircus_1_1tokens_____ae971f90c3a0d58c3657132ffabf3ca11}{to\+\_\+string}} (TYPE type) noexcept
+\begin{DoxyCompactList}\small\item\em Get string representation of token enum name. \end{DoxyCompactList}\item 
+static constexpr const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{structcircus_1_1tokens_____abc7b84071cc45098d00252438e57f5fa}{to\+\_\+stringized}} (TYPE type) noexcept
+\begin{DoxyCompactList}\small\item\em Get string representation of token literal value. \end{DoxyCompactList}\item 
+static constexpr std\+::string \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{to\+\_\+literal}} (TYPE type) noexcept
+\begin{DoxyCompactList}\small\item\em Convert the token literal to a std\+::string without surrounding quotes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structcircus_1_1tokens_____a6d29e170e5cb20f63fd4b0169a8c761c}\label{structcircus_1_1tokens_____a6d29e170e5cb20f63fd4b0169a8c761c} 
+TYPE {\bfseries \+\_\+token\+\_\+type}
+\begin{DoxyCompactList}\small\item\em The type of the token. \end{DoxyCompactList}\item 
+\Hypertarget{structcircus_1_1tokens_____a41b8046a43e3498621c19278ab31a726}\label{structcircus_1_1tokens_____a41b8046a43e3498621c19278ab31a726} 
+std\+::string {\bfseries embedded}
+\begin{DoxyCompactList}\small\item\em The embedded string representing the token as read from the source. \end{DoxyCompactList}\item 
+\Hypertarget{structcircus_1_1tokens_____ab08f2c99d113a6852fb43b9b7695121d}\label{structcircus_1_1tokens_____ab08f2c99d113a6852fb43b9b7695121d} 
+\mbox{\hyperlink{structcircus_1_1tokens_____a72a9e4cac7be37394396a4e3f4729ea7}{literal\+\_\+variant\+\_\+t}} {\bfseries literal}
+\begin{DoxyCompactList}\small\item\em The literal value held by the token. \end{DoxyCompactList}\item 
+\Hypertarget{structcircus_1_1tokens_____a35556ca30deda446923cc536d556bb48}\label{structcircus_1_1tokens_____a35556ca30deda446923cc536d556bb48} 
+\mbox{\hyperlink{structcircus_1_1tokens_____a72da821a91e85fad5fd8abb8214afc8a}{location\+\_\+t}} {\bfseries location}
+\begin{DoxyCompactList}\small\item\em The location of the token in source as (row, column) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a lexical token with type, literal value, and source location. 
+
+This struct defines the set of token types (using an enum), and stores the literal value associated with the token, its embedded string form, and its source location (row, column). 
+
+\label{doc-constructors}
+\Hypertarget{structcircus_1_1tokens_____doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structcircus_1_1tokens_____a9fcf8a7233de48b3f1453eed844316b1}\index{circus::tokens\_\_@{circus::tokens\_\_}!tokens\_\_@{tokens\_\_}}
+\index{tokens\_\_@{tokens\_\_}!circus::tokens\_\_@{circus::tokens\_\_}}
+\doxysubsubsection{\texorpdfstring{tokens\_\_()}{tokens\_\_()}}
+{\footnotesize\ttfamily \label{structcircus_1_1tokens_____a9fcf8a7233de48b3f1453eed844316b1} 
+circus\+::tokens\+\_\+\+\_\+\+::tokens\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{TYPE}]{type}{, }\item[{std\+::string}]{embedded}{, }\item[{\mbox{\hyperlink{structcircus_1_1tokens_____a72a9e4cac7be37394396a4e3f4729ea7}{literal\+\_\+variant\+\_\+t}}}]{lit}{, }\item[{\mbox{\hyperlink{structcircus_1_1tokens_____a72da821a91e85fad5fd8abb8214afc8a}{location\+\_\+t}}}]{loc}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor to create a token instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Token type enum \\
+\hline
+{\em embedded} & String representing the token \\
+\hline
+{\em lit} & Literal value of the token \\
+\hline
+{\em loc} & Source location as (row, column) \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{structcircus_1_1tokens_____doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}\index{circus::tokens\_\_@{circus::tokens\_\_}!to\_literal@{to\_literal}}
+\index{to\_literal@{to\_literal}!circus::tokens\_\_@{circus::tokens\_\_}}
+\doxysubsubsection{\texorpdfstring{to\_literal()}{to\_literal()}}
+{\footnotesize\ttfamily \label{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877} 
+constexpr std\+::string circus\+::tokens\+\_\+\+\_\+\+::to\+\_\+literal (\begin{DoxyParamCaption}\item[{TYPE}]{type}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+Convert the token literal to a std\+::string without surrounding quotes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Token type enum value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\+::string Token literal without quotes 
+\end{DoxyReturn}
+\Hypertarget{structcircus_1_1tokens_____ae971f90c3a0d58c3657132ffabf3ca11}\index{circus::tokens\_\_@{circus::tokens\_\_}!to\_string@{to\_string}}
+\index{to\_string@{to\_string}!circus::tokens\_\_@{circus::tokens\_\_}}
+\doxysubsubsection{\texorpdfstring{to\_string()}{to\_string()}}
+{\footnotesize\ttfamily \label{structcircus_1_1tokens_____ae971f90c3a0d58c3657132ffabf3ca11} 
+constexpr const char \texorpdfstring{$\ast$}{*} circus\+::tokens\+\_\+\+\_\+\+::to\+\_\+string (\begin{DoxyParamCaption}\item[{TYPE}]{type}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+Get string representation of token enum name. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Token type enum value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+const char\texorpdfstring{$\ast$}{*} Token name as string 
+\end{DoxyReturn}
+\Hypertarget{structcircus_1_1tokens_____abc7b84071cc45098d00252438e57f5fa}\index{circus::tokens\_\_@{circus::tokens\_\_}!to\_stringized@{to\_stringized}}
+\index{to\_stringized@{to\_stringized}!circus::tokens\_\_@{circus::tokens\_\_}}
+\doxysubsubsection{\texorpdfstring{to\_stringized()}{to\_stringized()}}
+{\footnotesize\ttfamily \label{structcircus_1_1tokens_____abc7b84071cc45098d00252438e57f5fa} 
+constexpr const char \texorpdfstring{$\ast$}{*} circus\+::tokens\+\_\+\+\_\+\+::to\+\_\+stringized (\begin{DoxyParamCaption}\item[{TYPE}]{type}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+Get string representation of token literal value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Token type enum value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+const char\texorpdfstring{$\ast$}{*} Token literal as string 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Circus/include/circus\+\_\+include/token.\+hpp\end{DoxyCompactItemize}

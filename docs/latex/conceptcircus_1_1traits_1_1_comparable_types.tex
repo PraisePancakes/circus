@@ -1,0 +1,22 @@
+\doxysection{circus\+::traits\+::Comparable\+Types Concept Reference}
+\hypertarget{conceptcircus_1_1traits_1_1_comparable_types}{}\label{conceptcircus_1_1traits_1_1_comparable_types}\index{circus::traits::ComparableTypes@{circus::traits::ComparableTypes}}
+
+
+Concept that checks if all types match a given type.  
+
+
+
+
+{\ttfamily \#include $<$circus\+\_\+traits.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ TypeComparablePolicy,\ \textcolor{keyword}{typename}...\ Ts>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_comparable_types}{circus::traits::ComparableTypes}}\ =\ \ (std::is\_same\_v<TypeComparablePolicy,\ Ts>\ \&\&\ ...)}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+Concept that checks if all types match a given type. 

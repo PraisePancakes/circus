@@ -1,0 +1,57 @@
+\doxysection{deserializer.\+hpp}
+\hypertarget{deserializer_8hpp_source}{}\label{deserializer_8hpp_source}\index{Circus/include/circus\_include/deserializer.hpp@{Circus/include/circus\_include/deserializer.hpp}}
+\mbox{\hyperlink{deserializer_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{lexer_8hpp}{lexer.hpp}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}parser.hpp"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }circus\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ IStreamT>}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{requires}(std::is\_base\_of\_v<std::istream,\ IStreamT>)}
+\DoxyCodeLine{00024\ \textcolor{keyword}{class}\ \mbox{\hyperlink{classcircus_1_1deserializer_aea3c9aee0aff160bc52313f155a9ba7a}{deserializer}}\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ std::unordered\_map<std::string,\ circ\_variable>\ root;}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{class\ }circ\_safe\_proxy\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\_variable}}\&\ var;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ circ\_safe\_proxy(\mbox{\hyperlink{structcircus_1_1circ__variable}{circ\_variable}}\&\ v)\ :\ var(v)\ \{\};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ circ\_safe\_proxy\ \mbox{\hyperlink{classcircus_1_1deserializer_ac772a1e3a326fb8e05a1584e470e831c}{operator[]}}(\textcolor{keyword}{const}\ std::string\&\ key)\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ circ\_safe\_proxy(var[key]);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ circ\_safe\_proxy\ \mbox{\hyperlink{classcircus_1_1deserializer_ac772a1e3a326fb8e05a1584e470e831c}{operator[]}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ key)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ circ\_safe\_proxy(var[std::string(key)]);}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ T\&\ value()\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::get<T>(var.\mbox{\hyperlink{structcircus_1_1circ__variable_a98ad133212607a54f46ab38d64a870e6}{value}});}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keyword}{operator}\ T()\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::get<T>(var.\mbox{\hyperlink{structcircus_1_1circ__variable_a98ad133212607a54f46ab38d64a870e6}{value}});}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{using\ }circ\_object\ =\ std::unordered\_map<std::string,\ circ\_variable>;}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00089\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1deserializer_aea3c9aee0aff160bc52313f155a9ba7a}{deserializer}}(IStreamT\&\ is)\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ std::string\ source\ =\ \mbox{\hyperlink{classcircus_1_1filesystem_1_1reader____}{circus::filesystem::reader\_\_}}\{\}(is);}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ std::vector<circus::tokens\_\_>\ tokens\ =\ \mbox{\hyperlink{classcircus_1_1lexer____}{circus::lexer\_\_}}\{\}(std::move(source));}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ std::unordered\_map<std::string,\ circ\_variable>\ rt\ =\ \mbox{\hyperlink{classcircus_1_1parser____}{circus::parser\_\_}}\{\}(std::move(tokens));}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ root\ =\ std::move(rt);}
+\DoxyCodeLine{00094\ \ \ \ \ \};}
+\DoxyCodeLine{00098\ \ \ \ \ circ\_safe\_proxy\ \mbox{\hyperlink{classcircus_1_1deserializer_ac772a1e3a326fb8e05a1584e470e831c}{operator[]}}(\textcolor{keyword}{const}\ std::string\&\ k)\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ circ\_safe\_proxy(root[k]);}
+\DoxyCodeLine{00100\ \ \ \ \ \};}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1deserializer}{\string~deserializer}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00103\ \};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \}\ \ \textcolor{comment}{//\ namespace\ circus}}
+
+\end{DoxyCode}

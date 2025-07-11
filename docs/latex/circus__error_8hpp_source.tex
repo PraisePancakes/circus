@@ -1,0 +1,105 @@
+\doxysection{circus\+\_\+error.\+hpp}
+\hypertarget{circus__error_8hpp_source}{}\label{circus__error_8hpp_source}\index{Circus/include/circus\_include/circus\_error.hpp@{Circus/include/circus\_include/circus\_error.hpp}}
+\mbox{\hyperlink{circus__error_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <stack>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{circus__traits_8hpp}{circus\_traits.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{enum__flag_8hpp}{utils/enum\_flag.hpp}}"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }circus::error\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ ERROR\_TYPE(NAME)\ NAME}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ ERROR\_TYPEs\ \(\backslash\)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ ERROR\_TYPE(SYNTAX)}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{enum}\ CIRCUS\_ERROR\_TYPES\ :\ std::uint64\_t\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ ERROR\_TYPEs}
+\DoxyCodeLine{00030\ \};}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#undef\ ERROR\_TYPE}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ ERROR\_TYPE(NAME)\ \#NAME}}
+\DoxyCodeLine{00036\ \textcolor{keyword}{inline}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ REFLECTED\_ERROR\_MAP[]\{}
+\DoxyCodeLine{00037\ \ \ \ \ ERROR\_TYPEs\};}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#undef\ ERROR\_TYPE}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{class\ }\mbox{\hyperlink{group___parser_errors_ga0042e7d834b7b2e24ece80fc783e8abf}{parser\_error}}\ :\ \textcolor{keyword}{public}\ std::runtime\_error\ \{}
+\DoxyCodeLine{00045\ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{using\ }flag\_type\ =\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus::utils::enum\_flag<CIRCUS\_ERROR\_TYPES>}};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{using\ }enum\_type\ =\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ad90188e88d26edc2b5180f7285cafead}{flag\_type::enum\_type}};}
+\DoxyCodeLine{00049\ \ \ \ \ flag\_type\ \mbox{\hyperlink{group___parser_errors_gabc5e540d42938c3abee80f11a6827af8}{type\_of}};}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{group___parser_errors_ga0042e7d834b7b2e24ece80fc783e8abf}{parser\_error}}(flag\_type\ E,\ \textcolor{keyword}{const}\ std::string\&\ what)\ :\ std::runtime\_error(what),\ \mbox{\hyperlink{group___parser_errors_gabc5e540d42938c3abee80f11a6827af8}{type\_of}}(E)\ \{\};}
+\DoxyCodeLine{00056\ \};}
+\DoxyCodeLine{00061\ \textcolor{keyword}{class\ }parser\_reporter\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{using\ }flag\_type\ =\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus::utils::enum\_flag<CIRCUS\_ERROR\_TYPES>}};}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{using\ }underlying\_type\ =\ std::underlying\_type\_t<flag\_type::enum\_type>;}
+\DoxyCodeLine{00064\ \ \ \ \ std::stack<std::string>\ error\_log\_stack;}
+\DoxyCodeLine{00065\ \ \ \ \ std::stack<std::string>\ temp;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ match\_and\_ret(\textcolor{keyword}{const}\ underlying\_type\&\ from,\ \textcolor{keyword}{const}\ underlying\_type\&\ to)\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ((from\ \&\ to)\ ==\ to)\ ?\ REFLECTED\_ERROR\_MAP[from]\ :\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00075\ \ \ \ \ \};}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ to\_stringized\_types(\textcolor{keyword}{const}\ underlying\_type\&\ type)\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ std::string\ ret\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ ret\ +=\ match\_and\_ret(type,\ error::SYNTAX);}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret.empty()\ ?\ \textcolor{stringliteral}{"{}UNKNOWN"{}}\ :\ ret;}
+\DoxyCodeLine{00085\ \ \ \ \ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00088\ \ \ \ \ parser\_reporter()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00094\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{group___parser_errors_ga47fbde662934e4bec7765b7e7277025f}{empty}}()\ const\ noexcept\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ error\_log\_stack.empty();}
+\DoxyCodeLine{00096\ \ \ \ \ \}}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group___parser_errors_ga1921dcaa53859e2a8f34f67526e48980}{report}}(\textcolor{keyword}{const}\ flag\_type\&\ type,\ \textcolor{keyword}{const}\ std::string\&\ message,\ std::pair<std::size\_t,\ std::size\_t>\ location)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ std::string\ out\ =\ \textcolor{stringliteral}{"{}[CIRCUS][PARSER\_ERROR]["{}}\ +\ to\_stringized\_types(type.flags)\ +\ \textcolor{stringliteral}{"{}]\ "{}}\ +\ message\ +\ \textcolor{stringliteral}{"{}\ at\ ("{}}\ +\ std::to\_string(location.first)\ +\ \textcolor{stringliteral}{"{}\ :\ "{}}\ +\ std::to\_string(location.second)\ +\ \textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ error\_log\_stack.push(out);}
+\DoxyCodeLine{00106\ \ \ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group___parser_errors_gae8e2203a393f23ca6e94a3007feb6851}{log\_errors}}()\ noexcept\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!error\_log\_stack.empty())\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ top\ =\ error\_log\_stack.top();}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ std::clog\ <<\ top\ <<\ std::endl;}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ temp.push(top);}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log\_stack.pop();}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!temp.empty())\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ top\ =\ temp.top();}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log\_stack.push(top);}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ temp.pop();}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00123\ \ \ \ \ \}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{group___parser_errors_ga32166b568d0f9674bed7e0e7f3f0e0c3}{flush\_errors}}()\ noexcept\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!error\_log\_stack.empty())\ \{}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log\_stack.pop();}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ \ \ \ \ \};}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1error_1_1parser__reporter}{\string~parser\_reporter}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00135\ \};}
+\DoxyCodeLine{00143\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ E>}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{requires}\ std::is\_enum\_v<E>}
+\DoxyCodeLine{00145\ \textcolor{keyword}{constexpr}\ E\ \mbox{\hyperlink{group___parser_errors_ga28b2f5b4b72c5cd2af41b9888d00f4c3}{operator|}}(E\ lhs,\ E\ rhs)\ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keyword}{using\ }U\ =\ std::underlying\_type\_t<E>;}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}U\textcolor{keyword}{>}(lhs)\ |\ \textcolor{keyword}{static\_cast<}U\textcolor{keyword}{>}(rhs));}
+\DoxyCodeLine{00148\ \}}
+\DoxyCodeLine{00156\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ E>}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keyword}{requires}\ std::is\_enum\_v<E>}
+\DoxyCodeLine{00158\ \textcolor{keyword}{constexpr}\ E\ \mbox{\hyperlink{group___parser_errors_gaff01423d87f0967dac0cbfb0009bdd3a}{operator\&}}(E\ lhs,\ E\ rhs)\ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keyword}{using\ }U\ =\ std::underlying\_type\_t<E>;}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}U\textcolor{keyword}{>}(lhs)\ \&\ \textcolor{keyword}{static\_cast<}U\textcolor{keyword}{>}(rhs));}
+\DoxyCodeLine{00161\ \}}
+\DoxyCodeLine{00168\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ E>}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keyword}{requires}\ std::is\_enum\_v<E>}
+\DoxyCodeLine{00170\ \textcolor{keyword}{constexpr}\ E\ \mbox{\hyperlink{group___parser_errors_ga333e0973e6961fd36f2fda16cb13bb9e}{operator\string~}}(E\ val)\ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keyword}{using\ }U\ =\ std::underlying\_type\_t<E>;}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(\string~static\_cast<U>(val));}
+\DoxyCodeLine{00173\ \}}
+\DoxyCodeLine{00174\ \};\ \ \textcolor{comment}{//\ namespace\ circus::error}}
+\DoxyCodeLine{00175\ \ \ \textcolor{comment}{//\ end\ of\ ParserErrors\ group}}
+
+\end{DoxyCode}

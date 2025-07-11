@@ -1,0 +1,101 @@
+\doxysection{enum\+\_\+flag.\+hpp}
+\hypertarget{enum__flag_8hpp_source}{}\label{enum__flag_8hpp_source}\index{Circus/include/circus\_include/utils/enum\_flag.hpp@{Circus/include/circus\_include/utils/enum\_flag.hpp}}
+\mbox{\hyperlink{enum__flag_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{circus__traits_8hpp}{../circus\_traits.hpp}}"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }circus::utils\ \{}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{requires}(traits::Flaggable<T>)}
+\DoxyCodeLine{00025\ \textcolor{keyword}{class}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a2f81d376ace97a293b2a0226d7c66723}{enum\_flag}}\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{static\_assert}(\mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{traits::Flaggable<T>}},}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}T\ must\ be\ an\ enum\ with\ u32\ or\ u64\ underlying\ type"{}});}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ad90188e88d26edc2b5180f7285cafead}{enum\_type}}\ =\ T;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ac4c02a81ef8ce58a9a66a7cfc68fe330}{underlying\_type}}\ =\ \textcolor{keyword}{typename}\ std::underlying\_type<T>::type;\ \ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ac4c02a81ef8ce58a9a66a7cfc68fe330}{underlying\_type}}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a86fd13facea37adae5042f90e9069ec4}{flags}}\{0x00u\};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a2f81d376ace97a293b2a0226d7c66723}{enum\_flag}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a82adcb119e173d9734cafa9ad490ddad}{enum\_flag}}(T\ initial)\ :\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a86fd13facea37adae5042f90e9069ec4}{flags}}(static\_cast<\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ac4c02a81ef8ce58a9a66a7cfc68fe330}{underlying\_type}}>(initial))\ \{\};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a2f81d376ace97a293b2a0226d7c66723}{enum\_flag}}\ \&\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a66f3bd04efa189dc2419dc5d3d23da42}{operator=}}(T\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a86fd13facea37adae5042f90e9069ec4}{flags}})\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ *\textcolor{keyword}{this}\ |=\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a86fd13facea37adae5042f90e9069ec4}{flags}};}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00053\ \ \ \ \ \};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a2f81d376ace97a293b2a0226d7c66723}{enum\_flag}}\ \&\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a355de83f532e22b5c7d854badc37c898}{operator|=}}(T\ fs)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a86fd13facea37adae5042f90e9069ec4}{flags}}\ |=\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ac4c02a81ef8ce58a9a66a7cfc68fe330}{underlying\_type}}\textcolor{keyword}{>}(fs);}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00063\ \ \ \ \ \};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a2f81d376ace97a293b2a0226d7c66723}{enum\_flag}}\ \&\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ab5ab6e21b9c06cbb04e3374eee9f5af7}{operator\&=}}(T\ fs)\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a86fd13facea37adae5042f90e9069ec4}{flags}}\ \&=\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ac4c02a81ef8ce58a9a66a7cfc68fe330}{underlying\_type}}\textcolor{keyword}{>}(fs);}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00073\ \ \ \ \ \};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ U>}
+\DoxyCodeLine{00082\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a6290183159912e2ec6f2669d9e93861b}{has}}(U\ e)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}((\mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{traits::Flaggable<U>}}),\ \textcolor{stringliteral}{"{}Types\ must\ be\ flaggable"{}});}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}((std::is\_same\_v<U,\ enum\_type>),}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Types\ must\ match\ 'this'\ enum\ type"{}});}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ((\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a86fd13facea37adae5042f90e9069ec4}{flags}}\ \&\ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ac4c02a81ef8ce58a9a66a7cfc68fe330}{underlying\_type}}\textcolor{keyword}{>}(e))\ ==}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ac4c02a81ef8ce58a9a66a7cfc68fe330}{underlying\_type}}\textcolor{keyword}{>}(e));}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00097\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a1f81edffd924e34ece328a6821bfd27f}{has\_any}}(Args\ \&\&...args)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a6290183159912e2ec6f2669d9e93861b}{has}}(std::forward<Args>(args))\ ||\ ...);}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00108\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a954e16d376428931a4ca750f393da002}{has\_all}}(Args\ \&\&...args)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a6290183159912e2ec6f2669d9e93861b}{has}}(std::forward<Args>(args))\ \&\&\ ...);}
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ad75704feede4c6dde0e40ad794d21fc3}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a2f81d376ace97a293b2a0226d7c66723}{enum\_flag<T>}}\ \&other)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>flags\ ==\ other.flags;}
+\DoxyCodeLine{00115\ \ \ \ \ \}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a2dfc14f3f93f018a5319bfc3c92c8e60}{operator!=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a2f81d376ace97a293b2a0226d7c66723}{enum\_flag<T>}}\ \&other)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>flags\ !=\ other.flags;}
+\DoxyCodeLine{00120\ \ \ \ \ \}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a93dd27318f027df8a8ee66ef5526b041}{operator()}}()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a86fd13facea37adae5042f90e9069ec4}{flags}}\ !=\ 0;\ \};}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00129\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a167b52423704764f38af01f31db19925}{\string~enum\_flag}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00130\ \};}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \}\ \ \textcolor{comment}{//\ namespace\ circus::utils}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00141\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ E>}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keyword}{requires}\ \mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{circus::traits::Flaggable<E>}}}
+\DoxyCodeLine{00143\ \textcolor{keyword}{constexpr}\ E\ \mbox{\hyperlink{enum__flag_8hpp_acf56f077b40292ed1cff80e006603bf2}{operator|}}(E\ lhs,\ E\ rhs)\ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{using\ }U\ =\ std::underlying\_type\_t<E>;}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}U\textcolor{keyword}{>}(lhs)\ |\ \textcolor{keyword}{static\_cast<}U\textcolor{keyword}{>}(rhs));}
+\DoxyCodeLine{00146\ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00155\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ E>}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keyword}{requires}\ \mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{circus::traits::Flaggable<E>}}}
+\DoxyCodeLine{00157\ \textcolor{keyword}{constexpr}\ E\ \mbox{\hyperlink{enum__flag_8hpp_a25702958551e4f5c89663a12a6a8ce50}{operator\&}}(E\ lhs,\ E\ rhs)\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keyword}{using\ }U\ =\ std::underlying\_type\_t<E>;}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(\textcolor{keyword}{static\_cast<}U\textcolor{keyword}{>}(lhs)\ \&\ \textcolor{keyword}{static\_cast<}U\textcolor{keyword}{>}(rhs));}
+\DoxyCodeLine{00160\ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00168\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ E>}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keyword}{requires}\ \mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{circus::traits::Flaggable<E>}}}
+\DoxyCodeLine{00170\ \textcolor{keyword}{constexpr}\ E\ \mbox{\hyperlink{enum__flag_8hpp_ae026ffda5deb3c9ae77aee0ea016c43b}{operator\string~}}(E\ val)\ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keyword}{using\ }U\ =\ std::underlying\_type\_t<E>;}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}E\textcolor{keyword}{>}(\string~static\_cast<U>(val));}
+\DoxyCodeLine{00173\ \}}
+
+\end{DoxyCode}

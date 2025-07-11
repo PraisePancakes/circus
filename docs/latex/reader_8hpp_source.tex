@@ -1,0 +1,36 @@
+\doxysection{reader.\+hpp}
+\hypertarget{reader_8hpp_source}{}\label{reader_8hpp_source}\index{Circus/include/circus\_include/reader.hpp@{Circus/include/circus\_include/reader.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }circus::filesystem\ \{}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcircus_1_1filesystem_1_1reader_____a1907825ecf249b2ebdd90e7e726e9cb8}{reader\_\_}}\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ std::string\ \_contents;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1filesystem_1_1reader_____a1907825ecf249b2ebdd90e7e726e9cb8}{reader\_\_}}()\ :\ \_contents\{\}\ \{\};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00033\ \ \ \ \ std::string\ \mbox{\hyperlink{classcircus_1_1filesystem_1_1reader_____a4efb1bdc0e18cae93e1cb7e35a0976b8}{operator()}}(std::istream\ \&is)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ std::string\ contents((std::istreambuf\_iterator<char>(is)),}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::istreambuf\_iterator<char>());}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \_contents\ =\ std::move(contents);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_contents;}
+\DoxyCodeLine{00038\ \ \ \ \ \};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00045\ \ \ \ \ [[nodiscard]]\ std::size\_t\ \mbox{\hyperlink{classcircus_1_1filesystem_1_1reader_____a5a947eedfa2c38ad91017136ad8ade03}{size}}()\ const\ noexcept\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_contents.size();}
+\DoxyCodeLine{00047\ \ \ \ \ \};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00054\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ std::string\ \&\mbox{\hyperlink{classcircus_1_1filesystem_1_1reader_____af52fb868fc3f119e64e0b93bb149b1fc}{get\_file\_contents}}()\ const\ noexcept\ \{\ \textcolor{keywordflow}{return}\ \_contents;\ \};}
+\DoxyCodeLine{00055\ \};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \};\ \ \textcolor{comment}{//\ namespace\ circus::filesystem}}
+
+\end{DoxyCode}

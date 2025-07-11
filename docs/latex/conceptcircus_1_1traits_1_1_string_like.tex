@@ -1,0 +1,22 @@
+\doxysection{circus\+::traits\+::String\+Like Concept Reference}
+\hypertarget{conceptcircus_1_1traits_1_1_string_like}{}\label{conceptcircus_1_1traits_1_1_string_like}\index{circus::traits::StringLike@{circus::traits::StringLike}}
+
+
+Concept for types that can be converted to a string-\/like view.  
+
+
+
+
+{\ttfamily \#include $<$circus\+\_\+traits.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_string_like}{circus::traits::StringLike}}\ =\ \ std::is\_convertible\_v<T,\ std::string\_view>}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+Concept for types that can be converted to a string-\/like view. 

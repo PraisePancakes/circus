@@ -1,0 +1,82 @@
+\doxysection{circus\+::filesystem\+::reader\+\_\+\+\_\+ Class Reference}
+\hypertarget{classcircus_1_1filesystem_1_1reader____}{}\label{classcircus_1_1filesystem_1_1reader____}\index{circus::filesystem::reader\_\_@{circus::filesystem::reader\_\_}}
+
+
+Utility class to read contents from input streams into a string.  
+
+
+
+
+{\ttfamily \#include $<$reader.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcircus_1_1filesystem_1_1reader_____a1907825ecf249b2ebdd90e7e726e9cb8}\label{classcircus_1_1filesystem_1_1reader_____a1907825ecf249b2ebdd90e7e726e9cb8} 
+{\bfseries reader\+\_\+\+\_\+} ()
+\begin{DoxyCompactList}\small\item\em Default constructor initializes an empty content buffer. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classcircus_1_1filesystem_1_1reader_____a4efb1bdc0e18cae93e1cb7e35a0976b8}{operator()}} (std\+::istream \&is)
+\begin{DoxyCompactList}\small\item\em Reads entire contents of the provided input stream into internal buffer. \end{DoxyCompactList}\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classcircus_1_1filesystem_1_1reader_____a5a947eedfa2c38ad91017136ad8ade03}{size}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Get the size in bytes of the stored content. \end{DoxyCompactList}\item 
+const std\+::string \& \mbox{\hyperlink{classcircus_1_1filesystem_1_1reader_____af52fb868fc3f119e64e0b93bb149b1fc}{get\+\_\+file\+\_\+contents}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Provides read-\/only access to the stored file contents. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Utility class to read contents from input streams into a string. 
+
+Provides an interface to load the entire contents of an std\+::istream into an internal string buffer for later access. 
+
+\label{doc-func-members}
+\Hypertarget{classcircus_1_1filesystem_1_1reader_____doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcircus_1_1filesystem_1_1reader_____af52fb868fc3f119e64e0b93bb149b1fc}\index{circus::filesystem::reader\_\_@{circus::filesystem::reader\_\_}!get\_file\_contents@{get\_file\_contents}}
+\index{get\_file\_contents@{get\_file\_contents}!circus::filesystem::reader\_\_@{circus::filesystem::reader\_\_}}
+\doxysubsubsection{\texorpdfstring{get\_file\_contents()}{get\_file\_contents()}}
+{\footnotesize\ttfamily \label{classcircus_1_1filesystem_1_1reader_____af52fb868fc3f119e64e0b93bb149b1fc} 
+const std\+::string \& circus\+::filesystem\+::reader\+\_\+\+\_\+\+::get\+\_\+file\+\_\+contents (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+
+Provides read-\/only access to the stored file contents. 
+
+\begin{DoxyReturn}{Returns}
+Const reference to the internal content string. 
+\end{DoxyReturn}
+\Hypertarget{classcircus_1_1filesystem_1_1reader_____a4efb1bdc0e18cae93e1cb7e35a0976b8}\index{circus::filesystem::reader\_\_@{circus::filesystem::reader\_\_}!operator()@{operator()}}
+\index{operator()@{operator()}!circus::filesystem::reader\_\_@{circus::filesystem::reader\_\_}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily \label{classcircus_1_1filesystem_1_1reader_____a4efb1bdc0e18cae93e1cb7e35a0976b8} 
+std\+::string circus\+::filesystem\+::reader\+\_\+\+\_\+\+::operator() (\begin{DoxyParamCaption}\item[{std\+::istream \&}]{is}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Reads entire contents of the provided input stream into internal buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is} & Input stream to read from. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to the internal string containing the full content. 
+\end{DoxyReturn}
+\Hypertarget{classcircus_1_1filesystem_1_1reader_____a5a947eedfa2c38ad91017136ad8ade03}\index{circus::filesystem::reader\_\_@{circus::filesystem::reader\_\_}!size@{size}}
+\index{size@{size}!circus::filesystem::reader\_\_@{circus::filesystem::reader\_\_}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily \label{classcircus_1_1filesystem_1_1reader_____a5a947eedfa2c38ad91017136ad8ade03} 
+std\+::size\+\_\+t circus\+::filesystem\+::reader\+\_\+\+\_\+\+::size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+
+Get the size in bytes of the stored content. 
+
+\begin{DoxyReturn}{Returns}
+Size of the content string. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Circus/include/circus\+\_\+include/reader.\+hpp\end{DoxyCompactItemize}

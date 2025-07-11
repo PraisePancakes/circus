@@ -1,0 +1,116 @@
+\doxysection{Circus/include/circus\+\_\+include/utils/enum\+\_\+flag.hpp File Reference}
+\hypertarget{enum__flag_8hpp}{}\label{enum__flag_8hpp}\index{Circus/include/circus\_include/utils/enum\_flag.hpp@{Circus/include/circus\_include/utils/enum\_flag.hpp}}
+
+
+Provides a type-\/safe wrapper for enum flags with bitwise operations.  
+
+
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include "{}../circus\+\_\+traits.\+hpp"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus\+::utils\+::enum\+\_\+flag$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em A utility class for strongly typed enum flags with bitwise operations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename E$>$ \newline
+requires \mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}}$<$E$>$}\\constexpr E \mbox{\hyperlink{enum__flag_8hpp_acf56f077b40292ed1cff80e006603bf2}{operator\texorpdfstring{$\vert$}{|}}} (E lhs, E rhs)
+\begin{DoxyCompactList}\small\item\em Bitwise OR operator for enum types flagged by \doxylink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename E$>$ \newline
+requires \mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}}$<$E$>$}\\constexpr E \mbox{\hyperlink{enum__flag_8hpp_a25702958551e4f5c89663a12a6a8ce50}{operator\&}} (E lhs, E rhs)
+\begin{DoxyCompactList}\small\item\em Bitwise AND operator for enum types flagged by \doxylink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename E$>$ \newline
+requires \mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}}$<$E$>$}\\constexpr E \mbox{\hyperlink{enum__flag_8hpp_ae026ffda5deb3c9ae77aee0ea016c43b}{operator\texorpdfstring{$\sim$}{\string~}}} (E val)
+\begin{DoxyCompactList}\small\item\em Bitwise NOT operator for enum types flagged by \doxylink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides a type-\/safe wrapper for enum flags with bitwise operations. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{enum__flag_8hpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{enum__flag_8hpp_a25702958551e4f5c89663a12a6a8ce50}\index{enum\_flag.hpp@{enum\_flag.hpp}!operator\&@{operator\&}}
+\index{operator\&@{operator\&}!enum\_flag.hpp@{enum\_flag.hpp}}
+\doxysubsubsection{\texorpdfstring{operator\&()}{operator\&()}}
+{\footnotesize\ttfamily \label{enum__flag_8hpp_a25702958551e4f5c89663a12a6a8ce50} 
+template$<$typename E$>$ \newline
+requires \mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}}$<$E$>$\\
+E operator\& (\begin{DoxyParamCaption}\item[{E}]{lhs}{, }\item[{E}]{rhs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+Bitwise AND operator for enum types flagged by \doxylink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em E} & Enum type. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em lhs} & Left operand. \\
+\hline
+{\em rhs} & Right operand. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bitwise AND of lhs and rhs. 
+\end{DoxyReturn}
+\Hypertarget{enum__flag_8hpp_acf56f077b40292ed1cff80e006603bf2}\index{enum\_flag.hpp@{enum\_flag.hpp}!operator\texttt{"|}@{operator\texttt{"|}}}
+\index{operator\texttt{"|}@{operator\texttt{"|}}!enum\_flag.hpp@{enum\_flag.hpp}}
+\doxysubsubsection{\texorpdfstring{operator\texttt{"|}()}{operator|()}}
+{\footnotesize\ttfamily \label{enum__flag_8hpp_acf56f077b40292ed1cff80e006603bf2} 
+template$<$typename E$>$ \newline
+requires \mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}}$<$E$>$\\
+E operator\texorpdfstring{$\vert$}{|} (\begin{DoxyParamCaption}\item[{E}]{lhs}{, }\item[{E}]{rhs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+Bitwise OR operator for enum types flagged by \doxylink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em E} & Enum type. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em lhs} & Left operand. \\
+\hline
+{\em rhs} & Right operand. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bitwise OR of lhs and rhs. 
+\end{DoxyReturn}
+\Hypertarget{enum__flag_8hpp_ae026ffda5deb3c9ae77aee0ea016c43b}\index{enum\_flag.hpp@{enum\_flag.hpp}!operator\texorpdfstring{$\sim$}{\string~}@{operator\texorpdfstring{$\sim$}{\string~}}}
+\index{operator\texorpdfstring{$\sim$}{\string~}@{operator\texorpdfstring{$\sim$}{\string~}}!enum\_flag.hpp@{enum\_flag.hpp}}
+\doxysubsubsection{\texorpdfstring{operator\texorpdfstring{$\sim$}{\string~}()}{operator\string~()}}
+{\footnotesize\ttfamily \label{enum__flag_8hpp_ae026ffda5deb3c9ae77aee0ea016c43b} 
+template$<$typename E$>$ \newline
+requires \mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}}$<$E$>$\\
+E operator\texorpdfstring{$\sim$}{\string~} (\begin{DoxyParamCaption}\item[{E}]{val}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+Bitwise NOT operator for enum types flagged by \doxylink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em E} & Enum type. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em val} & Operand. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bitwise NOT of val. 
+\end{DoxyReturn}

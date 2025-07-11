@@ -1,0 +1,39 @@
+\doxysection{to\+\_\+chars.\+hpp}
+\hypertarget{to__chars_8hpp_source}{}\label{to__chars_8hpp_source}\index{Circus/include/circus\_include/utils/to\_chars.hpp@{Circus/include/circus\_include/utils/to\_chars.hpp}}
+\mbox{\hyperlink{to__chars_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }circus::utils\ \{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }detail\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}...\ digits>}
+\DoxyCodeLine{00019\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1utils_1_1detail_1_1to__chars}{to\_chars}}\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{structcircus_1_1utils_1_1detail_1_1to__chars_aeed485a9eac1baf310cbcf4567cccd46}{value}}[];}
+\DoxyCodeLine{00022\ \};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}...\ digits>}
+\DoxyCodeLine{00028\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{structcircus_1_1utils_1_1detail_1_1to__chars}{to\_chars}}<digits...>\mbox{\hyperlink{to__chars_8hpp_a96dd8b0e7228c97d9c3379f337957380}{::value}}[]\ =\ \{(\textcolor{charliteral}{'0'}\ +\ digits)...,\ 0\};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}\ rem,\ \textcolor{keywordtype}{unsigned}...\ digits>}
+\DoxyCodeLine{00037\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1utils_1_1detail_1_1explode}{explode}}\ :\ \mbox{\hyperlink{structcircus_1_1utils_1_1detail_1_1explode}{explode}}<rem\ /\ 10,\ rem\ \%\ 10,\ digits...>\ \{\};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}...\ digits>}
+\DoxyCodeLine{00046\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1utils_1_1detail_1_1explode}{explode}}<0,\ digits...>\ :\ \mbox{\hyperlink{structcircus_1_1utils_1_1detail_1_1to__chars}{to\_chars}}<digits...>\ \{\};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \}\ \ \textcolor{comment}{//\ namespace\ detail}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{unsigned}\ num>}
+\DoxyCodeLine{00058\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1utils_1_1num__to__string}{num\_to\_string}}\ :\ \mbox{\hyperlink{structcircus_1_1utils_1_1detail_1_1explode}{detail::explode}}<num>\ \{\};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{to__chars_8hpp_a73aa3d789a10f0d63f4b3b553ac5b767}{strings\_equal}}(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}*\ a,\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}*\ b)\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{return}\ std::string\_view(a)\ ==\ b;}
+\DoxyCodeLine{00069\ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \}\ \ \textcolor{comment}{//\ namespace\ circus::utils}}
+
+\end{DoxyCode}

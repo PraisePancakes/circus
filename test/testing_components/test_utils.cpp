@@ -23,7 +23,7 @@ enum class E : std::uint32_t {
 
 TEST_CASE("enum_flag basic functionality") {
     using ft = circus::utils::enum_flag<E>;
-    using namespace circus::utils;  // bring operators in scope
+    using namespace circus::utils; 
 
     ft flagger;
 

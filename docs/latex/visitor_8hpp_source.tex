@@ -1,0 +1,21 @@
+\doxysection{visitor.\+hpp}
+\hypertarget{visitor_8hpp_source}{}\label{visitor_8hpp_source}\index{Circus/include/circus\_include/visitor.hpp@{Circus/include/circus\_include/visitor.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{keyword}{namespace\ }circus\ \{}
+\DoxyCodeLine{00004\ \textcolor{keyword}{namespace\ }internal\ \{}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ fs>}
+\DoxyCodeLine{00015\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1internal_1_1visitor}{visitor}}\ :\ fs...\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{using\ }fs::operator()...;}
+\DoxyCodeLine{00017\ \};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ fs>}
+\DoxyCodeLine{00026\ \mbox{\hyperlink{structcircus_1_1internal_1_1visitor}{visitor}}(fs...)\ -\/>\ \mbox{\hyperlink{structcircus_1_1internal_1_1visitor}{visitor}}<fs...>;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \}\ \ \textcolor{comment}{//\ namespace\ internal}}
+\DoxyCodeLine{00029\ \}\ \ \textcolor{comment}{//\ namespace\ circus}}
+
+\end{DoxyCode}

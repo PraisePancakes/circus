@@ -1,0 +1,26 @@
+\doxysection{circus\+::traits\+::In\+Streamable Concept Reference}
+\hypertarget{conceptcircus_1_1traits_1_1_in_streamable}{}\label{conceptcircus_1_1traits_1_1_in_streamable}\index{circus::traits::InStreamable@{circus::traits::InStreamable}}
+
+
+Concept for values that can be extracted from an {\ttfamily std\+::istream} using {\ttfamily \texorpdfstring{$>$}{>}\texorpdfstring{$>$}{>}}.  
+
+
+
+
+{\ttfamily \#include $<$circus\+\_\+traits.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_in_streamable}{circus::traits::InStreamable}}\ =\ \ \textcolor{keyword}{requires}(std::istream\ \&is,\ T\ value)\ \{}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ value\ >>\ is}
+\DoxyCodeLine{\ \ \ \ \}\ -\/>\ \mbox{\hyperlink{conceptcircus_1_1traits_1_1_in_stream}{InStream}};}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+Concept for values that can be extracted from an {\ttfamily std\+::istream} using {\ttfamily \texorpdfstring{$>$}{>}\texorpdfstring{$>$}{>}}. 

@@ -1,0 +1,247 @@
+\doxysection{circus\+::utils\+::enum\+\_\+flag\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classcircus_1_1utils_1_1enum__flag}{}\label{classcircus_1_1utils_1_1enum__flag}\index{circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}}
+
+
+A utility class for strongly typed enum flags with bitwise operations.  
+
+
+
+
+{\ttfamily \#include $<$enum\+\_\+flag.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_ad90188e88d26edc2b5180f7285cafead}\label{classcircus_1_1utils_1_1enum__flag_ad90188e88d26edc2b5180f7285cafead} 
+using {\bfseries enum\+\_\+type} = T
+\begin{DoxyCompactList}\small\item\em Underlying enum type. \end{DoxyCompactList}\item 
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_ac4c02a81ef8ce58a9a66a7cfc68fe330}\label{classcircus_1_1utils_1_1enum__flag_ac4c02a81ef8ce58a9a66a7cfc68fe330} 
+using {\bfseries underlying\+\_\+type} = typename std\+::underlying\+\_\+type$<$T$>$\+::type
+\begin{DoxyCompactList}\small\item\em Enum underlying integer type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_a2f81d376ace97a293b2a0226d7c66723}\label{classcircus_1_1utils_1_1enum__flag_a2f81d376ace97a293b2a0226d7c66723} 
+{\bfseries enum\+\_\+flag} ()=default
+\begin{DoxyCompactList}\small\item\em Default constructor initializes with no flags set. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a82adcb119e173d9734cafa9ad490ddad}{enum\+\_\+flag}} (T initial)
+\begin{DoxyCompactList}\small\item\em Constructs \doxylink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag} with an initial flag value. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag}} \& \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a66f3bd04efa189dc2419dc5d3d23da42}{operator=}} (T \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a86fd13facea37adae5042f90e9069ec4}{flags}})
+\begin{DoxyCompactList}\small\item\em Assignment operator from enum type. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag}} \& \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a355de83f532e22b5c7d854badc37c898}{operator\texorpdfstring{$\vert$}{|}=}} (T fs)
+\begin{DoxyCompactList}\small\item\em Bitwise OR assignment operator to add flags. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag}} \& \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ab5ab6e21b9c06cbb04e3374eee9f5af7}{operator\&=}} (T fs)
+\begin{DoxyCompactList}\small\item\em Bitwise AND assignment operator to mask flags. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename U$>$ }\\constexpr bool \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a6290183159912e2ec6f2669d9e93861b}{has}} (U e) const noexcept
+\begin{DoxyCompactList}\small\item\em Checks if this \doxylink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag} contains all bits of a given flag. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... Args$>$ }\\constexpr bool \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a1f81edffd924e34ece328a6821bfd27f}{has\+\_\+any}} (Args \&\&...args) const noexcept
+\begin{DoxyCompactList}\small\item\em Checks if this \doxylink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag} contains any of the specified flags. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... Args$>$ }\\constexpr bool \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a954e16d376428931a4ca750f393da002}{has\+\_\+all}} (Args \&\&...args) const noexcept
+\begin{DoxyCompactList}\small\item\em Checks if this \doxylink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag} contains all of the specified flags. \end{DoxyCompactList}\item 
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_ad75704feede4c6dde0e40ad794d21fc3}\label{classcircus_1_1utils_1_1enum__flag_ad75704feede4c6dde0e40ad794d21fc3} 
+constexpr bool {\bfseries operator==} (const \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag}}$<$ T $>$ \&other) const noexcept
+\begin{DoxyCompactList}\small\item\em Equality operator. \end{DoxyCompactList}\item 
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_a2dfc14f3f93f018a5319bfc3c92c8e60}\label{classcircus_1_1utils_1_1enum__flag_a2dfc14f3f93f018a5319bfc3c92c8e60} 
+constexpr bool {\bfseries operator!=} (const \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag}}$<$ T $>$ \&other) const noexcept
+\begin{DoxyCompactList}\small\item\em Inequality operator. \end{DoxyCompactList}\item 
+constexpr bool \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_a93dd27318f027df8a8ee66ef5526b041}{operator()}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Boolean conversion operator indicating if any flag is set. \end{DoxyCompactList}\item 
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_a167b52423704764f38af01f31db19925}\label{classcircus_1_1utils_1_1enum__flag_a167b52423704764f38af01f31db19925} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}enum\+\_\+flag} ()=default
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_a86fd13facea37adae5042f90e9069ec4}\label{classcircus_1_1utils_1_1enum__flag_a86fd13facea37adae5042f90e9069ec4} 
+\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ac4c02a81ef8ce58a9a66a7cfc68fe330}{underlying\+\_\+type}} {\bfseries flags} \{0x00u\}
+\begin{DoxyCompactList}\small\item\em Stores the bit flags as underlying integer type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+requires (traits\+::\+Flaggable$<$T$>$)\newline
+class circus\+::utils\+::enum\+\_\+flag$<$ T $>$}
+A utility class for strongly typed enum flags with bitwise operations. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Enum type that meets the {\ttfamily \doxylink{conceptcircus_1_1traits_1_1_flaggable}{traits\+::\+Flaggable}} concept (must be enum with underlying type uint32\+\_\+t or uint64\+\_\+t).\\
+\hline
+\end{DoxyTemplParams}
+This class wraps an enum type and provides bitwise flag manipulation methods and checks such as {\ttfamily has}, {\ttfamily has\+\_\+any}, and {\ttfamily has\+\_\+all}. 
+
+\label{doc-constructors}
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_a82adcb119e173d9734cafa9ad490ddad}\index{circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}!enum\_flag@{enum\_flag}}
+\index{enum\_flag@{enum\_flag}!circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{enum\_flag()}{enum\_flag()}}
+{\footnotesize\ttfamily \label{classcircus_1_1utils_1_1enum__flag_a82adcb119e173d9734cafa9ad490ddad} 
+template$<$typename T$>$ \\
+\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus\+::utils\+::enum\+\_\+flag}}$<$ T $>$\+::enum\+\_\+flag (\begin{DoxyParamCaption}\item[{T}]{initial}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs \doxylink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag} with an initial flag value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em initial} & Enum flag to initialize with. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_a6290183159912e2ec6f2669d9e93861b}\index{circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}!has@{has}}
+\index{has@{has}!circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{has()}{has()}}
+{\footnotesize\ttfamily \label{classcircus_1_1utils_1_1enum__flag_a6290183159912e2ec6f2669d9e93861b} 
+template$<$typename T$>$ \\
+template$<$typename U$>$ \\
+bool \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus\+::utils\+::enum\+\_\+flag}}$<$ T $>$\+::has (\begin{DoxyParamCaption}\item[{U}]{e}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+Checks if this \doxylink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag} contains all bits of a given flag. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em U} & Enum type (must be same as T). \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em e} & Enum flag to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if all bits are set, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_a954e16d376428931a4ca750f393da002}\index{circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}!has\_all@{has\_all}}
+\index{has\_all@{has\_all}!circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{has\_all()}{has\_all()}}
+{\footnotesize\ttfamily \label{classcircus_1_1utils_1_1enum__flag_a954e16d376428931a4ca750f393da002} 
+template$<$typename T$>$ \\
+template$<$typename... Args$>$ \\
+bool \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus\+::utils\+::enum\+\_\+flag}}$<$ T $>$\+::has\+\_\+all (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+Checks if this \doxylink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag} contains all of the specified flags. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Args} & Variadic enum flags. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em args} & Flags to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if all flags are set, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_a1f81edffd924e34ece328a6821bfd27f}\index{circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}!has\_any@{has\_any}}
+\index{has\_any@{has\_any}!circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{has\_any()}{has\_any()}}
+{\footnotesize\ttfamily \label{classcircus_1_1utils_1_1enum__flag_a1f81edffd924e34ece328a6821bfd27f} 
+template$<$typename T$>$ \\
+template$<$typename... Args$>$ \\
+bool \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus\+::utils\+::enum\+\_\+flag}}$<$ T $>$\+::has\+\_\+any (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+Checks if this \doxylink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag} contains any of the specified flags. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Args} & Variadic enum flags. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em args} & Flags to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if any flag is set, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_ab5ab6e21b9c06cbb04e3374eee9f5af7}\index{circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}!operator\&=@{operator\&=}}
+\index{operator\&=@{operator\&=}!circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator\&=()}{operator\&=()}}
+{\footnotesize\ttfamily \label{classcircus_1_1utils_1_1enum__flag_ab5ab6e21b9c06cbb04e3374eee9f5af7} 
+template$<$typename T$>$ \\
+\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag}} \& \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus\+::utils\+::enum\+\_\+flag}}$<$ T $>$\+::operator\&= (\begin{DoxyParamCaption}\item[{T}]{fs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Bitwise AND assignment operator to mask flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fs} & Flag mask to AND with current flags. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to self. 
+\end{DoxyReturn}
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_a93dd27318f027df8a8ee66ef5526b041}\index{circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}!operator()@{operator()}}
+\index{operator()@{operator()}!circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily \label{classcircus_1_1utils_1_1enum__flag_a93dd27318f027df8a8ee66ef5526b041} 
+template$<$typename T$>$ \\
+bool \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus\+::utils\+::enum\+\_\+flag}}$<$ T $>$\+::operator() (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+
+Boolean conversion operator indicating if any flag is set. 
+
+\begin{DoxyReturn}{Returns}
+true if any flag is set, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_a66f3bd04efa189dc2419dc5d3d23da42}\index{circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \label{classcircus_1_1utils_1_1enum__flag_a66f3bd04efa189dc2419dc5d3d23da42} 
+template$<$typename T$>$ \\
+\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag}} \& \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus\+::utils\+::enum\+\_\+flag}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{T}]{flags}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Assignment operator from enum type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em flags} & Enum flags to assign. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to self. 
+\end{DoxyReturn}
+\Hypertarget{classcircus_1_1utils_1_1enum__flag_a355de83f532e22b5c7d854badc37c898}\index{circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}!operator\texttt{"|}=@{operator\texttt{"|}=}}
+\index{operator\texttt{"|}=@{operator\texttt{"|}=}!circus::utils::enum\_flag$<$ T $>$@{circus::utils::enum\_flag$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator\texttt{"|}=()}{operator|=()}}
+{\footnotesize\ttfamily \label{classcircus_1_1utils_1_1enum__flag_a355de83f532e22b5c7d854badc37c898} 
+template$<$typename T$>$ \\
+\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{enum\+\_\+flag}} \& \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus\+::utils\+::enum\+\_\+flag}}$<$ T $>$\+::operator\texorpdfstring{$\vert$}{|}= (\begin{DoxyParamCaption}\item[{T}]{fs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Bitwise OR assignment operator to add flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fs} & Flag to OR with current flags. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to self. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Circus/include/circus\+\_\+include/utils/\mbox{\hyperlink{enum__flag_8hpp}{enum\+\_\+flag.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,67 @@
+\doxysection{circus\+::circ\+\_\+variable Struct Reference}
+\hypertarget{structcircus_1_1circ__variable}{}\label{structcircus_1_1circ__variable}\index{circus::circ\_variable@{circus::circ\_variable}}
+
+
+Represents a variable in Circus serialization.  
+
+
+
+
+{\ttfamily \#include $<$parser.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structcircus_1_1circ__variable_a5476b375c8e3638367e5ea194a188b14}\label{structcircus_1_1circ__variable_a5476b375c8e3638367e5ea194a188b14} 
+typedef std\+::variant$<$ char, std\+::string, int, float, double, std\+::vector$<$ \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\+\_\+variable}} $>$, std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\+\_\+variable}} $>$ $>$ {\bfseries circ\+\_\+type\+\_\+var\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Variant holding possible Circus variable types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structcircus_1_1circ__variable}{circ\+\_\+variable}} \& \mbox{\hyperlink{structcircus_1_1circ__variable_a9e8167f9940fafe80c0e4547aa3dfd78}{operator\mbox{[}$\,$\mbox{]}}} (const std\+::string \&\mbox{\hyperlink{structcircus_1_1circ__variable_af9fb2e7b55ae4a942e1a45cc791b6b93}{key}})
+\begin{DoxyCompactList}\small\item\em Access nested variables by key, for objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structcircus_1_1circ__variable_af9fb2e7b55ae4a942e1a45cc791b6b93}\label{structcircus_1_1circ__variable_af9fb2e7b55ae4a942e1a45cc791b6b93} 
+std\+::string {\bfseries key}
+\begin{DoxyCompactList}\small\item\em The key name associated with this variable. \end{DoxyCompactList}\item 
+\Hypertarget{structcircus_1_1circ__variable_a98ad133212607a54f46ab38d64a870e6}\label{structcircus_1_1circ__variable_a98ad133212607a54f46ab38d64a870e6} 
+\mbox{\hyperlink{structcircus_1_1circ__variable_a5476b375c8e3638367e5ea194a188b14}{circ\+\_\+type\+\_\+var\+\_\+t}} {\bfseries value}
+\begin{DoxyCompactList}\small\item\em The value stored in this variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a variable in Circus serialization. 
+
+Supports primitive types, arrays, and nested objects. 
+
+\label{doc-func-members}
+\Hypertarget{structcircus_1_1circ__variable_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structcircus_1_1circ__variable_a9e8167f9940fafe80c0e4547aa3dfd78}\index{circus::circ\_variable@{circus::circ\_variable}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!circus::circ\_variable@{circus::circ\_variable}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}}
+{\footnotesize\ttfamily \label{structcircus_1_1circ__variable_a9e8167f9940fafe80c0e4547aa3dfd78} 
+\mbox{\hyperlink{structcircus_1_1circ__variable}{circ\+\_\+variable}} \& circus\+::circ\+\_\+variable\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{key}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Access nested variables by key, for objects. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The key to access inside the object. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to nested \doxylink{structcircus_1_1circ__variable}{circ\+\_\+variable}.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This assumes the current variable holds an object. 
+\end{DoxyNote}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Circus/include/circus\+\_\+include/parser.\+hpp\end{DoxyCompactItemize}

@@ -1,0 +1,57 @@
+\doxysection{Circus/include/circus\+\_\+include/circus\+\_\+error.hpp File Reference}
+\hypertarget{circus__error_8hpp}{}\label{circus__error_8hpp}\index{Circus/include/circus\_include/circus\_error.hpp@{Circus/include/circus\_include/circus\_error.hpp}}
+
+
+Defines error handling utilities for the Circus parser, including error types, exceptions, and reporting.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$stack$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include "{}circus\+\_\+traits.\+hpp"{}}\newline
+{\ttfamily \#include "{}utils/enum\+\_\+flag.\+hpp"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcircus_1_1error_1_1parser__error}{circus\+::error\+::parser\+\_\+error}}
+\begin{DoxyCompactList}\small\item\em Exception class for parser errors, holding an error type flag and a message. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcircus_1_1error_1_1parser__reporter}{circus\+::error\+::parser\+\_\+reporter}}
+\begin{DoxyCompactList}\small\item\em Aggregates and manages parser error messages with support for logging and flushing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{group___parser_errors_ga78f5828bd505a51f6695497269c368c1}{ERROR\+\_\+\+TYPE}}(NAME)
+\begin{DoxyCompactList}\small\item\em Enumeration of Circus parser error types. \end{DoxyCompactList}\item 
+\#define {\bfseries ERROR\+\_\+\+TYPEs}~    \mbox{\hyperlink{group___parser_errors_ga78f5828bd505a51f6695497269c368c1}{ERROR\+\_\+\+TYPE}}(SYNTAX)
+\item 
+\#define \mbox{\hyperlink{group___parser_errors_ga78f5828bd505a51f6695497269c368c1}{ERROR\+\_\+\+TYPE}}(NAME)
+\begin{DoxyCompactList}\small\item\em Enumeration of Circus parser error types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{group___parser_errors_gaf5a79ec4ae5b57b0d864d0030ea76b97}\label{group___parser_errors_gaf5a79ec4ae5b57b0d864d0030ea76b97} 
+enum {\bfseries CIRCUS\+\_\+\+ERROR\+\_\+\+TYPES} \+: std\+::uint64\+\_\+t \{ {\bfseries ERROR\+\_\+\+TYPEs}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename E$>$ \newline
+requires std\+::is\+\_\+enum\+\_\+v$<$E$>$}\\constexpr E \mbox{\hyperlink{group___parser_errors_ga28b2f5b4b72c5cd2af41b9888d00f4c3}{circus\+::error\+::operator\texorpdfstring{$\vert$}{|}}} (E lhs, E rhs)
+\begin{DoxyCompactList}\small\item\em Bitwise OR operator for enum error types. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename E$>$ \newline
+requires std\+::is\+\_\+enum\+\_\+v$<$E$>$}\\constexpr E \mbox{\hyperlink{group___parser_errors_gaff01423d87f0967dac0cbfb0009bdd3a}{circus\+::error\+::operator\&}} (E lhs, E rhs)
+\begin{DoxyCompactList}\small\item\em Bitwise AND operator for enum error types. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename E$>$ \newline
+requires std\+::is\+\_\+enum\+\_\+v$<$E$>$}\\constexpr E \mbox{\hyperlink{group___parser_errors_ga333e0973e6961fd36f2fda16cb13bb9e}{circus\+::error\+::operator\texorpdfstring{$\sim$}{\string~}}} (E val)
+\begin{DoxyCompactList}\small\item\em Bitwise NOT operator for enum error types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{group___parser_errors_ga3face8aa75a1c0429916882c4101eff8}{circus\+::error\+::\+REFLECTED\+\_\+\+ERROR\+\_\+\+MAP}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines error handling utilities for the Circus parser, including error types, exceptions, and reporting. 
+

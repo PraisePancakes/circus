@@ -1,0 +1,108 @@
+\doxysection{circus\+\_\+traits.\+hpp}
+\hypertarget{circus__traits_8hpp_source}{}\label{circus__traits_8hpp_source}\index{Circus/include/circus\_include/circus\_traits.hpp@{Circus/include/circus\_include/circus\_traits.hpp}}
+\mbox{\hyperlink{circus__traits_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }circus::traits\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Ts,\ \textcolor{keyword}{typename}...\ Us>}
+\DoxyCodeLine{00018\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1traits_1_1exists}{exists}}\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ value\ =\ (std::is\_same\_v<Ts,\ Us>\ ||\ ...);}
+\DoxyCodeLine{00020\ \};}
+\DoxyCodeLine{00024\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ TypeComparablePolicy,\ \textcolor{keyword}{typename}...\ Ts>}
+\DoxyCodeLine{00025\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_comparable_types}{ComparableTypes}}\ =\ (std::is\_same\_v<TypeComparablePolicy,\ Ts>\ \&\&\ ...);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Curr,\ \textcolor{keyword}{typename}...\ Others>}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{requires}(\mbox{\hyperlink{conceptcircus_1_1traits_1_1_comparable_types}{ComparableTypes}}<Curr,\ Others...>)}
+\DoxyCodeLine{00032\ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ any\_of(\textcolor{keyword}{const}\ Curr\ \&c,\ \textcolor{keyword}{const}\ Others\ \&\&...o)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordflow}{return}\ ((c\ ==\ o)\ ||\ ...);}
+\DoxyCodeLine{00034\ \}}
+\DoxyCodeLine{00038\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Curr,\ \textcolor{keyword}{typename}...\ Others>}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{requires}(\mbox{\hyperlink{conceptcircus_1_1traits_1_1_comparable_types}{ComparableTypes}}<Curr,\ Others...>)}
+\DoxyCodeLine{00040\ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ none\_of(\textcolor{keyword}{const}\ Curr\ \&c,\ Others\ \&\&...o)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{return}\ !(any\_of(c,\ std::forward<Others>(o)...));}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00046\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00047\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_is_serializable}{IsSerializable}}\ =\ \textcolor{keyword}{requires}(T\ t)\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ t.serialize(std::declval<std::ostream\ \&>())}
+\DoxyCodeLine{00050\ \ \ \ \ \};}
+\DoxyCodeLine{00051\ \};}
+\DoxyCodeLine{00055\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00056\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_out_stream}{OutStream}}\ =\ std::is\_convertible\_v<T,\ std::ostream\ \&>;}
+\DoxyCodeLine{00060\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00061\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_out_streamable_literal}{OutStreamableLiteral}}\ =}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{requires}(std::ostream\ \&os,\ T\ value)\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ value}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ -\/>\ \mbox{\hyperlink{conceptcircus_1_1traits_1_1_out_stream}{OutStream}};}
+\DoxyCodeLine{00067\ \ \ \ \ \};}
+\DoxyCodeLine{00071\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00072\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_in_stream}{InStream}}\ =\ std::is\_convertible\_v<T,\ std::istream\ \&>;}
+\DoxyCodeLine{00076\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00077\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_in_streamable}{InStreamable}}\ =\ \textcolor{keyword}{requires}(std::istream\ \&is,\ T\ value)\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ value\ >>\ is}
+\DoxyCodeLine{00080\ \ \ \ \ \}\ -\/>\ \mbox{\hyperlink{conceptcircus_1_1traits_1_1_in_stream}{InStream}};}
+\DoxyCodeLine{00081\ \};}
+\DoxyCodeLine{00085\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ =\ \textcolor{keywordtype}{void}>}
+\DoxyCodeLine{00086\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1traits_1_1pair__inspect}{pair\_inspect}}\ :\ std::false\_type\ \{}
+\DoxyCodeLine{00087\ \};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00090\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1traits_1_1pair__inspect}{pair\_inspect}}<T,\ std::void\_t<}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ decltype(std::declval<T>().first),}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ decltype(std::declval<T>().second)>>\ :\ std::true\_type\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keyword}{using\ }first\_type\ =\ \textcolor{keyword}{decltype}(std::declval<T>().first);}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{using\ }second\_type\ =\ \textcolor{keyword}{decltype}(std::declval<T>().second);}
+\DoxyCodeLine{00095\ \};}
+\DoxyCodeLine{00099\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00100\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_pair_serializable}{PairSerializable}}\ =\ \mbox{\hyperlink{structcircus_1_1traits_1_1pair__inspect}{pair\_inspect<T>::value}};}
+\DoxyCodeLine{00104\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00105\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_string_like}{StringLike}}\ =\ std::is\_convertible\_v<T,\ std::string\_view>;}
+\DoxyCodeLine{00109\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00110\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_serializable}{Serializable}}\ =\ \mbox{\hyperlink{conceptcircus_1_1traits_1_1_out_streamable_literal}{OutStreamableLiteral<T>}}\ ||\ \mbox{\hyperlink{conceptcircus_1_1traits_1_1_is_serializable}{IsSerializable<T>}};}
+\DoxyCodeLine{00114\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00115\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1traits_1_1is__vector}{is\_vector}}\ :\ std::false\_type\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keyword}{using\ }value\_type\ =\ T;}
+\DoxyCodeLine{00117\ \};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T,\ \textcolor{keyword}{typename}\ A>}
+\DoxyCodeLine{00120\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1traits_1_1is__vector}{is\_vector}}<std::vector<T,\ A>>\ :\ std::true\_type\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keyword}{using\ }value\_type\ =\ T;}
+\DoxyCodeLine{00122\ \};}
+\DoxyCodeLine{00126\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00127\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{Flaggable}}\ =\ std::is\_enum\_v<T>\ \&\&\ (std::is\_same\_v<std::underlying\_type\_t<T>,\ std::uint64\_t>\ ||\ std::is\_same\_v<std::underlying\_type\_t<T>,\ std::uint32\_t>);}
+\DoxyCodeLine{00131\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ V>}
+\DoxyCodeLine{00132\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_streamable_vector}{StreamableVector}}\ =}
+\DoxyCodeLine{00133\ \ \ \ \ \mbox{\hyperlink{structcircus_1_1traits_1_1is__vector}{is\_vector<std::remove\_cvref\_t<V>}}>::value\ \&\&}
+\DoxyCodeLine{00134\ \ \ \ \ \mbox{\hyperlink{conceptcircus_1_1traits_1_1_out_streamable_literal}{OutStreamableLiteral<typename\ std::remove\_cvref\_t<V>::value\_type}}>;}
+\DoxyCodeLine{00139\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00140\ \textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_container}{Container}}\ =\ \textcolor{keyword}{requires}(T\ a,\ \textcolor{keyword}{const}\ T\ b)\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keyword}{requires}\ std::regular<T>;}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keyword}{requires}\ std::swappable<T>;}
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keyword}{requires}\ std::same\_as<typename\ T::reference,\ typename\ T::value\_type\ \&>;}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{requires}\ std::same\_as<typename\ T::const\_reference,\ const\ typename\ T::value\_type\ \&>;}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keyword}{requires}\ std::forward\_iterator<typename\ T::iterator>;}
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keyword}{requires}\ std::forward\_iterator<typename\ T::const\_iterator>;}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keyword}{requires}\ std::signed\_integral<typename\ T::difference\_type>;}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keyword}{requires}\ std::same\_as<typename\ T::difference\_type,\ typename\ std::iterator\_traits<typename\ T::iterator>::difference\_type>;}
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keyword}{requires}\ std::same\_as<typename\ T::difference\_type,\ typename\ std::iterator\_traits<typename\ T::const\_iterator>::difference\_type>;}
+\DoxyCodeLine{00150\ \ \ \ \ \{\ a.begin()\ \}\ -\/>\ std::same\_as<typename\ T::iterator>;}
+\DoxyCodeLine{00151\ \ \ \ \ \{\ a.end()\ \}\ -\/>\ std::same\_as<typename\ T::iterator>;}
+\DoxyCodeLine{00152\ \ \ \ \ \{\ b.begin()\ \}\ -\/>\ std::same\_as<typename\ T::const\_iterator>;}
+\DoxyCodeLine{00153\ \ \ \ \ \{\ b.end()\ \}\ -\/>\ std::same\_as<typename\ T::const\_iterator>;}
+\DoxyCodeLine{00154\ \ \ \ \ \{\ a.cbegin()\ \}\ -\/>\ std::same\_as<typename\ T::const\_iterator>;}
+\DoxyCodeLine{00155\ \ \ \ \ \{\ a.cend()\ \}\ -\/>\ std::same\_as<typename\ T::const\_iterator>;}
+\DoxyCodeLine{00156\ \ \ \ \ \{\ a.size()\ \}\ -\/>\ std::same\_as<typename\ T::size\_type>;}
+\DoxyCodeLine{00157\ \ \ \ \ \{\ a.max\_size()\ \}\ -\/>\ std::same\_as<typename\ T::size\_type>;}
+\DoxyCodeLine{00158\ \ \ \ \ \{\ a.empty()\ \}\ -\/>\ std::convertible\_to<bool>;}
+\DoxyCodeLine{00159\ \};}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \};\ \ \textcolor{comment}{//\ namespace\ circus::traits}}
+\DoxyCodeLine{00162\ \ \ \textcolor{comment}{//\ end\ of\ Traits\ group}}
+
+\end{DoxyCode}

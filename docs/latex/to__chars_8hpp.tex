@@ -1,0 +1,60 @@
+\doxysection{Circus/include/circus\+\_\+include/utils/to\+\_\+chars.hpp File Reference}
+\hypertarget{to__chars_8hpp}{}\label{to__chars_8hpp}\index{Circus/include/circus\_include/utils/to\_chars.hpp@{Circus/include/circus\_include/utils/to\_chars.hpp}}
+
+
+Compile-\/time conversion of unsigned integers to string literals.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcircus_1_1utils_1_1detail_1_1to__chars}{circus\+::utils\+::detail\+::to\+\_\+chars$<$ digits $>$}}
+\begin{DoxyCompactList}\small\item\em Helper template that stores a compile-\/time char array of digits. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcircus_1_1utils_1_1detail_1_1explode}{circus\+::utils\+::detail\+::explode$<$ rem, digits $>$}}
+\begin{DoxyCompactList}\small\item\em Compile-\/time recursion to split an unsigned integer into digits. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcircus_1_1utils_1_1detail_1_1explode_3_010_00_01digits_8_8_8_01_4}{circus\+::utils\+::detail\+::explode$<$ 0, digits... $>$}}
+\begin{DoxyCompactList}\small\item\em Base case for explode recursion when remainder is zero. Inherits from \doxylink{structcircus_1_1utils_1_1detail_1_1to__chars}{to\+\_\+chars} to produce the final digit string. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcircus_1_1utils_1_1num__to__string}{circus\+::utils\+::num\+\_\+to\+\_\+string$<$ num $>$}}
+\begin{DoxyCompactList}\small\item\em Converts a compile-\/time unsigned integer to a string literal. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr bool \mbox{\hyperlink{to__chars_8hpp_a73aa3d789a10f0d63f4b3b553ac5b767}{circus\+::utils\+::strings\+\_\+equal}} (char const \texorpdfstring{$\ast$}{*}a, char const \texorpdfstring{$\ast$}{*}b)
+\begin{DoxyCompactList}\small\item\em Compile-\/time string equality check. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{to__chars_8hpp_a96dd8b0e7228c97d9c3379f337957380}\label{to__chars_8hpp_a96dd8b0e7228c97d9c3379f337957380} 
+{\footnotesize template$<$unsigned... digits$>$ }\\constexpr char {\bfseries circus\+::utils\+::detail\+::to\+\_\+chars$<$ digits... $>$\+::value} \mbox{[}$\,$\mbox{]} = \{(\textquotesingle{}0\textquotesingle{} + digits)..., 0\}
+\begin{DoxyCompactList}\small\item\em Definition of the static char array containing digits plus terminating null. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Compile-\/time conversion of unsigned integers to string literals. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{to__chars_8hpp_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{to__chars_8hpp_a73aa3d789a10f0d63f4b3b553ac5b767}\index{to\_chars.hpp@{to\_chars.hpp}!strings\_equal@{strings\_equal}}
+\index{strings\_equal@{strings\_equal}!to\_chars.hpp@{to\_chars.hpp}}
+\doxysubsubsection{\texorpdfstring{strings\_equal()}{strings\_equal()}}
+{\footnotesize\ttfamily \label{to__chars_8hpp_a73aa3d789a10f0d63f4b3b553ac5b767} 
+bool circus\+::utils\+::strings\+\_\+equal (\begin{DoxyParamCaption}\item[{char const \texorpdfstring{$\ast$}{*}}]{a}{, }\item[{char const \texorpdfstring{$\ast$}{*}}]{b}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+Compile-\/time string equality check. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Pointer to a null-\/terminated C-\/string. \\
+\hline
+{\em b} & Pointer to a null-\/terminated C-\/string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if strings are equal, false otherwise. 
+\end{DoxyReturn}

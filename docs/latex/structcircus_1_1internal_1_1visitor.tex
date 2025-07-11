@@ -1,0 +1,36 @@
+\doxysection{circus\+::internal\+::visitor\texorpdfstring{$<$}{<} fs \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{structcircus_1_1internal_1_1visitor}{}\label{structcircus_1_1internal_1_1visitor}\index{circus::internal::visitor$<$ fs $>$@{circus::internal::visitor$<$ fs $>$}}
+
+
+Helper struct to combine multiple callable objects into a single visitor.  
+
+
+
+
+{\ttfamily \#include $<$visitor.\+hpp$>$}
+
+Inheritance diagram for circus\+::internal\+::visitor\texorpdfstring{$<$}{<} fs \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{structcircus_1_1internal_1_1visitor}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename... fs$>$\newline
+struct circus\+::internal\+::visitor$<$ fs $>$}
+Helper struct to combine multiple callable objects into a single visitor. 
+
+This utility enables visiting variants with multiple lambdas or functors by inheriting from all provided callable types and using their operator().
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em fs} & Parameter pack of callable types. \\
+\hline
+\end{DoxyTemplParams}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Circus/include/circus\+\_\+include/visitor.\+hpp\end{DoxyCompactItemize}

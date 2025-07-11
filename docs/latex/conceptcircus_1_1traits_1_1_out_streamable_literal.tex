@@ -1,0 +1,28 @@
+\doxysection{circus\+::traits\+::Out\+Streamable\+Literal Concept Reference}
+\hypertarget{conceptcircus_1_1traits_1_1_out_streamable_literal}{}\label{conceptcircus_1_1traits_1_1_out_streamable_literal}\index{circus::traits::OutStreamableLiteral@{circus::traits::OutStreamableLiteral}}
+
+
+Concept for values that can be streamed using {\ttfamily \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<}} to an {\ttfamily std\+::ostream}.  
+
+
+
+
+{\ttfamily \#include $<$circus\+\_\+traits.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_out_streamable_literal}{circus::traits::OutStreamableLiteral}}\ =\ }
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{requires}(std::ostream\ \&os,\ T\ value)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ os\ <<\ value}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ -\/>\ \mbox{\hyperlink{conceptcircus_1_1traits_1_1_out_stream}{OutStream}};}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+Concept for values that can be streamed using {\ttfamily \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<}} to an {\ttfamily std\+::ostream}. 

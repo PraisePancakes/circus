@@ -1,0 +1,26 @@
+\doxysection{circus\+::traits\+::Is\+Serializable Concept Reference}
+\hypertarget{conceptcircus_1_1traits_1_1_is_serializable}{}\label{conceptcircus_1_1traits_1_1_is_serializable}\index{circus::traits::IsSerializable@{circus::traits::IsSerializable}}
+
+
+Concept that checks whether a type has a {\ttfamily .serialize(std\+::ostream\&)} method.  
+
+
+
+
+{\ttfamily \#include $<$circus\+\_\+traits.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_is_serializable}{circus::traits::IsSerializable}}\ =\ \ \textcolor{keyword}{requires}(T\ t)\ \{}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ t.serialize(std::declval<std::ostream\ \&>())}
+\DoxyCodeLine{\ \ \ \ \};}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+Concept that checks whether a type has a {\ttfamily .serialize(std\+::ostream\&)} method. 

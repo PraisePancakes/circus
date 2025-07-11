@@ -1,0 +1,73 @@
+\doxysection{circus\+::deserializer\texorpdfstring{$<$}{<} IStreamT \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classcircus_1_1deserializer}{}\label{classcircus_1_1deserializer}\index{circus::deserializer$<$ IStreamT $>$@{circus::deserializer$<$ IStreamT $>$}}
+
+
+Parses structured circus-\/formatted input and exposes access to the parsed data.  
+
+
+
+
+{\ttfamily \#include $<$deserializer.\+hpp$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcircus_1_1deserializer_a8857c130479b9ffac641254f15003bb3}\label{classcircus_1_1deserializer_a8857c130479b9ffac641254f15003bb3} 
+using {\bfseries circ\+\_\+object} = std\+::unordered\+\_\+map$<$std\+::string, \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\+\_\+variable}}$>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcircus_1_1deserializer_aea3c9aee0aff160bc52313f155a9ba7a}{deserializer}} (IStreamT \&is)
+\begin{DoxyCompactList}\small\item\em Constructs a deserializer from an input stream. \end{DoxyCompactList}\item 
+\Hypertarget{classcircus_1_1deserializer_ac772a1e3a326fb8e05a1584e470e831c}\label{classcircus_1_1deserializer_ac772a1e3a326fb8e05a1584e470e831c} 
+circ\+\_\+safe\+\_\+proxy {\bfseries operator\mbox{[}$\,$\mbox{]}} (const std\+::string \&k)
+\begin{DoxyCompactList}\small\item\em Destructor (default). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename IStreamT$>$\newline
+requires (std\+::is\+\_\+base\+\_\+of\+\_\+v$<$std\+::istream, IStreamT$>$)\newline
+class circus\+::deserializer$<$ IStream\+T $>$}
+Parses structured circus-\/formatted input and exposes access to the parsed data. 
+
+This class reads an input stream, lexes and parses it into a structured tree ({\ttfamily \doxylink{structcircus_1_1circ__variable}{circ\+\_\+variable}}), and provides safe, nested access through {\ttfamily operator\mbox{[}\mbox{]}} and type-\/safe retrieval using {\ttfamily .value\texorpdfstring{$<$}{<}T\texorpdfstring{$>$}{>}()}.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em IStreamT} & Input stream type (must derive from {\ttfamily std\+::istream}) \\
+\hline
+\end{DoxyTemplParams}
+
+
+\label{doc-constructors}
+\Hypertarget{classcircus_1_1deserializer_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcircus_1_1deserializer_aea3c9aee0aff160bc52313f155a9ba7a}\index{circus::deserializer$<$ IStreamT $>$@{circus::deserializer$<$ IStreamT $>$}!deserializer@{deserializer}}
+\index{deserializer@{deserializer}!circus::deserializer$<$ IStreamT $>$@{circus::deserializer$<$ IStreamT $>$}}
+\doxysubsubsection{\texorpdfstring{deserializer()}{deserializer()}}
+{\footnotesize\ttfamily \label{classcircus_1_1deserializer_aea3c9aee0aff160bc52313f155a9ba7a} 
+template$<$typename IStreamT$>$ \\
+\mbox{\hyperlink{classcircus_1_1deserializer}{circus\+::deserializer}}$<$ IStreamT $>$\+::deserializer (\begin{DoxyParamCaption}\item[{IStreamT \&}]{is}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a deserializer from an input stream. 
+
+This constructor will\+:
+\begin{DoxyEnumerate}
+\item Read the full input into a string.
+\item Tokenize the source text.
+\item Parse the token stream into a structured root object.
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em is} & Input stream containing serialized circus-\/formatted data. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Circus/include/circus\+\_\+include/\mbox{\hyperlink{deserializer_8hpp}{deserializer.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,24 @@
+\doxysection{circus\+::traits\+::Streamable\+Vector Concept Reference}
+\hypertarget{conceptcircus_1_1traits_1_1_streamable_vector}{}\label{conceptcircus_1_1traits_1_1_streamable_vector}\index{circus::traits::StreamableVector@{circus::traits::StreamableVector}}
+
+
+Concept for {\ttfamily std\+::vector}-\/like containers whose elements can be streamed.  
+
+
+
+
+{\ttfamily \#include $<$circus\+\_\+traits.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ V>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_streamable_vector}{circus::traits::StreamableVector}}\ =\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{structcircus_1_1traits_1_1is__vector}{is\_vector<std::remove\_cvref\_t<V>}}>::value\ \&\&}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{conceptcircus_1_1traits_1_1_out_streamable_literal}{OutStreamableLiteral<typename\ std::remove\_cvref\_t<V>::value\_type}}>}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+Concept for {\ttfamily std\+::vector}-\/like containers whose elements can be streamed. 

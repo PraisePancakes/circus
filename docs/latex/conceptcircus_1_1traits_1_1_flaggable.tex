@@ -1,0 +1,22 @@
+\doxysection{circus\+::traits\+::Flaggable Concept Reference}
+\hypertarget{conceptcircus_1_1traits_1_1_flaggable}{}\label{conceptcircus_1_1traits_1_1_flaggable}\index{circus::traits::Flaggable@{circus::traits::Flaggable}}
+
+
+Concept for enum types that are eligible for flagging (i.\+e., bitmask ops).  
+
+
+
+
+{\ttfamily \#include $<$circus\+\_\+traits.\+hpp$>$}
+
+\doxysubsection{Concept definition}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{\textcolor{keyword}{concept\ }\mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{circus::traits::Flaggable}}\ =\ \ std::is\_enum\_v<T>\ \&\&\ (std::is\_same\_v<std::underlying\_type\_t<T>,\ std::uint64\_t>\ ||\ std::is\_same\_v<std::underlying\_type\_t<T>,\ std::uint32\_t>)}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Detailed Description}
+Concept for enum types that are eligible for flagging (i.\+e., bitmask ops). 

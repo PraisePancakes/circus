@@ -1,0 +1,262 @@
+\doxysection{Parser Error Types and Handling }
+\hypertarget{group___parser_errors}{}\label{group___parser_errors}\index{Parser Error Types and Handling@{Parser Error Types and Handling}}
+
+
+Components related to parser error reporting and exception handling.  
+
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classcircus_1_1error_1_1parser__error}{circus\+::error\+::parser\+\_\+error}}
+\begin{DoxyCompactList}\small\item\em Exception class for parser errors, holding an error type flag and a message. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classcircus_1_1error_1_1parser__reporter}{circus\+::error\+::parser\+\_\+reporter}}
+\begin{DoxyCompactList}\small\item\em Aggregates and manages parser error messages with support for logging and flushing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{group___parser_errors_ga78f5828bd505a51f6695497269c368c1}{ERROR\+\_\+\+TYPE}}(NAME)
+\begin{DoxyCompactList}\small\item\em Enumeration of Circus parser error types. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{group___parser_errors_ga78f5828bd505a51f6695497269c368c1}{ERROR\+\_\+\+TYPE}}(NAME)
+\begin{DoxyCompactList}\small\item\em Enumeration of Circus parser error types. \end{DoxyCompactList}\item 
+\Hypertarget{group___parser_errors_gad35b8f736555370b1d32054d5321e300}\label{group___parser_errors_gad35b8f736555370b1d32054d5321e300} 
+\#define {\bfseries ERROR\+\_\+\+TYPEs}~    \mbox{\hyperlink{group___parser_errors_ga78f5828bd505a51f6695497269c368c1}{ERROR\+\_\+\+TYPE}}(SYNTAX)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{group___parser_errors_gab175dee0981796ee45ab1fa0b0ffac40}\label{group___parser_errors_gab175dee0981796ee45ab1fa0b0ffac40} 
+using {\bfseries circus\+::error\+::parser\+\_\+error\+::flag\+\_\+type} = \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{circus\+::utils\+::enum\+\_\+flag}}$<$CIRCUS\+\_\+\+ERROR\+\_\+\+TYPES$>$
+\item 
+\Hypertarget{group___parser_errors_ga91ef6df74508ca15edf2ca25709f4bc9}\label{group___parser_errors_ga91ef6df74508ca15edf2ca25709f4bc9} 
+using {\bfseries circus\+::error\+::parser\+\_\+error\+::enum\+\_\+type} = \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag_ad90188e88d26edc2b5180f7285cafead}{flag\+\_\+type\+::enum\+\_\+type}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{group___parser_errors_gaf5a79ec4ae5b57b0d864d0030ea76b97}\label{group___parser_errors_gaf5a79ec4ae5b57b0d864d0030ea76b97} 
+enum {\bfseries CIRCUS\+\_\+\+ERROR\+\_\+\+TYPES} \+: std\+::uint64\+\_\+t \{ {\bfseries ERROR\+\_\+\+TYPEs}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group___parser_errors_ga0042e7d834b7b2e24ece80fc783e8abf}{circus\+::error\+::parser\+\_\+error\+::parser\+\_\+error}} (\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{flag\+\_\+type}} E, const std\+::string \&what)
+\begin{DoxyCompactList}\small\item\em Constructs a parser error with a flag type and descriptive message. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{group___parser_errors_ga47fbde662934e4bec7765b7e7277025f}{circus\+::error\+::parser\+\_\+reporter\+::empty}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Checks if there are any errors logged. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group___parser_errors_ga1921dcaa53859e2a8f34f67526e48980}{circus\+::error\+::parser\+\_\+reporter\+::report}} (const \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{flag\+\_\+type}} \&type, const std\+::string \&message, std\+::pair$<$ std\+::size\+\_\+t, std\+::size\+\_\+t $>$ location) noexcept
+\begin{DoxyCompactList}\small\item\em Reports an error by adding a formatted message to the error log stack. \end{DoxyCompactList}\item 
+\Hypertarget{group___parser_errors_gae8e2203a393f23ca6e94a3007feb6851}\label{group___parser_errors_gae8e2203a393f23ca6e94a3007feb6851} 
+void {\bfseries circus\+::error\+::parser\+\_\+reporter\+::log\+\_\+errors} () noexcept
+\begin{DoxyCompactList}\small\item\em Logs all errors to std\+::clog and preserves the error stack. \end{DoxyCompactList}\item 
+\Hypertarget{group___parser_errors_ga32166b568d0f9674bed7e0e7f3f0e0c3}\label{group___parser_errors_ga32166b568d0f9674bed7e0e7f3f0e0c3} 
+void {\bfseries circus\+::error\+::parser\+\_\+reporter\+::flush\+\_\+errors} () noexcept
+\begin{DoxyCompactList}\small\item\em Clears all errors from the error log stack. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename E$>$ \newline
+requires std\+::is\+\_\+enum\+\_\+v$<$E$>$}\\constexpr E \mbox{\hyperlink{group___parser_errors_ga28b2f5b4b72c5cd2af41b9888d00f4c3}{circus\+::error\+::operator\texorpdfstring{$\vert$}{|}}} (E lhs, E rhs)
+\begin{DoxyCompactList}\small\item\em Bitwise OR operator for enum error types. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename E$>$ \newline
+requires std\+::is\+\_\+enum\+\_\+v$<$E$>$}\\constexpr E \mbox{\hyperlink{group___parser_errors_gaff01423d87f0967dac0cbfb0009bdd3a}{circus\+::error\+::operator\&}} (E lhs, E rhs)
+\begin{DoxyCompactList}\small\item\em Bitwise AND operator for enum error types. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename E$>$ \newline
+requires std\+::is\+\_\+enum\+\_\+v$<$E$>$}\\constexpr E \mbox{\hyperlink{group___parser_errors_ga333e0973e6961fd36f2fda16cb13bb9e}{circus\+::error\+::operator\texorpdfstring{$\sim$}{\string~}}} (E val)
+\begin{DoxyCompactList}\small\item\em Bitwise NOT operator for enum error types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{group___parser_errors_ga3face8aa75a1c0429916882c4101eff8}{circus\+::error\+::\+REFLECTED\+\_\+\+ERROR\+\_\+\+MAP}} \mbox{[}$\,$\mbox{]}
+\item 
+\Hypertarget{group___parser_errors_gabc5e540d42938c3abee80f11a6827af8}\label{group___parser_errors_gabc5e540d42938c3abee80f11a6827af8} 
+\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{flag\+\_\+type}} {\bfseries circus\+::error\+::parser\+\_\+error\+::type\+\_\+of}
+\begin{DoxyCompactList}\small\item\em The type of parser error that occurred. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Components related to parser error reporting and exception handling. 
+
+
+
+\label{doc-define-members}
+\Hypertarget{group___parser_errors_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{group___parser_errors_ga78f5828bd505a51f6695497269c368c1}\index{Parser Error Types and Handling@{Parser Error Types and Handling}!ERROR\_TYPE@{ERROR\_TYPE}}
+\index{ERROR\_TYPE@{ERROR\_TYPE}!Parser Error Types and Handling@{Parser Error Types and Handling}}
+\doxysubsubsection{\texorpdfstring{ERROR\_TYPE}{ERROR\_TYPE}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{group___parser_errors_ga78f5828bd505a51f6695497269c368c1} 
+\#define ERROR\+\_\+\+TYPE(\begin{DoxyParamCaption}\item[{}]{NAME}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{NAME}
+
+\end{DoxyCode}
+
+
+Enumeration of Circus parser error types. 
+
+String names corresponding to error types. \Hypertarget{group___parser_errors_ga78f5828bd505a51f6695497269c368c1}\index{Parser Error Types and Handling@{Parser Error Types and Handling}!ERROR\_TYPE@{ERROR\_TYPE}}
+\index{ERROR\_TYPE@{ERROR\_TYPE}!Parser Error Types and Handling@{Parser Error Types and Handling}}
+\doxysubsubsection{\texorpdfstring{ERROR\_TYPE}{ERROR\_TYPE}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{group___parser_errors_ga78f5828bd505a51f6695497269c368c1} 
+\#define ERROR\+\_\+\+TYPE(\begin{DoxyParamCaption}\item[{}]{NAME}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#NAME}}
+
+\end{DoxyCode}
+
+
+Enumeration of Circus parser error types. 
+
+String names corresponding to error types. 
+
+\label{doc-func-members}
+\Hypertarget{group___parser_errors_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{group___parser_errors_ga47fbde662934e4bec7765b7e7277025f}\index{Parser Error Types and Handling@{Parser Error Types and Handling}!empty@{empty}}
+\index{empty@{empty}!Parser Error Types and Handling@{Parser Error Types and Handling}}
+\doxysubsubsection{\texorpdfstring{empty()}{empty()}}
+{\footnotesize\ttfamily \label{group___parser_errors_ga47fbde662934e4bec7765b7e7277025f} 
+bool circus\+::error\+::parser\+\_\+reporter\+::empty (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+
+Checks if there are any errors logged. 
+
+\begin{DoxyReturn}{Returns}
+true if error stack is empty, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{group___parser_errors_gaff01423d87f0967dac0cbfb0009bdd3a}\index{Parser Error Types and Handling@{Parser Error Types and Handling}!operator\&@{operator\&}}
+\index{operator\&@{operator\&}!Parser Error Types and Handling@{Parser Error Types and Handling}}
+\doxysubsubsection{\texorpdfstring{operator\&()}{operator\&()}}
+{\footnotesize\ttfamily \label{group___parser_errors_gaff01423d87f0967dac0cbfb0009bdd3a} 
+template$<$typename E$>$ \newline
+requires std\+::is\+\_\+enum\+\_\+v$<$E$>$\\
+E circus\+::error\+::operator\& (\begin{DoxyParamCaption}\item[{E}]{lhs}{, }\item[{E}]{rhs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+Bitwise AND operator for enum error types. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em E} & Enum type. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em lhs} & Left-\/hand operand. \\
+\hline
+{\em rhs} & Right-\/hand operand. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bitwise AND of lhs and rhs. 
+\end{DoxyReturn}
+\Hypertarget{group___parser_errors_ga28b2f5b4b72c5cd2af41b9888d00f4c3}\index{Parser Error Types and Handling@{Parser Error Types and Handling}!operator\texttt{"|}@{operator\texttt{"|}}}
+\index{operator\texttt{"|}@{operator\texttt{"|}}!Parser Error Types and Handling@{Parser Error Types and Handling}}
+\doxysubsubsection{\texorpdfstring{operator\texttt{"|}()}{operator|()}}
+{\footnotesize\ttfamily \label{group___parser_errors_ga28b2f5b4b72c5cd2af41b9888d00f4c3} 
+template$<$typename E$>$ \newline
+requires std\+::is\+\_\+enum\+\_\+v$<$E$>$\\
+E circus\+::error\+::operator\texorpdfstring{$\vert$}{|} (\begin{DoxyParamCaption}\item[{E}]{lhs}{, }\item[{E}]{rhs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+Bitwise OR operator for enum error types. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em E} & Enum type. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em lhs} & Left-\/hand operand. \\
+\hline
+{\em rhs} & Right-\/hand operand. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bitwise OR of lhs and rhs. 
+\end{DoxyReturn}
+\Hypertarget{group___parser_errors_ga333e0973e6961fd36f2fda16cb13bb9e}\index{Parser Error Types and Handling@{Parser Error Types and Handling}!operator\texorpdfstring{$\sim$}{\string~}@{operator\texorpdfstring{$\sim$}{\string~}}}
+\index{operator\texorpdfstring{$\sim$}{\string~}@{operator\texorpdfstring{$\sim$}{\string~}}!Parser Error Types and Handling@{Parser Error Types and Handling}}
+\doxysubsubsection{\texorpdfstring{operator\texorpdfstring{$\sim$}{\string~}()}{operator\string~()}}
+{\footnotesize\ttfamily \label{group___parser_errors_ga333e0973e6961fd36f2fda16cb13bb9e} 
+template$<$typename E$>$ \newline
+requires std\+::is\+\_\+enum\+\_\+v$<$E$>$\\
+E circus\+::error\+::operator\texorpdfstring{$\sim$}{\string~} (\begin{DoxyParamCaption}\item[{E}]{val}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+
+
+Bitwise NOT operator for enum error types. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em E} & Enum type. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em val} & Operand. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bitwise NOT of val. 
+\end{DoxyReturn}
+\Hypertarget{group___parser_errors_ga0042e7d834b7b2e24ece80fc783e8abf}\index{Parser Error Types and Handling@{Parser Error Types and Handling}!parser\_error@{parser\_error}}
+\index{parser\_error@{parser\_error}!Parser Error Types and Handling@{Parser Error Types and Handling}}
+\doxysubsubsection{\texorpdfstring{parser\_error()}{parser\_error()}}
+{\footnotesize\ttfamily \label{group___parser_errors_ga0042e7d834b7b2e24ece80fc783e8abf} 
+circus\+::error\+::parser\+\_\+error\+::parser\+\_\+error (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{flag\+\_\+type}}}]{E}{, }\item[{const std\+::string \&}]{what}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a parser error with a flag type and descriptive message. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E} & The error flag. \\
+\hline
+{\em what} & The error message. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{group___parser_errors_ga1921dcaa53859e2a8f34f67526e48980}\index{Parser Error Types and Handling@{Parser Error Types and Handling}!report@{report}}
+\index{report@{report}!Parser Error Types and Handling@{Parser Error Types and Handling}}
+\doxysubsubsection{\texorpdfstring{report()}{report()}}
+{\footnotesize\ttfamily \label{group___parser_errors_ga1921dcaa53859e2a8f34f67526e48980} 
+void circus\+::error\+::parser\+\_\+reporter\+::report (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{flag\+\_\+type}} \&}]{type}{, }\item[{const std\+::string \&}]{message}{, }\item[{std\+::pair$<$ std\+::size\+\_\+t, std\+::size\+\_\+t $>$}]{location}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Reports an error by adding a formatted message to the error log stack. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & The error flag. \\
+\hline
+{\em message} & The error message. \\
+\hline
+{\em location} & The source location as (line, column). \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-var-members}
+\Hypertarget{group___parser_errors_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{group___parser_errors_ga3face8aa75a1c0429916882c4101eff8}\index{Parser Error Types and Handling@{Parser Error Types and Handling}!REFLECTED\_ERROR\_MAP@{REFLECTED\_ERROR\_MAP}}
+\index{REFLECTED\_ERROR\_MAP@{REFLECTED\_ERROR\_MAP}!Parser Error Types and Handling@{Parser Error Types and Handling}}
+\doxysubsubsection{\texorpdfstring{REFLECTED\_ERROR\_MAP}{REFLECTED\_ERROR\_MAP}}
+{\footnotesize\ttfamily \label{group___parser_errors_ga3face8aa75a1c0429916882c4101eff8} 
+const char\texorpdfstring{$\ast$}{*} circus\+::error\+::\+REFLECTED\+\_\+\+ERROR\+\_\+\+MAP\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [inline]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \ \ ERROR\_TYPEs\}}
+
+\end{DoxyCode}

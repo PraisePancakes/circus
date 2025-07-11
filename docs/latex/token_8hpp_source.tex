@@ -1,0 +1,106 @@
+\doxysection{token.\+hpp}
+\hypertarget{token_8hpp_source}{}\label{token_8hpp_source}\index{Circus/include/circus\_include/token.hpp@{Circus/include/circus\_include/token.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <variant>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}visitor.hpp"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }circus\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1tokens_____a9fcf8a7233de48b3f1453eed844316b1}{tokens\_\_}}\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{comment}{//\ https://stackoverflow.com/questions/1801363/c-\/c-\/any-\/way-\/to-\/get-\/reflective-\/enums}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ TOKEN\_DEFs\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_QUOTE\_DOUBLE,\ '\(\backslash\)"{}')\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_PAREN\_L,\ '(')\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_PAREN\_R,\ ')')\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_COMMA,\ ',')\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_COLON,\ ':')\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_BRACE\_L,\ '[')\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_BRACE\_R,\ ']')\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_DOLLA,\ '\$')\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_CURL\_L,\ '\{')\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_CURL\_R,\ '\}')\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_QUOTE\_SINGLE,\ '\(\backslash\)'')\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_STAR,\ '*')\ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_SLASH,\ '/')\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_EOF,\ '\(\backslash\)0')\ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_SPACE,\ '\ ')\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_NEWLINE,\ '\(\backslash\)n')\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_LITERAL\_INT,\ 0xFE)\ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_LITERAL\_FLOAT,\ 0xFD)\ \ \(\backslash\)}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_IDENTIFIER,\ 0xFC)\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_LITERAL\_STRING,\ 0xFB)\ \(\backslash\)}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_LITERAL\_DOUBLE,\ 0xFA)\ \(\backslash\)}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\ \ \ \ TOKEN\_DEF(TK\_UNKNOWN,\ 0xFF)}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{}}
+\DoxyCodeLine{00045\ \#define\ TOKEN\_DEF(NAME,\ VALUE)\ NAME\ =\ VALUE,}
+\DoxyCodeLine{00046\ \ \ \ \ enum\ TYPE\ :\ unsigned\ char\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ TOKEN\_DEFs}
+\DoxyCodeLine{00048\ \ \ \ \ \};}
+\DoxyCodeLine{00049\ \#undef\ TOKEN\_DEF}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00052\ \ \ \ \ using\ literal\_variant\_t\ =\ std::variant<char,\ std::string,\ int,\ float,\ double>;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00055\ \ \ \ \ using\ location\_t\ =\ std::pair<std::size\_t,\ std::size\_t>;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00058\ \ \ \ \ TYPE\ \_token\_type;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00066\ \ \ \ \ constexpr\ static\ inline\ const\ char\ *to\_string(TYPE\ type)\ noexcept\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ switch\ (type)\ \{}
+\DoxyCodeLine{00068\ \#define\ TOKEN\_DEF(NAME,\ VALUE)\ \(\backslash\)}
+\DoxyCodeLine{00069\ \ \ \ \ case\ NAME:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ return\ \#NAME;}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ TOKEN\_DEFs}
+\DoxyCodeLine{00072\ \#undef\ TOKEN\_DEF}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ default\ :\ return\ "{}UNKNOWN\_TYPE"{};}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00075\ \ \ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00083\ \ \ \ \ constexpr\ static\ inline\ const\ char\ *to\_stringized(TYPE\ type)\ noexcept\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ switch\ (type)\ \{}
+\DoxyCodeLine{00085\ \#define\ TOKEN\_DEF(NAME,\ VALUE)\ \(\backslash\)}
+\DoxyCodeLine{00086\ \ \ \ \ case\ NAME:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ return\ \#VALUE;}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ TOKEN\_DEFs}
+\DoxyCodeLine{00089\ \#undef\ TOKEN\_DEF}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ default\ :\ return\ "{}UNKNOWN\_LITERAL"{};}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \ \ \ \ \}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00100\ \ \ \ \ constexpr\ static\ inline\ std::string\ to\_literal(TYPE\ type)\ noexcept\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ const\ char\ *lit\ =\ to\_stringized(type);}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ std::string\ ret\{lit\};}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ return\ ret.substr(1,\ ret.size()\ -\/\ 2);}
+\DoxyCodeLine{00104\ \ \ \ \ \}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ public:}
+\DoxyCodeLine{00108\ \ \ \ \ std::string\ embedded;}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00111\ \ \ \ \ literal\_variant\_t\ literal;}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00114\ \ \ \ \ location\_t\ location;}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00119\ \ \ \ \ void\ print\_token()\ const\ noexcept\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ std::cout\ <<\ "{}TOKEN\ TYPE\ ID\ ("{}\ <<\ to\_literal(\_token\_type)\ <<\ "{})"{}}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ "{}\ ["{}\ <<\ to\_string(\_token\_type)\ <<\ "{}]\(\backslash\)n"{};}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ std::cout\ <<\ "{}location\ (row,\ col)\ <\ "{}\ <<\ location.first\ <<\ "{}\ ,\ "{}\ <<\ location.second\ <<\ "{}\ >\ "{};}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ std::visit(internal::visitor\{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](char\ c)\ \{\ std::cout\ <<\ "{}[CHAR]\ "{}\ <<\ c\ <<\ std::endl;\ \},}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](std::string\ s)\ \{\ std::cout\ <<\ "{}[STRING]\ "{}\ <<\ s\ <<\ std::endl;\ \},}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](int\ i)\ \{\ std::cout\ <<\ "{}[INT]\ "{}\ <<\ i\ <<\ std::endl;\ \},}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](float\ f)\ \{\ std::cout\ <<\ "{}[FLOAT]\ "{}\ <<\ f\ <<\ std::endl;\ \},}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](double\ d)\ \{\ std::cout\ <<\ "{}[DOUBLE]\ "{}\ <<\ d\ <<\ std::endl;\ \},}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ literal);}
+\DoxyCodeLine{00131\ \ \ \ \ \};}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00141\ \ \ \ \ tokens\_\_(TYPE\ type,\ std::string\ embedded,\ literal\_variant\_t\ lit,\ location\_t\ loc)}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ :\ \_token\_type(type),\ embedded(embedded),\ literal(lit),\ location(loc)\ \{\};}
+\DoxyCodeLine{00143\ \};}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \};\ \ //\ namespace\ circus}
+
+\end{DoxyCode}

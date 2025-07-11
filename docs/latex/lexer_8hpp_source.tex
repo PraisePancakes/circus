@@ -1,0 +1,224 @@
+\doxysection{lexer.\+hpp}
+\hypertarget{lexer_8hpp_source}{}\label{lexer_8hpp_source}\index{Circus/include/circus\_include/lexer.hpp@{Circus/include/circus\_include/lexer.hpp}}
+\mbox{\hyperlink{lexer_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cassert>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <cctype>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <variant>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}../../debug/debug.hpp"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{circus__traits_8hpp}{circus\_traits.hpp}}"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}reader.hpp"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}token.hpp"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}visitor.hpp"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{namespace\ }circus\ \{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcircus_1_1lexer_____aea6252eb393a8d729abbc5dc398f7499}{lexer\_\_}}\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ std::string\ \_in;\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00032\ \ \ \ \ std::size\_t\ \_beg;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00033\ \ \ \ \ std::size\_t\ \_end;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00034\ \ \ \ \ std::size\_t\ \_row;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00035\ \ \ \ \ std::size\_t\ \_col;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00036\ \ \ \ \ std::vector<tokens\_\_>\ \_toks;\ \ }
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00043\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ tokens\_\_::TYPE\ f\_token(\textcolor{keywordtype}{char}\ c)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (tokens\_\_::TYPE)c;}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00052\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ f\_reserved(tokens\_\_::TYPE\ token\_type)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (token\_type)\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_PAREN\_L:}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_PAREN\_R:}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_COMMA:}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_COLON:}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_BRACE\_L:}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_BRACE\_R:}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_DOLLA:}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_CURL\_L:}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_CURL\_R:}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_STAR:}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_SLASH:}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_EOF:}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_QUOTE\_DOUBLE:}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ tokens\_\_::TYPE::TK\_QUOTE\_SINGLE:}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ f\_print()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&t\ :\ \_toks)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ t.print\_token();}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00081\ \ \ \ \ \};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00087\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ f\_eof()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (f\_token(\_in[\_end])\ ==\ tokens\_\_::TYPE::TK\_EOF);}
+\DoxyCodeLine{00089\ \ \ \ \ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00095\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{char}\ f\_peek\_next()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_in[\_end\ +\ 1];}
+\DoxyCodeLine{00097\ \ \ \ \ \}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00103\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{char}\ f\_peek()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_in[\_end];}
+\DoxyCodeLine{00105\ \ \ \ \ \};}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00112\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{char}\ f\_peek\_at(std::size\_t\ offset)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_in[\_end\ +\ offset];}
+\DoxyCodeLine{00114\ \ \ \ \ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{char}\ f\_advance()\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_eof())}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_in[\_end]\ ==\ \textcolor{charliteral}{'\(\backslash\)n'})\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \_col\ =\ 0;}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \_row++;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \_col++;}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_in[\_end++];}
+\DoxyCodeLine{00133\ \ \ \ \ \};}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordtype}{char}\ f\_previous()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_in[\_end\ -\/\ 1];}
+\DoxyCodeLine{00141\ \ \ \ \ \}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00147\ \ \ \ \ std::string\ to\_substr()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_in.substr(\_beg,\ \_end\ -\/\ \_beg);}
+\DoxyCodeLine{00149\ \ \ \ \ \};}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00157\ \ \ \ \ std::string\ to\_substr(std::size\_t\ new\_beg,\ std::size\_t\ new\_end)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_in.substr(new\_beg,\ new\_end);}
+\DoxyCodeLine{00159\ \ \ \ \ \};}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordtype}{void}\ scan\_number()\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!f\_eof()\ \&\&\ std::isdigit(f\_peek()))}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ f\_advance();}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!f\_eof()\ \&\&\ f\_peek()\ ==\ \textcolor{charliteral}{'.'})\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ f\_advance();}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!f\_eof()\ \&\&\ std::isdigit(f\_peek()))}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\_advance();}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ insert(tokens\_\_::TYPE::TK\_LITERAL\_FLOAT,\ to\_substr(),\ std::stof(to\_substr()));}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ insert(tokens\_\_::TYPE::TK\_LITERAL\_INT,\ to\_substr(),\ std::stoi(to\_substr()));}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00176\ \ \ \ \ \};}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keywordtype}{void}\ scan\_identifier()\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!f\_eof()\ \&\&\ std::isalnum(f\_peek()))\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ f\_advance();}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ insert(tokens\_\_::TYPE::TK\_IDENTIFIER,\ to\_substr(),\ to\_substr());}
+\DoxyCodeLine{00186\ \ \ \ \ \};}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keywordtype}{void}\ scan\_singular\_reserve()\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_reserved(f\_token(f\_previous())))\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ insert(f\_token(f\_previous()),\ to\_substr(),\ f\_previous());}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00195\ \ \ \ \ \};}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00200\ \ \ \ \ \textcolor{keywordtype}{void}\ scan\_string()\ \{}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!f\_eof()\ \&\&\ traits::none\_of(f\_token(f\_advance()),\ tokens\_\_::TYPE::TK\_QUOTE\_DOUBLE));}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ insert(tokens\_\_::TYPE::TK\_LITERAL\_STRING,\ to\_substr(),\ to\_substr());}
+\DoxyCodeLine{00204\ \ \ \ \ \};}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keywordtype}{void}\ scan\_comments()\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_token(f\_peek())\ ==\ tokens\_\_::TYPE::TK\_SLASH)\ \{}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!f\_eof()\ \&\&\ f\_token(f\_peek())\ !=\ tokens\_\_::TYPE::TK\_NEWLINE)}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\_advance();}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_token(f\_advance())\ ==\ tokens\_\_::TYPE::TK\_STAR)\ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ curr\ =\ f\_token(f\_peek());}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!f\_eof()\ \&\&\ traits::none\_of(curr,\ tokens\_\_::TYPE::TK\_STAR,\ tokens\_\_::TYPE::TK\_SLASH))\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\_advance();}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00221\ \ \ \ \ \};}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00226\ \ \ \ \ \textcolor{keywordtype}{void}\ scan\_unknown()\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ insert(tokens\_\_::TYPE::TK\_UNKNOWN,\ to\_substr(),\ to\_substr());}
+\DoxyCodeLine{00228\ \ \ \ \ \};}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00239\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structcircus_1_1tokens____}{tokens\_\_}}\ create\_token(tokens\_\_::TYPE\ type,\ std::string\ embedded,\ \textcolor{keyword}{const}\ T\ \&literal)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structcircus_1_1tokens____}{tokens\_\_}}\ tok(type,\ embedded,\ literal,\ std::make\_pair(\_row,\ \_col));}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tok;}
+\DoxyCodeLine{00242\ \ \ \ \ \}}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00252\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{void}\ insert(tokens\_\_::TYPE\ type,\ std::string\ embedded,\ \textcolor{keyword}{const}\ T\ \&lit)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \_toks.push\_back(create\_token(type,\ embedded,\ lit));}
+\DoxyCodeLine{00254\ \ \ \ \ \}}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keywordtype}{void}\ process\_unit()\ \{}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ c\ =\ f\_advance();}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_token(c)\ ==\ tokens\_\_::TYPE::TK\_SLASH)\ \{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ scan\_comments();}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_reserved(f\_token(c)))\ \{}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (traits::none\_of(f\_token(c),\ tokens\_\_::TYPE::TK\_SLASH,\ tokens\_\_::TYPE::TK\_QUOTE\_DOUBLE))}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scan\_singular\_reserve();}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (traits::any\_of(f\_token(c),\ tokens\_\_::TYPE::TK\_QUOTE\_DOUBLE))}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scan\_string();}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (std::isdigit(c))\ \{}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ scan\_number();}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (std::isalnum(c))\ \{}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ scan\_identifier();}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!std::isspace(c))}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scan\_unknown();}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00277\ \ \ \ \ \}}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00283\ \ \ \ \ [[nodiscard]]\ std::vector<tokens\_\_>\ f\_lex()\ \&\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!f\_eof())\ \{}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ process\_unit();}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \_beg\ =\ \_end;}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ insert(tokens\_\_::TYPE::TK\_EOF,\ to\_substr(),\ f\_peek());}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\#if\ CIRCUS\_DEBUG\_PEDANTIC\_\_}}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ f\_print();}
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_toks;}
+\DoxyCodeLine{00295\ \ \ \ \ \};}
+\DoxyCodeLine{00296\ }
+\DoxyCodeLine{00297\ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00302\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1lexer_____aea6252eb393a8d729abbc5dc398f7499}{lexer\_\_}}()\ noexcept\ :\ \_in\{\},}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_beg\{0\},}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_end\{0\},}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_row\{1\},}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_col\{0\},}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_toks\{\}\ \{\};}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00314\ \ \ \ \ [[nodiscard]]\ std::vector<tokens\_\_>\ \mbox{\hyperlink{classcircus_1_1lexer_____afa92dd2c128cae93c5c4c14ec8be5a84}{operator()}}(\textcolor{keyword}{const}\ std::string\ \&input)\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \_in\ =\ input;}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ f\_lex();}
+\DoxyCodeLine{00317\ \ \ \ \ \};}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1lexer_____aea6252eb393a8d729abbc5dc398f7499}{lexer\_\_}}(\mbox{\hyperlink{classcircus_1_1lexer____}{lexer\_\_}}\ \&\&other)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00320\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1lexer_____aea6252eb393a8d729abbc5dc398f7499}{lexer\_\_}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcircus_1_1lexer____}{lexer\_\_}}\ \&other)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00321\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1lexer____}{lexer\_\_}}\ \&operator=(\textcolor{keyword}{const}\ \mbox{\hyperlink{classcircus_1_1lexer____}{lexer\_\_}}\ \&other)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \&\mbox{\hyperlink{classcircus_1_1lexer_____a75d9dad411a83dd147653cec746579b3}{get\_input}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \_in;\ \};}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00332\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1lexer_____addd46d35c9a465d0e60b336228bc9a41}{\string~lexer\_\_}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00333\ \};}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00335\ \}\ \ \textcolor{comment}{//\ namespace\ circus}}
+
+\end{DoxyCode}

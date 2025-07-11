@@ -1,0 +1,107 @@
+\doxysection{circus\+::serializer\texorpdfstring{$<$}{<} OStreamT \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classcircus_1_1serializer}{}\label{classcircus_1_1serializer}\index{circus::serializer$<$ OStreamT $>$@{circus::serializer$<$ OStreamT $>$}}
+
+
+A flexible serializer for C++ objects, primitives, STL containers, and user-\/defined types.  
+
+
+
+
+{\ttfamily \#include $<$serializer.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcircus_1_1serializer_a87b807efd8d1382a5d9d350f4641c1f3}{serializer}} (OStreamT \&s)
+\begin{DoxyCompactList}\small\item\em Constructs a serializer with the given output stream. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... Args$>$ }\\void \mbox{\hyperlink{classcircus_1_1serializer_ab5c76a19d1254760eb8b5ca8d79bef4d}{operator()}} (Args \&\&...args) \&
+\begin{DoxyCompactList}\small\item\em Serializes the given arguments using function-\/call syntax. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename... Args$>$ }\\\mbox{\hyperlink{classcircus_1_1serializer}{serializer}} \& \mbox{\hyperlink{classcircus_1_1serializer_ab4108bd8c636d2472a5971c252a89aa8}{operator$<$$<$}} (Args \&\&...args)
+\begin{DoxyCompactList}\small\item\em Serializes the given arguments using stream-\/like syntax. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename OStreamT$>$\newline
+requires (std\+::is\+\_\+base\+\_\+of\+\_\+v$<$std\+::ostream, OStreamT$>$)\newline
+class circus\+::serializer$<$ OStream\+T $>$}
+A flexible serializer for C++ objects, primitives, STL containers, and user-\/defined types. 
+
+The {\ttfamily serializer} emits a structured, human-\/readable output inspired by formats like JSON or YAML, but uses custom token syntax and compile-\/time traits to determine how to serialize different types.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em OStreamT} & Output stream type (must derive from {\ttfamily std\+::ostream}) \\
+\hline
+\end{DoxyTemplParams}
+
+
+\label{doc-constructors}
+\Hypertarget{classcircus_1_1serializer_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classcircus_1_1serializer_a87b807efd8d1382a5d9d350f4641c1f3}\index{circus::serializer$<$ OStreamT $>$@{circus::serializer$<$ OStreamT $>$}!serializer@{serializer}}
+\index{serializer@{serializer}!circus::serializer$<$ OStreamT $>$@{circus::serializer$<$ OStreamT $>$}}
+\doxysubsubsection{\texorpdfstring{serializer()}{serializer()}}
+{\footnotesize\ttfamily \label{classcircus_1_1serializer_a87b807efd8d1382a5d9d350f4641c1f3} 
+template$<$typename OStreamT$>$ \\
+\mbox{\hyperlink{classcircus_1_1serializer}{circus\+::serializer}}$<$ OStreamT $>$\+::serializer (\begin{DoxyParamCaption}\item[{OStreamT \&}]{s}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a serializer with the given output stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Output stream reference (e.\+g., std\+::ostringstream, std\+::ofstream) \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{classcircus_1_1serializer_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcircus_1_1serializer_ab5c76a19d1254760eb8b5ca8d79bef4d}\index{circus::serializer$<$ OStreamT $>$@{circus::serializer$<$ OStreamT $>$}!operator()@{operator()}}
+\index{operator()@{operator()}!circus::serializer$<$ OStreamT $>$@{circus::serializer$<$ OStreamT $>$}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily \label{classcircus_1_1serializer_ab5c76a19d1254760eb8b5ca8d79bef4d} 
+template$<$typename OStreamT$>$ \\
+template$<$typename... Args$>$ \\
+void \mbox{\hyperlink{classcircus_1_1serializer}{circus\+::serializer}}$<$ OStreamT $>$\+::operator() (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args}{}\end{DoxyParamCaption}) \&\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Serializes the given arguments using function-\/call syntax. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{classcircus_1_1serializer_a87b807efd8d1382a5d9d350f4641c1f3}{serializer}}\ s(os);}
+\DoxyCodeLine{s(CIRCUS\_ENTRY(x),\ CIRCUS\_ENTRY(y));}
+
+\end{DoxyCode}
+ \Hypertarget{classcircus_1_1serializer_ab4108bd8c636d2472a5971c252a89aa8}\index{circus::serializer$<$ OStreamT $>$@{circus::serializer$<$ OStreamT $>$}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!circus::serializer$<$ OStreamT $>$@{circus::serializer$<$ OStreamT $>$}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}}
+{\footnotesize\ttfamily \label{classcircus_1_1serializer_ab4108bd8c636d2472a5971c252a89aa8} 
+template$<$typename OStreamT$>$ \\
+template$<$typename... Args$>$ \\
+\mbox{\hyperlink{classcircus_1_1serializer}{serializer}} \& \mbox{\hyperlink{classcircus_1_1serializer}{circus\+::serializer}}$<$ OStreamT $>$\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Serializes the given arguments using stream-\/like syntax. 
+
+Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{circus::serializer\ s(os);}
+\DoxyCodeLine{s\ <<\ CIRCUS\_ENTRY(x)\ <<\ CIRCUS\_ENTRY(y);}
+
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{Returns}
+Reference to the serializer 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Circus/include/circus\+\_\+include/serializer.\+hpp\end{DoxyCompactItemize}

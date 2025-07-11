@@ -1,0 +1,42 @@
+\doxysection{circus\+::utils\+::cxpr\+\_\+stream\texorpdfstring{$<$}{<} args \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{structcircus_1_1utils_1_1cxpr__stream}{}\label{structcircus_1_1utils_1_1cxpr__stream}\index{circus::utils::cxpr\_stream$<$ args $>$@{circus::utils::cxpr\_stream$<$ args $>$}}
+
+
+Compile-\/time concatenation of multiple string\+\_\+views into a single string\+\_\+view.  
+
+
+
+
+{\ttfamily \#include $<$cxpr\+\_\+stream.\+hpp$>$}
+
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structcircus_1_1utils_1_1cxpr__stream_adf0c654fdaf00f3e0bb6b377fef7bffe}\label{structcircus_1_1utils_1_1cxpr__stream_adf0c654fdaf00f3e0bb6b377fef7bffe} 
+static constexpr std\+::size\+\_\+t {\bfseries size} = (args.\+size() + ... + 0)
+\begin{DoxyCompactList}\small\item\em Total size of the concatenated string\+\_\+view. \end{DoxyCompactList}\item 
+\Hypertarget{structcircus_1_1utils_1_1cxpr__stream_a623a3ecbed56012c9b05002fde88e24a}\label{structcircus_1_1utils_1_1cxpr__stream_a623a3ecbed56012c9b05002fde88e24a} 
+static constexpr std\+::string\+\_\+view {\bfseries value} \{arr.\+begin(), arr.\+end()\}
+\begin{DoxyCompactList}\small\item\em The concatenated string\+\_\+view spanning the static array. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$const std\+::string\+\_\+view \&... args$>$\newline
+struct circus\+::utils\+::cxpr\+\_\+stream$<$ args $>$}
+Compile-\/time concatenation of multiple string\+\_\+views into a single string\+\_\+view. 
+
+This class template accepts a pack of string\+\_\+view references and concatenates them into a single contiguous char array at compile time.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em args} & A parameter pack of const std\+::string\+\_\+view\& to be concatenated.\\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyNote}{Note}
+The resulting concatenated string\+\_\+view is stored as a static constexpr member {\ttfamily value}. 
+\end{DoxyNote}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Circus/include/circus\+\_\+include/utils/\mbox{\hyperlink{cxpr__stream_8hpp}{cxpr\+\_\+stream.\+hpp}}\end{DoxyCompactItemize}

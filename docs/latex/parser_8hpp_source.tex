@@ -1,0 +1,207 @@
+\doxysection{parser.\+hpp}
+\hypertarget{parser_8hpp_source}{}\label{parser_8hpp_source}\index{Circus/include/circus\_include/parser.hpp@{Circus/include/circus\_include/parser.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <any>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{circus__error_8hpp}{circus\_error.hpp}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{circus__traits_8hpp}{circus\_traits.hpp}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}token.hpp"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }circus\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcircus_1_1circ__variable}{circ\_variable}}\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{typedef}\ std::variant<}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ char,}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ std::string,}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ int,}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ float,}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ double,}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ std::vector<circ\_variable>,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ std::unordered\_map<std::string,\ circ\_variable>>}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structcircus_1_1circ__variable_a5476b375c8e3638367e5ea194a188b14}{circ\_type\_var\_t}};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00031\ \ \ \ \ std::string\ \mbox{\hyperlink{structcircus_1_1circ__variable_af9fb2e7b55ae4a942e1a45cc791b6b93}{key}};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{structcircus_1_1circ__variable_a5476b375c8e3638367e5ea194a188b14}{circ\_type\_var\_t}}\ \mbox{\hyperlink{structcircus_1_1circ__variable_a98ad133212607a54f46ab38d64a870e6}{value}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\_variable}}\&\ \mbox{\hyperlink{structcircus_1_1circ__variable_a9e8167f9940fafe80c0e4547aa3dfd78}{operator[]}}(\textcolor{keyword}{const}\ std::string\&\ \mbox{\hyperlink{structcircus_1_1circ__variable_af9fb2e7b55ae4a942e1a45cc791b6b93}{key}})\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ m\ =\ std::get<std::unordered\_map<std::string,\ circ\_variable>>(\mbox{\hyperlink{structcircus_1_1circ__variable_a98ad133212607a54f46ab38d64a870e6}{value}});}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ m[\mbox{\hyperlink{structcircus_1_1circ__variable_af9fb2e7b55ae4a942e1a45cc791b6b93}{key}}];}
+\DoxyCodeLine{00047\ \ \ \ \ \};}
+\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcircus_1_1parser_____a04d4d18b76622199dd6dcd05b035a56e}{parser\_\_}}\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{using\ }TK\ =\ tokens\_\_::TYPE;}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{using\ }error\_type\ =\ error::parser\_error::enum\_type;}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00062\ \ \ \ \ std::vector<tokens\_\_>\ \_in;}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00065\ \ \ \ \ std::size\_t\ \_curs;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1error_1_1parser__reporter}{circus::error::parser\_reporter}}\ \_reporter;}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00075\ \ \ \ \ [[nodiscard]]\ \mbox{\hyperlink{structcircus_1_1tokens____}{tokens\_\_}}\ f\_peek\_at(\textcolor{keyword}{const}\ std::size\_t\ off)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_in[\_curs\ +\ off];}
+\DoxyCodeLine{00077\ \ \ \ \ \};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00083\ \ \ \ \ [[nodiscard]]\ \mbox{\hyperlink{structcircus_1_1tokens____}{tokens\_\_}}\ f\_previous()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_in[\_curs\ -\/\ 1];}
+\DoxyCodeLine{00085\ \ \ \ \ \};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00091\ \ \ \ \ [[nodiscard]]\ \mbox{\hyperlink{structcircus_1_1tokens____}{tokens\_\_}}\ f\_peek\_next()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_in[\_curs\ +\ 1];}
+\DoxyCodeLine{00093\ \ \ \ \ \};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00099\ \ \ \ \ [[nodiscard]]\ \mbox{\hyperlink{structcircus_1_1tokens____}{tokens\_\_}}\ f\_peek()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_in[\_curs];}
+\DoxyCodeLine{00101\ \ \ \ \ \};}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{structcircus_1_1tokens____}{tokens\_\_}}\ f\_advance()\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!f\_eof())}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \_curs++;}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ f\_previous();}
+\DoxyCodeLine{00111\ \ \ \ \ \};}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{bool}\ f\_eof()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ traits::any\_of(f\_peek().\_token\_type,\ tokens\_\_::TYPE::TK\_EOF);}
+\DoxyCodeLine{00119\ \ \ \ \ \};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordtype}{bool}\ check(tokens\_\_::TYPE\ t)\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_eof())}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ f\_peek().\_token\_type\ ==\ t;}
+\DoxyCodeLine{00130\ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keyword}{requires}(std::is\_same\_v<Args,\ tokens\_\_::TYPE>\ \&\&\ ...)}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordtype}{bool}\ f\_match(Args\&\&...\ args)\ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((check(args)\ ||\ ...))\ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ f\_advance();}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00147\ \ \ \ \ \}}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00157\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{decltype}(\textcolor{keyword}{auto})\ to\_value(std::variant<Args...>\ var)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::visit([](\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ val)\ -\/>\ \mbox{\hyperlink{structcircus_1_1circ__variable_a5476b375c8e3638367e5ea194a188b14}{circ\_variable::circ\_type\_var\_t}}\ \{\ \textcolor{keywordflow}{return}\ std::forward<decltype(val)>(val);\ \},\ var);}
+\DoxyCodeLine{00159\ \ \ \ \ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00166\ \ \ \ \ \mbox{\hyperlink{structcircus_1_1circ__variable_a5476b375c8e3638367e5ea194a188b14}{circ\_variable::circ\_type\_var\_t}}\ f\_parse\_primary()\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_match(TK::TK\_CURL\_L))\ \{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ std::unordered\_map<std::string,\ circ\_variable>\ obj\ =\ f\_parse();}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_match(TK::TK\_CURL\_R))\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ obj;}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{classcircus_1_1error_1_1parser__error}{circus::error::parser\_error}}(error\_type::SYNTAX,\ \textcolor{stringliteral}{"{}Missing\ Closing\ Curl\ '\}'\ "{}});}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_match(TK::TK\_BRACE\_L))\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<circ\_variable>\ arr\ =\ f\_parse\_array();}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!f\_match(TK::TK\_BRACE\_R))\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{classcircus_1_1error_1_1parser__error}{circus::error::parser\_error}}(error\_type::SYNTAX,\ \textcolor{stringliteral}{"{}Missing\ Closing\ Bracket\ ']'\ "{}});}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ arr;}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ to\_value(f\_advance().literal);}
+\DoxyCodeLine{00184\ \ \ \ \ \}}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00191\ \ \ \ \ std::vector<circ\_variable>\ f\_parse\_array()\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ std::vector<circ\_variable>\ ret\{\};}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ std::size\_t\ index\ =\ 0;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!f\_eof()\ \&\&\ !check(TK::TK\_BRACE\_R))\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\_variable}}\ var\ =\ \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\_variable}}();}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ var.\mbox{\hyperlink{structcircus_1_1circ__variable_a98ad133212607a54f46ab38d64a870e6}{value}}\ =\ f\_parse\_primary();}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ var.\mbox{\hyperlink{structcircus_1_1circ__variable_af9fb2e7b55ae4a942e1a45cc791b6b93}{key}}\ =\ std::to\_string(index++);}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!check(TK::TK\_BRACE\_R))\ \{}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!f\_match(TK::TK\_COMMA))\ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{classcircus_1_1error_1_1parser__error}{circus::error::parser\_error}}(error\_type::SYNTAX,\ \textcolor{stringliteral}{"{}Missing\ Comma\ Separator\ "{}});}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ ret.push\_back(var);}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (check(TK::TK\_BRACE\_R)\ \&\&\ f\_previous().\_token\_type\ ==\ TK::TK\_COMMA)\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{classcircus_1_1error_1_1parser__error}{circus::error::parser\_error}}(error\_type::SYNTAX,\ \textcolor{stringliteral}{"{}Trailing\ Comma\ Separator\ "{}});}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00209\ \ \ \ \ \}}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00216\ \ \ \ \ \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\_variable}}\ f\_parse\_value()\ \{}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\_variable}}\ var\ =\ \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\_variable}}();}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ var.\mbox{\hyperlink{structcircus_1_1circ__variable_af9fb2e7b55ae4a942e1a45cc791b6b93}{key}}\ =\ f\_previous().embedded;}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_match(TK::TK\_COLON))\ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ var.\mbox{\hyperlink{structcircus_1_1circ__variable_a98ad133212607a54f46ab38d64a870e6}{value}}\ =\ f\_parse\_primary();}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!f\_eof()\ \&\&\ !check(TK::TK\_CURL\_R))\ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!f\_match(TK::TK\_COMMA))\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{classcircus_1_1error_1_1parser__error}{circus::error::parser\_error}}(error\_type::SYNTAX,\ \textcolor{stringliteral}{"{}Missing\ Comma\ Separator\ "{}});}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ var;}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{classcircus_1_1error_1_1parser__error}{circus::error::parser\_error}}(error\_type::SYNTAX,\ \textcolor{stringliteral}{"{}Missing\ Colon\ Operator\ "{}});}
+\DoxyCodeLine{00229\ \ \ \ \ \};}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00236\ \ \ \ \ \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\_variable}}\ f\_parse\_identifier()\ \{}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (f\_match(TK::TK\_IDENTIFIER))\ \{}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ f\_parse\_value();}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{classcircus_1_1error_1_1parser__error}{circus::error::parser\_error}}(error\_type::SYNTAX,\ \textcolor{stringliteral}{"{}Missing\ Identifier\ "{}});}
+\DoxyCodeLine{00241\ \ \ \ \ \};}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00248\ \ \ \ \ \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\_variable}}\ f\_parse\_decl()\ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!f\_eof()\ \&\&\ f\_match(TK::TK\_DOLLA))\ \{}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ f\_parse\_identifier();}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \mbox{\hyperlink{classcircus_1_1error_1_1parser__error}{circus::error::parser\_error}}(error\_type::SYNTAX,\ \textcolor{stringliteral}{"{}Missing\ Declaration\ Specifier\ '\$'\ "{}});}
+\DoxyCodeLine{00253\ \ \ \ \ \}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keywordtype}{void}\ f\_sync()\ \{}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!f\_eof())\ f\_advance();}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!f\_eof())\ \{}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (check(TK::TK\_DOLLA))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ f\_advance();}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00264\ \ \ \ \ \};}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00271\ \ \ \ \ std::unordered\_map<std::string,\ circ\_variable>\ f\_parse()\ \{}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ std::unordered\_map<std::string,\ circ\_variable>\ ret\{\};}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_error\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (!f\_eof())\ \{}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (check(TK::TK\_CURL\_R))}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ v\ =\ f\_parse\_decl();}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ret.insert(std::make\_pair(v.key,\ v));}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\mbox{\hyperlink{classcircus_1_1error_1_1parser__error}{circus::error::parser\_error}}\&\ error)\ \{}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_reporter.report(error.type\_of,\ error.what(),\ f\_previous().location);}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\_sync();}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ had\_error\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \_reporter.log\_errors();}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (had\_error)\ \{}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}halted\ execution\ due\ to\ parser\ incomprehension,\ revise\ circ\ source\ input"{}});}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00291\ \ \ \ \ \}}
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00293\ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00297\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1parser_____a04d4d18b76622199dd6dcd05b035a56e}{parser\_\_}}()\ :\ \_in\{\},\ \_curs\{0\},\ \_reporter\{\}\ \{\};}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00304\ \ \ \ \ std::unordered\_map<std::string,\ circ\_variable>\ \mbox{\hyperlink{classcircus_1_1parser_____aff85cbfa166ae45cdb6c3506a75eabe1}{operator()}}(std::vector<tokens\_\_>\ toks)\ \{}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \_in\ =\ toks;}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ f\_parse();}
+\DoxyCodeLine{00307\ \ \ \ \ \};}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00312\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1parser_____ae90f019ea56816b3f2ae6b6073bfd297}{\string~parser\_\_}}()\ \{\};}
+\DoxyCodeLine{00313\ \};}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \}\ \ \textcolor{comment}{//\ namespace\ circus}}
+
+\end{DoxyCode}

@@ -1,0 +1,55 @@
+\doxysection{circus\+::parser\+\_\+\+\_\+ Class Reference}
+\hypertarget{classcircus_1_1parser____}{}\label{classcircus_1_1parser____}\index{circus::parser\_\_@{circus::parser\_\_}}
+
+
+Parser for Circus token streams producing nested Circus variables.  
+
+
+
+
+{\ttfamily \#include $<$parser.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcircus_1_1parser_____a04d4d18b76622199dd6dcd05b035a56e}\label{classcircus_1_1parser_____a04d4d18b76622199dd6dcd05b035a56e} 
+{\bfseries parser\+\_\+\+\_\+} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\+\_\+variable}} $>$ \mbox{\hyperlink{classcircus_1_1parser_____aff85cbfa166ae45cdb6c3506a75eabe1}{operator()}} (std\+::vector$<$ \mbox{\hyperlink{structcircus_1_1tokens____}{tokens\+\_\+\+\_\+}} $>$ toks)
+\begin{DoxyCompactList}\small\item\em Parse tokens into Circus variables. \end{DoxyCompactList}\item 
+\Hypertarget{classcircus_1_1parser_____ae90f019ea56816b3f2ae6b6073bfd297}\label{classcircus_1_1parser_____ae90f019ea56816b3f2ae6b6073bfd297} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}parser\+\_\+\+\_\+} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Parser for Circus token streams producing nested Circus variables. 
+
+Parses tokens produced by the lexer into nested Circus objects and arrays, handling syntax errors and reporting them. 
+
+\label{doc-func-members}
+\Hypertarget{classcircus_1_1parser_____doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcircus_1_1parser_____aff85cbfa166ae45cdb6c3506a75eabe1}\index{circus::parser\_\_@{circus::parser\_\_}!operator()@{operator()}}
+\index{operator()@{operator()}!circus::parser\_\_@{circus::parser\_\_}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily \label{classcircus_1_1parser_____aff85cbfa166ae45cdb6c3506a75eabe1} 
+std\+::unordered\+\_\+map$<$ std\+::string, \mbox{\hyperlink{structcircus_1_1circ__variable}{circ\+\_\+variable}} $>$ circus\+::parser\+\_\+\+\_\+\+::operator() (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{structcircus_1_1tokens____}{tokens\+\_\+\+\_\+}} $>$}]{toks}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Parse tokens into Circus variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em toks} & Vector of tokens from lexer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Parsed root object as unordered\+\_\+map. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Circus/include/circus\+\_\+include/parser.\+hpp\end{DoxyCompactItemize}

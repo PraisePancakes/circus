@@ -1,0 +1,96 @@
+\doxysection{serializer.\+hpp}
+\hypertarget{serializer_8hpp_source}{}\label{serializer_8hpp_source}\index{Circus/include/circus\_include/serializer.hpp@{Circus/include/circus\_include/serializer.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <variant>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{circus__traits_8hpp}{circus\_traits.hpp}}"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}token.hpp"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{to__chars_8hpp}{utils/to\_chars.hpp}}"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }circus\ \{}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ CIRCUS\_ENTRY(VAR)\ std::make\_pair(\#VAR,\ VAR)}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ OStreamT>}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{requires}(std::is\_base\_of\_v<std::ostream,\ OStreamT>)}
+\DoxyCodeLine{00028\ \textcolor{keyword}{class}\ \mbox{\hyperlink{classcircus_1_1serializer_a87b807efd8d1382a5d9d350f4641c1f3}{serializer}}\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ OStreamT\ \&stream;}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{using\ }TK\ =\ tokens\_\_::TYPE;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ I,\ std::\textcolor{keywordtype}{size\_t}\ Max,\ traits::OutStreamableLiteral\ Arg>}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ handle\_value\_type(Arg\ \&\&arg)\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (\mbox{\hyperlink{conceptcircus_1_1traits_1_1_string_like}{traits::StringLike<Arg>}})\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{tokens\_\_::to\_literal}}(TK::TK\_QUOTE\_DOUBLE)\ <<\ arg\ <<\ \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{tokens\_\_::to\_literal}}(TK::TK\_QUOTE\_DOUBLE);}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ arg;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ stream\ <<\ \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{tokens\_\_::to\_literal}}(TK::TK\_SPACE);}
+\DoxyCodeLine{00044\ \ \ \ \ \}}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ I,\ std::\textcolor{keywordtype}{size\_t}\ Max,\ traits::Serializable\ Arg>}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ handle\_value\_type(Arg\ \&\&arg)\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ stream\ <<\ \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{tokens\_\_::to\_literal}}(TK::TK\_CURL\_L);}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ arg.serialize(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ stream\ <<\ \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{tokens\_\_::to\_literal}}(TK::TK\_CURL\_R);}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ I,\ std::\textcolor{keywordtype}{size\_t}\ Max,\ traits::StreamableVector\ Arg>}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ handle\_value\_type(Arg\ \&\&arg)\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ stream\ <<\ \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{tokens\_\_::to\_literal}}(TK::TK\_BRACE\_L);}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ arg.size();\ i++)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ arg[i];}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ <\ arg.size()\ -\/\ 1)\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{tokens\_\_::to\_literal}}(TK::TK\_COMMA);}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ stream\ <<\ \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{tokens\_\_::to\_literal}}(TK::TK\_BRACE\_R);}
+\DoxyCodeLine{00067\ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ I,\ std::\textcolor{keywordtype}{size\_t}\ Max,\ traits::Container\ Arg>}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ handle\_value\_type(Arg\ \&\&arg)\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&a\ :\ arg)\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ handle\_pair(a);}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ I,\ std::\textcolor{keywordtype}{size\_t}\ Max,\ traits::PairSerializable\ Arg>}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{void}\ handle\_pair(Arg\ \&\&arg)\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ stream\ <<\ \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{tokens\_\_::to\_literal}}(TK::TK\_DOLLA)\ <<\ arg.first\ <<\ \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{tokens\_\_::to\_literal}}(TK::TK\_COLON);}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ handle\_value\_type<I\ -\/\ 1,\ Max>(arg.second);}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (I\ <\ Max\ -\/\ 1)\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \mbox{\hyperlink{structcircus_1_1tokens_____aaf0263b30216765abf481d61c6753877}{tokens\_\_::to\_literal}}(TK::TK\_COMMA);}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \ \ \}}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ I,\ \textcolor{keyword}{typename}\ Arg>}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{static}\ \textcolor{keyword}{auto}\ make\_pair\_serializable(Arg\ \&\&arg)\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (!\mbox{\hyperlink{conceptcircus_1_1traits_1_1_pair_serializable}{traits::PairSerializable<Arg>}})\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::make\_pair(\mbox{\hyperlink{structcircus_1_1utils_1_1num__to__string}{circus::utils::num\_to\_string<I>::value}},\ std::forward<Arg>(arg));}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::forward<Arg>(arg);}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00098\ \ \ \ \ \}}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keyword}{template}\ <std::size\_t...\ Is,\ \textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{void}\ handler(std::index\_sequence<Is...>,\ Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ std::size\_t\ MAXARG\ =\ \textcolor{keyword}{sizeof}...(Args);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ (handle\_pair<Is,\ MAXARG>(make\_pair\_serializable<Is>(std::forward<Args>(args))),\ ...);}
+\DoxyCodeLine{00106\ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{bool}\ init\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00114\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1serializer_a87b807efd8d1382a5d9d350f4641c1f3}{serializer}}(OStreamT\ \&s)\ :\ stream(s)\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}\$root\ :\ \{"{}};}
+\DoxyCodeLine{00116\ \ \ \ \ \};}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcircus_1_1serializer_ab5c76a19d1254760eb8b5ca8d79bef4d}{operator()}}(Args\ \&\&...args)\ \&\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ handler(std::index\_sequence\_for<Args...>\{\},\ std::forward<Args>(args)...);}
+\DoxyCodeLine{00129\ \ \ \ \ \}}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}...\ Args>}
+\DoxyCodeLine{00142\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1serializer_a87b807efd8d1382a5d9d350f4641c1f3}{serializer}}\ \&\mbox{\hyperlink{classcircus_1_1serializer_ab4108bd8c636d2472a5971c252a89aa8}{operator<<}}(Args\ \&\&...args)\ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ handler(std::index\_sequence\_for<Args...>\{\},\ std::forward<Args>(args)...);}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00145\ \ \ \ \ \}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \mbox{\hyperlink{classcircus_1_1serializer}{\string~serializer}}()\ \{\ stream\ <<\ \textcolor{charliteral}{'\}'};\ \};}
+\DoxyCodeLine{00148\ \};}
+\DoxyCodeLine{00149\ \}\ \ \textcolor{comment}{//\ namespace\ circus}}
+
+\end{DoxyCode}

@@ -1,0 +1,30 @@
+\doxysection{circus\+::error\+::parser\+\_\+reporter Class Reference}
+\hypertarget{classcircus_1_1error_1_1parser__reporter}{}\label{classcircus_1_1error_1_1parser__reporter}\index{circus::error::parser\_reporter@{circus::error::parser\_reporter}}
+
+
+Aggregates and manages parser error messages with support for logging and flushing.  
+
+
+
+
+{\ttfamily \#include $<$circus\+\_\+error.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{group___parser_errors_ga47fbde662934e4bec7765b7e7277025f}{empty}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Checks if there are any errors logged. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group___parser_errors_ga1921dcaa53859e2a8f34f67526e48980}{report}} (const \mbox{\hyperlink{classcircus_1_1utils_1_1enum__flag}{flag\+\_\+type}} \&type, const std\+::string \&message, std\+::pair$<$ std\+::size\+\_\+t, std\+::size\+\_\+t $>$ location) noexcept
+\begin{DoxyCompactList}\small\item\em Reports an error by adding a formatted message to the error log stack. \end{DoxyCompactList}\item 
+void {\bfseries log\+\_\+errors} () noexcept
+\begin{DoxyCompactList}\small\item\em Logs all errors to std\+::clog and preserves the error stack. \end{DoxyCompactList}\item 
+void {\bfseries flush\+\_\+errors} () noexcept
+\begin{DoxyCompactList}\small\item\em Clears all errors from the error log stack. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Aggregates and manages parser error messages with support for logging and flushing. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Circus/include/circus\+\_\+include/\mbox{\hyperlink{circus__error_8hpp}{circus\+\_\+error.\+hpp}}\end{DoxyCompactItemize}

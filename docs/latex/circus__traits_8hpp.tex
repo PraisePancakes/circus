@@ -1,0 +1,59 @@
+\doxysection{Circus/include/circus\+\_\+include/circus\+\_\+traits.hpp File Reference}
+\hypertarget{circus__traits_8hpp}{}\label{circus__traits_8hpp}\index{Circus/include/circus\_include/circus\_traits.hpp@{Circus/include/circus\_include/circus\_traits.hpp}}
+
+
+Provides compile-\/time traits and C++20 concepts for type introspection used throughout the Circus library.  
+
+
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcircus_1_1traits_1_1exists}{circus\+::traits\+::exists$<$ Ts, Us $>$}}
+\begin{DoxyCompactList}\small\item\em Checks if a type Ts exists among a variadic list of types Us. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcircus_1_1traits_1_1pair__inspect}{circus\+::traits\+::pair\+\_\+inspect$<$ T, typename $>$}}
+\begin{DoxyCompactList}\small\item\em Trait to determine if a type is a pair-\/like structure (has .first and .second). \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcircus_1_1traits_1_1pair__inspect_3_01_t_00_01std_1_1void__t_3_01decltype_07std_1_1declval2b4fe6900b0e521eb858407c34b1737b}{circus\+::traits\+::pair\+\_\+inspect$<$ T, std\+::void\+\_\+t$<$ decltype(std\+::declval$<$ T $>$().\+first), decltype(std\+::declval$<$ T $>$().\+second)$>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structcircus_1_1traits_1_1is__vector}{circus\+::traits\+::is\+\_\+vector$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Trait to determine if a type is a {\ttfamily std\+::vector}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structcircus_1_1traits_1_1is__vector_3_01std_1_1vector_3_01_t_00_01_a_01_4_01_4}{circus\+::traits\+::is\+\_\+vector$<$ std\+::vector$<$ T, A $>$ $>$}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Concepts}
+\begin{DoxyCompactItemize}
+\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_comparable_types}{circus\+::traits\+::\+Comparable\+Types}}
+\begin{DoxyCompactList}\small\item\em Concept that checks if all types match a given type. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_is_serializable}{circus\+::traits\+::\+Is\+Serializable}}
+\begin{DoxyCompactList}\small\item\em Concept that checks whether a type has a {\ttfamily .serialize(std\+::ostream\&)} method. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_out_stream}{circus\+::traits\+::\+Out\+Stream}}
+\begin{DoxyCompactList}\small\item\em Concept that checks if a type can be used as an output stream. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_out_streamable_literal}{circus\+::traits\+::\+Out\+Streamable\+Literal}}
+\begin{DoxyCompactList}\small\item\em Concept for values that can be streamed using {\ttfamily \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<}} to an {\ttfamily std\+::ostream}. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_in_stream}{circus\+::traits\+::\+In\+Stream}}
+\begin{DoxyCompactList}\small\item\em Concept that checks if a type can be used as an input stream. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_in_streamable}{circus\+::traits\+::\+In\+Streamable}}
+\begin{DoxyCompactList}\small\item\em Concept for values that can be extracted from an {\ttfamily std\+::istream} using {\ttfamily \texorpdfstring{$>$}{>}\texorpdfstring{$>$}{>}}. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_pair_serializable}{circus\+::traits\+::\+Pair\+Serializable}}
+\begin{DoxyCompactList}\small\item\em Concept for types that behave like key-\/value pairs. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_string_like}{circus\+::traits\+::\+String\+Like}}
+\begin{DoxyCompactList}\small\item\em Concept for types that can be converted to a string-\/like view. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_serializable}{circus\+::traits\+::\+Serializable}}
+\begin{DoxyCompactList}\small\item\em Concept for types that are serializable via either literal streaming or custom {\ttfamily serialize}. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_flaggable}{circus\+::traits\+::\+Flaggable}}
+\begin{DoxyCompactList}\small\item\em Concept for enum types that are eligible for flagging (i.\+e., bitmask ops). \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_streamable_vector}{circus\+::traits\+::\+Streamable\+Vector}}
+\begin{DoxyCompactList}\small\item\em Concept for {\ttfamily std\+::vector}-\/like containers whose elements can be streamed. \end{DoxyCompactList}\item 
+concept \mbox{\hyperlink{conceptcircus_1_1traits_1_1_container}{circus\+::traits\+::\+Container}}
+\begin{DoxyCompactList}\small\item\em Concept for containers that satisfy a wide set of STL-\/like requirements. Includes regularity, iterator properties, size access, etc. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides compile-\/time traits and C++20 concepts for type introspection used throughout the Circus library. 
+
+
+\begin{DoxyItemize}
+\item 
+\end{DoxyItemize}
