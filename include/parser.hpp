@@ -10,10 +10,15 @@
 
 namespace circus {
 struct circ_variable {
-    typedef std::variant<char, std::string, int, float, double, std::vector<circ_variable *>> circ_type_var_t;
-
+    typedef std::variant<char, std::string, int, float, double, std::vector<circ_variable>, std::unordered_map<std::string, circ_variable>> circ_type_var_t;
     std::string key;
     circ_type_var_t value;
+
+    // recursively find key from root variable
+    circ_variable& operator[](const std::string& key) {
+        auto& m = std::get<std::unordered_map<std::string, circ_variable>>(value);
+        return m[key];
+    };
 };
 class parser__ {
     using TK = tokens__::TYPE;
@@ -57,7 +62,7 @@ class parser__ {
 
     template <typename... Args>
         requires(std::is_same_v<Args, tokens__::TYPE> && ...)
-    bool f_match(Args &&...args) {
+    bool f_match(Args&&... args) {
         if ((check(args) || ...)) {
             f_advance();
             return true;
@@ -67,12 +72,12 @@ class parser__ {
 
     template <typename... Args>
     [[nodiscard]] decltype(auto) to_value(std::variant<Args...> var) const noexcept {
-        return std::visit([](const auto &val) -> circ_variable::circ_type_var_t { return std::forward<decltype(val)>(val); }, var);
+        return std::visit([](const auto& val) -> circ_variable::circ_type_var_t { return std::forward<decltype(val)>(val); }, var);
     }
 
     circ_variable::circ_type_var_t f_parse_primary() {
         if (f_match(TK::TK_CURL_L)) {
-            std::vector<circ_variable *> obj = f_parse();
+            std::unordered_map<std::string, circ_variable> obj = f_parse();
             if (f_match(TK::TK_CURL_R)) {
                 return obj;
             }
@@ -80,7 +85,7 @@ class parser__ {
         }
 
         if (f_match(TK::TK_BRACE_L)) {
-            std::vector<circ_variable *> arr = f_parse_array();
+            std::vector<circ_variable> arr = f_parse_array();
             if (!f_match(TK::TK_BRACE_R)) {
                 throw circus::error::parser_error(error_type::SYNTAX, "Missing Closing Bracket ']' ");
             }
@@ -90,13 +95,13 @@ class parser__ {
         return to_value(f_advance().literal);
     }
 
-    std::vector<circ_variable *> f_parse_array() {
-        std::vector<circ_variable *> ret{};
+    std::vector<circ_variable> f_parse_array() {
+        std::vector<circ_variable> ret{};
         std::size_t index = 0;
         while (!f_eof() && !check(TK::TK_BRACE_R)) {
-            circ_variable *var = new circ_variable();
-            var->value = f_parse_primary();
-            var->key = std::to_string(index++);
+            circ_variable var = circ_variable();
+            var.value = f_parse_primary();
+            var.key = std::to_string(index++);
             if (!check(TK::TK_BRACE_R)) {
                 if (!f_match(TK::TK_COMMA)) {
                     throw circus::error::parser_error(error_type::SYNTAX, "Missing Comma Seperator ");
@@ -110,13 +115,13 @@ class parser__ {
         return ret;
     }
 
-    circ_variable *f_parse_decl() {
+    circ_variable f_parse_decl() {
         if (!f_eof() && f_match(TK::TK_DOLLA)) {
             if (f_match(TK::TK_IDENTIFIER)) {
-                circ_variable *var = new circ_variable();
-                var->key = f_previous().embedded;
+                circ_variable var = circ_variable();
+                var.key = f_previous().embedded;
                 if (f_match(TK::TK_COLON)) {
-                    var->value = f_parse_primary();
+                    var.value = f_parse_primary();
                     if (!f_eof() && !check(TK::TK_CURL_R)) {
                         if (!f_match(TK::TK_COMMA)) {
                             throw circus::error::parser_error(error_type::SYNTAX, "Missing Comma Seperator ");
@@ -129,20 +134,20 @@ class parser__ {
             throw circus::error::parser_error(error_type::SYNTAX, "Missing Identifier ");
         };
         throw circus::error::parser_error(error_type::SYNTAX, "Missing Declaration Specifier '$' ");
-        return nullptr;
+        return {};
     }
 
     circus::error::parser_reporter _reporter;
 
-    std::vector<circ_variable *> f_parse() {
-        std::vector<circ_variable *> ret{};
-
+    std::unordered_map<std::string, circ_variable> f_parse() {
+        std::unordered_map<std::string, circ_variable> ret{};
         while (!f_eof()) {
             try {
                 if (check(TK::TK_CURL_R))
                     break;
-                ret.push_back(f_parse_decl());
-            } catch (circus::error::parser_error &error) {
+                auto v = f_parse_decl();
+                ret.insert(std::make_pair(v.key, v));
+            } catch (circus::error::parser_error& error) {
                 // sync
                 f_advance();
                 _reporter.report(error.type_of, error.what(), f_peek().location);
@@ -155,7 +160,7 @@ class parser__ {
 
    public:
     parser__() : _in{}, _curs{0}, _reporter{} {};
-    std::vector<circ_variable *> operator()(std::vector<tokens__> toks) {
+    std::unordered_map<std::string, circ_variable> operator()(std::vector<tokens__> toks) {
         _in = toks;
         return f_parse();
     };

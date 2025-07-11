@@ -74,11 +74,12 @@ class serializer {
         constexpr std::size_t MAXARG = sizeof...(Args);
         (handle_pair<Is, MAXARG>(make_pair_serializable<Is>(std::forward<Args>(args))), ...);
     }
+    bool init = false;
 
    public:
     serializer(OStreamT &s) : stream(s) {
-
-                              };
+        stream << "$root : {";
+    };
 
     template <typename... Args>
     void operator()(Args &&...args) & {
@@ -91,6 +92,6 @@ class serializer {
         return *this;
     }
 
-    ~serializer() {};
+    ~serializer() { stream << '}'; };
 };
 }  // namespace circus
