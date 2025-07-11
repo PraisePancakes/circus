@@ -68,8 +68,12 @@ class deserializer {
          * @tparam T Type to convert to
          */
         template <typename T>
+            requires(std::is_default_constructible_v<T>)
         operator T() {
-            return std::get<T>(var.value);
+            if (std::holds_alternative<T>(var.value)) {
+                return std::get<T>(var.value);
+            }
+            return T();
         }
     };
 
