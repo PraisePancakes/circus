@@ -162,6 +162,10 @@ class lexer__ {
      * @brief Scan and lex a numeric literal (int or float).
      */
     void scan_number() noexcept {
+        if (f_peek() == '-') {
+            f_advance();
+        }
+
         while (!f_eof() && std::isdigit(f_peek()))
             f_advance();
 
@@ -266,7 +270,7 @@ class lexer__ {
                 scan_singular_reserve();
             else if (traits::any_of(f_token(c), tokens__::TYPE::TK_QUOTE_DOUBLE))
                 scan_string();
-        } else if (std::isdigit(c)) {
+        } else if (std::isdigit(c) || f_peek() == '-') {
             scan_number();
         } else if (std::isalnum(c)) {
             scan_identifier();

@@ -32,6 +32,7 @@ struct tokens__ {
     TOKEN_DEF(TK_STAR, '*')            \
     TOKEN_DEF(TK_SLASH, '/')           \
     TOKEN_DEF(TK_EOF, '\0')            \
+    TOKEN_DEF(TK_DASH, '-')            \
     TOKEN_DEF(TK_SPACE, ' ')           \
     TOKEN_DEF(TK_NEWLINE, '\n')        \
     TOKEN_DEF(TK_LITERAL_INT, 0xFE)    \
